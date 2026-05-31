@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.controls{display:flex;gap:.5rem;padding:.8rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+.filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .7rem;border-radius:20px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.speed-label{color:var(--text2);font-size:.82rem;}
+.scripts-list{max-width:800px;margin:0 auto;padding:1.5rem 2rem;}
+.script-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:1rem;overflow:hidden;}
+.script-header{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;cursor:pointer;}
+.script-header:hover{background:var(--bg3);}
+.level-badge{font-size:.7rem;padding:.15rem .5rem;border-radius:12px;font-weight:600;}
+.level-badge.a2{background:rgba(41,128,185,.15);color:#2980b9;border:1px solid #2980b9;}
+.level-badge.b1{background:rgba(192,57,43,.15);color:var(--accent);border:1px solid var(--accent);}
+.level-badge.b2{background:rgba(243,156,18,.15);color:var(--accent3);border:1px solid var(--accent3);}
+.level-badge.c1{background:rgba(142,68,173,.15);color:#9b59b6;border:1px solid #9b59b6;}
+.script-title{font-family:'Playfair Display',serif;font-size:1.05rem;flex:1;}
+.play-btn{background:var(--accent);color:#fff;border:none;padding:.3rem .8rem;border-radius:20px;cursor:pointer;font-size:.82rem;white-space:nowrap;transition:background .2s;}
+.play-btn:hover{background:var(--accent2);}
+.script-body{display:none;padding:1.2rem;border-top:1px solid var(--border);}
+.script-body.open{display:block;}
+.script-text{line-height:1.9;color:var(--text);margin-bottom:.8rem;}
+.trans-toggle{background:none;border:1px solid var(--border);color:var(--text2);padding:.25rem .7rem;border-radius:6px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
+.trans-toggle:hover{border-color:var(--accent);color:var(--accent);}
+.translation{display:none;background:var(--bg3);border-radius:6px;padding:.8rem 1rem;margin-top:.5rem;color:var(--text2);font-style:italic;font-size:.9rem;}
+.translation.show{display:block;}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.scripts-list{padding:1rem;}.controls{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="reading.html">Reading</a><a href="listening.html" class="active">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocabulary</a><a href="listening.html">🎧 Listening</a>
+  <a href="quiz.html">🧠 Quiz</a><a href="progress.html">📊 Progress</a>
+</div>
+<div class="page-header">
+  <div class="page-title">Listening — Escucha</div>
+  <div class="page-sub">Native-speed dialogues and monologues with transcripts</div>
+</div>
+<div class="controls">
+  <button class="filter-btn active" onclick="setLevel('all',this)">All</button>
+  <button class="filter-btn" onclick="setLevel('a2',this)">A2</button>
+  <button class="filter-btn" onclick="setLevel('b1',this)">B1</button>
+  <button class="filter-btn" onclick="setLevel('b2',this)">B2</button>
+  <button class="filter-btn" onclick="setLevel('c1',this)">C1</button>
+  <span class="speed-label">Speed:</span>
+  <button class="filter-btn" onclick="setSpeed(0.75,this)">0.75×</button>
+  <button class="filter-btn active" onclick="setSpeed(1.0,this)">1×</button>
+  <button class="filter-btn" onclick="setSpeed(1.25,this)">1.25×</button>
+</div>
+<div class="scripts-list" id="scriptsList"></div>
+
+<script>
+const SCRIPTS = [
+  {
+    id:1, level:'a2', title:'En el restaurante', topic:'Ordering food',
+    text:'Camarero: ¡Buenas tardes! ¿Qué va a tomar?\nCliente: Hola. Quiero ver la carta, por favor.\nCamarero: Aquí tiene. ¿Le puedo recomendar el menú del día? Incluye primer plato, segundo y postre.\nCliente: Perfecto. ¿Qué hay de primero?\nCamarero: Sopa de ajo o ensalada mixta.\nCliente: La sopa, por favor. Y de segundo, el filete con patatas.\nCamarero: ¿Algo para beber?\nCliente: Agua con gas, gracias.',
+    translation:'Waiter: Good afternoon! What will you have?\nCustomer: Hello. I\'d like to see the menu, please.\nWaiter: Here you go. May I recommend the set menu? It includes a starter, main, and dessert.\nCustomer: Perfect. What\'s the starter?\nWaiter: Garlic soup or mixed salad.\nCustomer: The soup, please. And the steak with potatoes for the main.\nWaiter: Anything to drink?\nCustomer: Sparkling water, thanks.'
+  },
+  {
+    id:2, level:'a2', title:'En el aeropuerto', topic:'Airport dialogue',
+    text:'Agente: Buenos días. Su pasaporte y tarjeta de embarque, por favor.\nPasajero: Aquí los tiene. ¿Hay algún problema con mi vuelo?\nAgente: No, todo está en orden. ¿Factura algún equipaje?\nPasajero: Solo este maletín de mano.\nAgente: Muy bien. Su asiento es el 24A, ventanilla. Embarque por la puerta B12.',
+    translation:'Agent: Good morning. Your passport and boarding pass, please.\nPassenger: Here they are. Is there any problem with my flight?\nAgent: No, everything is in order. Are you checking any luggage?\nPassenger: Just this carry-on bag.\nAgent: Very good. Your seat is 24A, window seat. Board through gate B12.'
+  },
+  {
+    id:3, level:'b1', title:'Una reunión de trabajo', topic:'Business meeting',
+    text:'Director: Buenas tardes a todos. Como saben, estamos aquí para revisar los resultados del trimestre. Las ventas han aumentado un quince por ciento respecto al año anterior, lo cual es muy positivo. Sin embargo, los costes operativos también han subido. Necesitamos encontrar formas de optimizar los procesos sin comprometer la calidad. ¿Alguna sugerencia?\nColega: Podríamos revisar los contratos con los proveedores y negociar mejores condiciones.\nDirector: Buena idea. Lo ponemos en la agenda para la próxima semana.',
+    translation:'Director: Good afternoon everyone. As you know, we\'re here to review the quarter\'s results. Sales have increased fifteen percent compared to last year, which is very positive. However, operating costs have also risen. We need to find ways to optimize processes without compromising quality. Any suggestions?\nColleague: We could review supplier contracts and negotiate better terms.\nDirector: Good idea. We\'ll put it on the agenda for next week.'
+  },
+  {
+    id:4, level:'b1', title:'El cambio climático', topic:'Environment monologue',
+    text:'El cambio climático es uno de los mayores retos de nuestro tiempo. Las temperaturas globales han aumentado aproximadamente un grado centígrado desde la época preindustrial, y los científicos advierten que si no actuamos pronto, las consecuencias podrían ser irreversibles. Los fenómenos meteorológicos extremos son cada vez más frecuentes: sequías, inundaciones, olas de calor. Todos tenemos un papel que jugar, tanto a nivel individual como colectivo.',
+    translation:'Climate change is one of the greatest challenges of our time. Global temperatures have risen approximately one degree Celsius since pre-industrial times, and scientists warn that if we don\'t act soon, the consequences could be irreversible. Extreme weather events are becoming more frequent: droughts, floods, heat waves. We all have a role to play, both individually and collectively.'
+  },
+  {
+    id:5, level:'b2', title:'Entrevista de trabajo', topic:'Job interview',
+    text:'Entrevistadora: Cuénteme un poco sobre su trayectoria profesional.\nCandidato: Por supuesto. Llevo diez años trabajando en el sector financiero. Comencé como analista junior y fui ascendiendo hasta mi puesto actual de gestor de cartera. Durante este tiempo, he desarrollado competencias sólidas en análisis de riesgo y en la gestión de relaciones con clientes institucionales.\nEntrevistadora: ¿Por qué le interesa este puesto en particular?\nCandidato: La empresa tiene una reputación excelente en innovación financiera, y creo que mis conocimientos complementarían bien el enfoque de su equipo.',
+    translation:'Interviewer: Tell me a bit about your professional background.\nCandidate: Of course. I\'ve been working in the financial sector for ten years. I started as a junior analyst and progressed to my current position as portfolio manager. During this time, I\'ve developed strong skills in risk analysis and managing relationships with institutional clients.\nInterviewer: Why are you interested in this particular position?\nCandidate: The company has an excellent reputation for financial innovation, and I believe my expertise would complement your team\'s approach well.'
+  },
+  {
+    id:6, level:'b2', title:'La economía digital', topic:'Technology & economy',
+    text:'La transformación digital está redefiniendo los modelos de negocio en todos los sectores. Las empresas que no se adapten corren el riesgo de quedarse obsoletas. Sin embargo, la digitalización también plantea desafíos importantes: la brecha digital, la protección de datos personales y el impacto en el empleo. Es fundamental que las políticas públicas acompañen esta transición para que los beneficios sean compartidos por toda la sociedad, y no solo por quienes ya tienen acceso a la tecnología.',
+    translation:'Digital transformation is redefining business models across all sectors. Companies that don\'t adapt risk becoming obsolete. However, digitalization also poses important challenges: the digital divide, protection of personal data, and the impact on employment. It is essential that public policies accompany this transition so that the benefits are shared by all of society, and not only by those who already have access to technology.'
+  },
+  {
+    id:7, level:'c1', title:'Debate político', topic:'Political commentary',
+    text:'El debate sobre la redistribución de la riqueza no es nuevo, pero ha cobrado una urgencia renovada en el contexto de las crecientes desigualdades globales. Quienes defienden una mayor intervención estatal argumentan que el mercado por sí solo es incapaz de garantizar condiciones de vida dignas para todos los ciudadanos. Sus detractores, en cambio, sostienen que una fiscalidad excesiva desincentiva la inversión y, en última instancia, perjudica a los propios trabajadores. El punto de equilibrio, como suele ocurrir en política, depende en gran medida de los valores que cada uno prioriza.',
+    translation:'The debate on wealth redistribution is not new, but has gained renewed urgency in the context of growing global inequalities. Those who advocate for greater state intervention argue that the market alone is incapable of guaranteeing decent living conditions for all citizens. Critics, on the other hand, maintain that excessive taxation discourages investment and ultimately harms workers themselves. The balance point, as is often the case in politics, depends largely on the values each person prioritizes.'
+  },
+  {
+    id:8, level:'c1', title:'Filosofía del lenguaje', topic:'Academic discussion',
+    text:'Wittgenstein sostenía que los límites de mi lenguaje son los límites de mi mundo. Esta idea sugiere que la forma en que hablamos sobre la realidad no es meramente descriptiva, sino constitutiva: el lenguaje no solo refleja nuestra experiencia, sino que la moldea. Esta perspectiva tiene implicaciones profundas para cómo entendemos la traducción entre lenguas, la cognición intercultural y, en última instancia, la posibilidad misma de la comunicación auténtica entre seres humanos con trasfondos culturales distintos.',
+    translation:'Wittgenstein maintained that the limits of my language are the limits of my world. This idea suggests that the way we speak about reality is not merely descriptive, but constitutive: language not only reflects our experience, but shapes it. This perspective has profound implications for how we understand translation between languages, cross-cultural cognition, and ultimately, the very possibility of authentic communication between human beings with different cultural backgrounds.'
+  },
+];
+
+let activeLevel = 'all', listenSpeed = 1.0;
+
+function setLevel(lv, btn) {
+  activeLevel = lv;
+  document.querySelectorAll('.filter-btn').slice(0,5).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+function setSpeed(s, btn) {
+  listenSpeed = s;
+  document.querySelectorAll('.filter-btn').forEach(b => { if (['0.75×','1×','1.25×'].includes(b.textContent)) b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+function speak(text, id) {
+  if (!window.speechSynthesis) return alert('Speech synthesis not supported in this browser.');
+  window.speechSynthesis.cancel();
+  const lines = text.replace(/\n/g, ' ');
+  const u = new SpeechSynthesisUtterance(lines);
+  u.lang = 'es-ES'; u.rate = listenSpeed;
+  window.speechSynthesis.speak(u);
+  const btn = document.getElementById('play-' + id);
+  if (btn) { btn.textContent = '⏹ Stop'; btn.onclick = () => { window.speechSynthesis.cancel(); btn.textContent = '▶ Play'; btn.onclick = () => speak(text, id); }; }
+}
+
+function toggleScript(id) {
+  document.getElementById('body-' + id).classList.toggle('open');
+}
+function toggleTrans(id) {
+  document.getElementById('trans-' + id).classList.toggle('show');
+}
+
+function render() {
+  const data = SCRIPTS.filter(s => activeLevel === 'all' || s.level === activeLevel);
+  const list = document.getElementById('scriptsList');
+  if (!data.length) { list.innerHTML = '<p style="color:var(--text2)">No scripts at this level.</p>'; return; }
+  list.innerHTML = data.map(s => `
+    <div class="script-card">
+      <div class="script-header" onclick="toggleScript(${s.id})">
+        <span class="level-badge ${s.level}">${s.level.toUpperCase()}</span>
+        <span class="script-title">${s.title}</span>
+        <span style="font-size:.82rem;color:var(--text2)">${s.topic}</span>
+        <button id="play-${s.id}" class="play-btn" onclick="event.stopPropagation();speak(\`${s.text.replace(/`/g,'\\`')}\`,${s.id})">▶ Play</button>
+      </div>
+      <div class="script-body" id="body-${s.id}">
+        <div class="script-text">${s.text.replace(/\n/g,'<br>')}</div>
+        <button class="trans-toggle" onclick="toggleTrans(${s.id})">Show Translation</button>
+        <div class="translation" id="trans-${s.id}">${s.translation.replace(/\n/g,'<br>')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+render();
+
+const themeVal = localStorage.getItem('es_theme')||'dark';
+if(themeVal==='light')document.body.classList.add('light');
+document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=themeVal==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

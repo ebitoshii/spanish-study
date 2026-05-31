@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #2d1b0e; --bg2: #3a2415; --bg3: #4a2e1a;
+    --text: #f0e6d3; --text2: #c8b49a;
+    --accent: #c0392b; --accent2: #e67e22; --accent3: #f39c12;
+    --card: #3a2415; --border: #5a3825; --nav-bg: #1e1208;
+  }
+  .light {
+    --bg: #fdf6ec; --bg2: #f5ead8; --bg3: #ecdcc4;
+    --text: #2d1b0e; --text2: #6b4c2a;
+    --accent: #c0392b; --accent2: #e67e22; --accent3: #f39c12;
+    --card: #fff8ef; --border: #d4b896; --nav-bg: #3a1f0d;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Crimson Pro',Georgia,serif; font-size:18px; line-height:1.7; min-height:100vh; transition:background 0.3s,color 0.3s; }
+  nav { background:var(--nav-bg); padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:56px; position:sticky; top:0; z-index:100; border-bottom:2px solid var(--accent); }
+  .nav-brand { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--accent3); text-decoration:none; letter-spacing:0.05em; }
+  .nav-links { display:flex; gap:0.2rem; align-items:center; flex-wrap:wrap; }
+  .nav-links a { color:var(--text2); text-decoration:none; font-size:0.85rem; padding:0.3rem 0.6rem; border-radius:4px; transition:color 0.2s,background 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color:var(--accent3); background:rgba(192,57,43,0.2); }
+  .nav-controls { display:flex; gap:0.5rem; align-items:center; }
+  .btn-icon { background:none; border:1px solid var(--border); color:var(--text2); cursor:pointer; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.8rem; transition:all 0.2s; }
+  .btn-icon:hover { color:var(--accent3); border-color:var(--accent); }
+  .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+  .hamburger span { display:block; width:22px; height:2px; background:var(--text2); }
+  .mobile-menu { display:none; position:fixed; top:56px; left:0; right:0; background:var(--nav-bg); padding:1rem; z-index:99; border-bottom:2px solid var(--accent); flex-direction:column; gap:0.3rem; }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a { color:var(--text2); text-decoration:none; padding:0.5rem 0.8rem; border-radius:4px; font-size:1rem; transition:all 0.2s; }
+  .mobile-menu a:hover { color:var(--accent3); background:rgba(192,57,43,0.2); }
+
+  .page-header { text-align:center; padding:3rem 2rem 2rem; border-bottom:1px solid var(--border); background:linear-gradient(180deg,rgba(192,57,43,0.08) 0%,transparent 100%); }
+  .page-header h1 { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3rem); color:var(--accent3); margin-bottom:0.3rem; }
+  .page-header p { color:var(--text2); font-style:italic; }
+
+  .container { max-width:960px; margin:0 auto; padding:2rem 1.5rem; }
+
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; margin-bottom:2.5rem; }
+  .stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1.2rem; text-align:center; }
+  .stat-card .num { font-size:2.2rem; font-weight:700; color:var(--accent3); font-family:'Playfair Display',serif; line-height:1; }
+  .stat-card .lbl { font-size:0.78rem; color:var(--text2); text-transform:uppercase; letter-spacing:0.07em; margin-top:0.3rem; }
+  .stat-card .sub { font-size:0.8rem; color:var(--text2); margin-top:0.2rem; opacity:0.7; }
+
+  .section-title { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--accent3); margin-bottom:1rem; padding-bottom:0.4rem; border-bottom:1px solid var(--border); }
+
+  .chart-section { margin-bottom:2.5rem; }
+  .chart-wrap { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1.5rem; }
+  canvas { width:100% !important; }
+
+  .accuracy-bar-wrap { display:flex; flex-direction:column; gap:0.7rem; }
+  .acc-row { display:flex; align-items:center; gap:0.8rem; }
+  .acc-label { width:90px; font-size:0.88rem; color:var(--text2); flex-shrink:0; }
+  .acc-track { flex:1; background:var(--bg3); border-radius:20px; height:14px; overflow:hidden; }
+  .acc-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--accent),var(--accent3)); transition:width 0.6s ease; }
+  .acc-pct { width:40px; text-align:right; font-size:0.85rem; color:var(--accent3); font-weight:600; }
+
+  .score-table { width:100%; border-collapse:collapse; font-size:0.92rem; }
+  .score-table th { text-align:left; color:var(--text2); font-weight:600; padding:0.5rem 0.8rem; border-bottom:1px solid var(--border); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; }
+  .score-table td { padding:0.6rem 0.8rem; border-bottom:1px solid rgba(90,56,37,0.3); }
+  .score-table tr:hover td { background:var(--bg3); }
+  .pct-badge { display:inline-block; padding:0.1rem 0.5rem; border-radius:12px; font-weight:600; font-size:0.85rem; }
+
+  .empty-state { text-align:center; padding:4rem 2rem; color:var(--text2); }
+  .empty-state .icon { font-size:3rem; margin-bottom:1rem; opacity:0.5; }
+
+  @media(max-width:640px) { .nav-links { display:none; } .hamburger { display:flex; } }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a>
+    <a href="vocabulary.html">Vocabulary</a>
+    <a href="conjugation.html">Conjugation</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a>
+    <a href="listening.html">Listening</a>
+    <a href="reading.html">Reading</a>
+    <a href="mistakes.html">Mistakes</a>
+    <a href="progress.html" class="active">Progress</a>
+    <a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" id="themeBtn">☀</button>
+    <button class="btn-icon" id="fontDn">A−</button>
+    <button class="btn-icon" id="fontReset">A</button>
+    <button class="btn-icon" id="fontUp">A+</button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="grammar.html">Grammar</a>
+  <a href="vocabulary.html">Vocabulary</a>
+  <a href="conjugation.html">Conjugation</a>
+  <a href="quiz.html">Quiz</a>
+  <a href="flashcards.html">Flashcards</a>
+  <a href="writing.html">Writing</a>
+  <a href="listening.html">Listening</a>
+  <a href="reading.html">Reading</a>
+  <a href="mistakes.html">Mistakes</a>
+  <a href="progress.html">Progress</a>
+  <a href="schedule.html">Schedule</a>
+</div>
+
+<div class="page-header">
+  <h1>📈 Progress</h1>
+  <p>Your learning journey at a glance</p>
+</div>
+
+<div class="container">
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <div class="chart-section">
+    <div class="section-title">Quiz Scores — Last 14 Sessions</div>
+    <div class="chart-wrap">
+      <canvas id="scoreChart" height="180"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div class="section-title">Accuracy by Level</div>
+    <div class="chart-wrap">
+      <div class="accuracy-bar-wrap" id="accBars"></div>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div class="section-title">Session History</div>
+    <div class="chart-wrap">
+      <table class="score-table">
+        <thead><tr><th>Date</th><th>Score</th><th>Correct</th><th>Total</th><th>Accuracy</th></tr></thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+      <div id="historyEmpty" class="empty-state" style="display:none">
+        <div class="icon">📝</div>
+        <p>No quiz sessions yet — complete a quiz to start tracking progress.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Theme / font
+  const theme = localStorage.getItem('es_theme') || 'dark';
+  if (theme === 'light') document.body.classList.add('light');
+  let fontSize = parseInt(localStorage.getItem('es_fontsize') || '18');
+  document.body.style.fontSize = fontSize + 'px';
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    localStorage.setItem('es_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    drawChart();
+  });
+  document.getElementById('fontDn').addEventListener('click', () => { fontSize=Math.max(14,fontSize-1); document.body.style.fontSize=fontSize+'px'; localStorage.setItem('es_fontsize',fontSize); });
+  document.getElementById('fontReset').addEventListener('click', () => { fontSize=18; document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); });
+  document.getElementById('fontUp').addEventListener('click', () => { fontSize=Math.min(26,fontSize+1); document.body.style.fontSize=fontSize+'px'; localStorage.setItem('es_fontsize',fontSize); });
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+
+  function getScores() { try { return JSON.parse(localStorage.getItem('es_scores')||'[]'); } catch { return []; } }
+  function getMistakes() { try { return JSON.parse(localStorage.getItem('es_mistakeLog')||'[]'); } catch { return []; } }
+  function getStudyDays() { try { return JSON.parse(localStorage.getItem('es_studyDays')||'[]'); } catch { return []; } }
+
+  function pctColor(p) {
+    if (p >= 80) return '#27ae60';
+    if (p >= 60) return '#f39c12';
+    return '#c0392b';
+  }
+
+  function renderStats(scores, mistakes, studyDays) {
+    const total = scores.length;
+    const avgPct = total ? Math.round(scores.reduce((a,s)=>a+(s.correct/s.total*100),0)/total) : 0;
+    const bestPct = total ? Math.round(Math.max(...scores.map(s=>s.correct/s.total*100))) : 0;
+    const totalQ = scores.reduce((a,s)=>a+s.total,0);
+    const totalRight = scores.reduce((a,s)=>a+s.correct,0);
+    document.getElementById('statsGrid').innerHTML = `
+      <div class="stat-card"><div class="num">${total}</div><div class="lbl">Sessions</div></div>
+      <div class="stat-card"><div class="num">${avgPct}%</div><div class="lbl">Avg Accuracy</div></div>
+      <div class="stat-card"><div class="num">${bestPct}%</div><div class="lbl">Best Score</div></div>
+      <div class="stat-card"><div class="num">${totalQ}</div><div class="lbl">Questions Done</div></div>
+      <div class="stat-card"><div class="num">${mistakes.length}</div><div class="lbl">Mistakes Logged</div></div>
+      <div class="stat-card"><div class="num">${studyDays.length}</div><div class="lbl">Days Studied</div></div>
+    `;
+  }
+
+  function renderAccBars(scores) {
+    const levels = ['A1','A2','B1','B2','C1'];
+    const container = document.getElementById('accBars');
+    if (!scores.length) {
+      container.innerHTML = '<div style="color:var(--text2);font-style:italic;text-align:center;padding:1rem">No data yet</div>';
+      return;
+    }
+    // Group by level from scores that have level info
+    // Fallback: use overall avg per session
+    const byLevel = {};
+    levels.forEach(l => byLevel[l] = {correct:0, total:0});
+
+    // Use mistake log to infer level accuracy
+    const mistakes = getMistakes();
+    const mistakesByLevel = {};
+    mistakes.forEach(m => { if (m.level) mistakesByLevel[m.level] = (mistakesByLevel[m.level]||0)+1; });
+
+    const totalMistakes = mistakes.length || 1;
+    container.innerHTML = levels.map(l => {
+      // Invert: fewer mistakes = higher accuracy proxy
+      const mCount = mistakesByLevel[l]||0;
+      const mistakeShare = mCount/totalMistakes;
+      const pct = scores.length ? Math.max(0, Math.round(100 - mistakeShare*100)) : 0;
+      return `
+        <div class="acc-row">
+          <div class="acc-label">${l}</div>
+          <div class="acc-track"><div class="acc-fill" style="width:${pct}%;background:linear-gradient(90deg,${pctColor(pct)},var(--accent3))"></div></div>
+          <div class="acc-pct">${scores.length ? pct+'%' : '—'}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderHistory(scores) {
+    const body = document.getElementById('historyBody');
+    const empty = document.getElementById('historyEmpty');
+    if (!scores.length) { body.innerHTML=''; empty.style.display='block'; return; }
+    empty.style.display = 'none';
+    const sorted = [...scores].reverse().slice(0, 30);
+    body.innerHTML = sorted.map(s => {
+      const pct = Math.round(s.correct/s.total*100);
+      const d = s.date ? new Date(s.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+      return `<tr>
+        <td>${d}</td>
+        <td>${s.score !== undefined ? s.score : '—'}</td>
+        <td>${s.correct}</td>
+        <td>${s.total}</td>
+        <td><span class="pct-badge" style="background:${pctColor(pct)}22;color:${pctColor(pct)}">${pct}%</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  let chartCanvas, chartCtx;
+  function drawChart() {
+    const scores = getScores();
+    const canvas = document.getElementById('scoreChart');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.parentElement.clientWidth - 48;
+    const H = 180;
+    canvas.width = W; canvas.height = H;
+
+    const isDark = !document.body.classList.contains('light');
+    const bg2 = isDark ? '#3a2415' : '#f5ead8';
+    const textColor = isDark ? '#c8b49a' : '#6b4c2a';
+    const gridColor = isDark ? 'rgba(90,56,37,0.4)' : 'rgba(200,170,140,0.4)';
+
+    ctx.clearRect(0,0,W,H);
+
+    const data = scores.slice(-14).map(s => Math.round(s.correct/s.total*100));
+    if (!data.length) {
+      ctx.fillStyle = textColor;
+      ctx.font = '16px Crimson Pro, serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('No quiz data yet — complete some quizzes!', W/2, H/2);
+      return;
+    }
+
+    const pad = {top:20, right:20, bottom:30, left:40};
+    const cW = W - pad.left - pad.right;
+    const cH = H - pad.top - pad.bottom;
+    const maxV = 100, minV = 0;
+
+    // Grid lines
+    [0,25,50,75,100].forEach(v => {
+      const y = pad.top + cH - (v/100)*cH;
+      ctx.strokeStyle = gridColor;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(pad.left,y); ctx.lineTo(W-pad.right,y); ctx.stroke();
+      ctx.fillStyle = textColor; ctx.font='11px sans-serif'; ctx.textAlign='right';
+      ctx.fillText(v+'%', pad.left-5, y+4);
+    });
+    ctx.setLineDash([]);
+
+    const step = data.length > 1 ? cW/(data.length-1) : cW;
+    const pts = data.map((v,i) => [pad.left + i*step, pad.top + cH - (v/100)*cH]);
+
+    // Area fill
+    const grad = ctx.createLinearGradient(0,pad.top,0,pad.top+cH);
+    grad.addColorStop(0,'rgba(192,57,43,0.35)');
+    grad.addColorStop(1,'rgba(192,57,43,0.02)');
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pad.top+cH);
+    pts.forEach(p => ctx.lineTo(p[0],p[1]));
+    ctx.lineTo(pts[pts.length-1][0], pad.top+cH);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Line
+    ctx.beginPath();
+    pts.forEach((p,i) => i===0 ? ctx.moveTo(p[0],p[1]) : ctx.lineTo(p[0],p[1]));
+    ctx.strokeStyle = '#c0392b';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // Dots
+    pts.forEach((p,i) => {
+      ctx.beginPath();
+      ctx.arc(p[0],p[1],4,0,Math.PI*2);
+      ctx.fillStyle = '#f39c12';
+      ctx.fill();
+      // Value label
+      ctx.fillStyle = textColor;
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(data[i]+'%', p[0], p[1]-8);
+    });
+  }
+
+  function init() {
+    const scores = getScores();
+    const mistakes = getMistakes();
+    const studyDays = getStudyDays();
+    renderStats(scores, mistakes, studyDays);
+    renderAccBars(scores);
+    renderHistory(scores);
+    drawChart();
+  }
+
+  init();
+  window.addEventListener('resize', drawChart);
+</script>
+</body>
+</html>

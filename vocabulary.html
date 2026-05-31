@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.controls{display:flex;gap:.5rem;padding:.8rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+.controls input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.4rem .8rem;border-radius:6px;font-family:inherit;font-size:.88rem;outline:none;flex:1;min-width:160px;max-width:300px;}
+.controls input:focus{border-color:var(--accent);}
+.controls input::placeholder{color:var(--text2);}
+.filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .7rem;border-radius:20px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.audio-btn{background:none;border:1px solid var(--border);color:var(--accent2);cursor:pointer;padding:.2rem .5rem;border-radius:4px;font-size:.85rem;transition:all .2s;}
+.audio-btn:hover{background:var(--accent2);color:#fff;}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;padding:1.5rem 2rem;max-width:1200px;margin:0 auto;}
+.word-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;transition:all .2s;}
+.word-card:hover{border-color:var(--accent);transform:translateY(-1px);}
+.word-es{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--accent3);display:flex;align-items:center;gap:.5rem;}
+.word-type{font-size:.72rem;color:var(--text2);background:var(--bg3);padding:.1rem .4rem;border-radius:10px;border:1px solid var(--border);font-family:'Crimson Pro',serif;font-style:italic;}
+.word-en{color:var(--text);margin:.3rem 0 .2rem;font-size:.95rem;}
+.word-example{color:var(--text2);font-size:.85rem;font-style:italic;border-left:2px solid var(--accent);padding-left:.6rem;margin-top:.5rem;}
+.word-level{font-size:.7rem;color:var(--text2);margin-top:.5rem;}
+.word-level span{background:var(--bg3);padding:.1rem .4rem;border-radius:10px;}
+.count-badge{color:var(--text2);font-size:.85rem;padding:.8rem 2rem;}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.vocab-grid{padding:1rem;grid-template-columns:1fr;}.controls{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a>
+    <a href="vocabulary.html" class="active">Vocab</a>
+    <a href="reading.html">Reading</a>
+    <a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a>
+    <a href="conjugation.html">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a>
+    <a href="progress.html">Progress</a>
+    <a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a>
+  <a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocabulary</a>
+  <a href="reading.html">📖 Reading</a>
+  <a href="listening.html">🎧 Listening</a>
+  <a href="quiz.html">🧠 Quiz</a>
+  <a href="flashcards.html">🃏 Flashcards</a>
+  <a href="writing.html">✍️ Writing</a>
+  <a href="conjugation.html">🔀 Conjugation</a>
+  <a href="mistakes.html">❌ Mistakes</a>
+  <a href="progress.html">📊 Progress</a>
+  <a href="schedule.html">📅 Schedule</a>
+</div>
+
+<div class="page-header">
+  <div class="page-title">Vocabulary — Vocabulario</div>
+  <div class="page-sub">Words organized by level and theme, with audio pronunciation</div>
+</div>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="Search words..." oninput="filterVocab()">
+  <button class="filter-btn active" onclick="setLevel('all',this)">All</button>
+  <button class="filter-btn" onclick="setLevel('a1',this)">A1</button>
+  <button class="filter-btn" onclick="setLevel('a2',this)">A2</button>
+  <button class="filter-btn" onclick="setLevel('b1',this)">B1</button>
+  <button class="filter-btn" onclick="setLevel('b2',this)">B2</button>
+  <button class="filter-btn" onclick="setLevel('c1',this)">C1</button>
+  <select id="themeFilter" onchange="filterVocab()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .6rem;border-radius:6px;font-family:inherit;font-size:.85rem;outline:none;">
+    <option value="all">All themes</option>
+    <option value="travel">Travel</option>
+    <option value="food">Food</option>
+    <option value="work">Work</option>
+    <option value="emotions">Emotions</option>
+    <option value="time">Time</option>
+    <option value="nature">Nature</option>
+    <option value="health">Health</option>
+    <option value="society">Society</option>
+  </select>
+</div>
+<div class="count-badge" id="countBadge"></div>
+<div class="vocab-grid" id="vocabGrid"></div>
+
+<script>
+const VOCAB = [
+  // A1 - Basics
+  {es:'hablar',type:'verb',en:'to speak/talk',example:'Hablo español un poco.',level:'a1',theme:'work'},
+  {es:'comer',type:'verb',en:'to eat',example:'Me gusta comer paella.',level:'a1',theme:'food'},
+  {es:'vivir',type:'verb',en:'to live',example:'Vivo en Singapur.',level:'a1',theme:'work'},
+  {es:'la casa',type:'noun',en:'house / home',example:'Mi casa es pequeña pero bonita.',level:'a1',theme:'work'},
+  {es:'el tiempo',type:'noun',en:'weather / time',example:'¿Qué tiempo hace hoy?',level:'a1',theme:'time'},
+  {es:'ahora',type:'adv',en:'now',example:'Ahora mismo estoy estudiando.',level:'a1',theme:'time'},
+  {es:'siempre',type:'adv',en:'always',example:'Siempre llego puntual.',level:'a1',theme:'time'},
+  {es:'querer',type:'verb',en:'to want / to love',example:'Quiero aprender español.',level:'a1',theme:'emotions'},
+  {es:'la comida',type:'noun',en:'food / meal',example:'La comida española es deliciosa.',level:'a1',theme:'food'},
+  {es:'el trabajo',type:'noun',en:'work / job',example:'Mi trabajo es muy interesante.',level:'a1',theme:'work'},
+  // A2
+  {es:'el vuelo',type:'noun',en:'flight',example:'El vuelo sale a las diez.',level:'a2',theme:'travel'},
+  {es:'el aeropuerto',type:'noun',en:'airport',example:'Llegamos al aeropuerto con tiempo.',level:'a2',theme:'travel'},
+  {es:'reservar',type:'verb',en:'to book / reserve',example:'Reservé una habitación de hotel.',level:'a2',theme:'travel'},
+  {es:'el billete',type:'noun',en:'ticket / bill',example:'¿Cuánto cuesta el billete?',level:'a2',theme:'travel'},
+  {es:'sin embargo',type:'conj',en:'however / nevertheless',example:'Es difícil; sin embargo, lo intento.',level:'a2',theme:'work'},
+  {es:'aunque',type:'conj',en:'although / even though',example:'Aunque llueve, saldremos.',level:'a2',theme:'work'},
+  {es:'la salud',type:'noun',en:'health',example:'La salud es lo más importante.',level:'a2',theme:'health'},
+  {es:'el médico',type:'noun',en:'doctor',example:'Fui al médico ayer.',level:'a2',theme:'health'},
+  {es:'el sabor',type:'noun',en:'flavor / taste',example:'Este plato tiene un sabor exquisito.',level:'a2',theme:'food'},
+  {es:'emocionante',type:'adj',en:'exciting / thrilling',example:'El partido fue muy emocionante.',level:'a2',theme:'emotions'},
+  // B1
+  {es:'sin duda',type:'phrase',en:'without a doubt',example:'Sin duda, es la mejor opción.',level:'b1',theme:'work'},
+  {es:'a pesar de',type:'phrase',en:'in spite of / despite',example:'A pesar del tráfico, llegamos a tiempo.',level:'b1',theme:'work'},
+  {es:'el medio ambiente',type:'noun',en:'environment',example:'Debemos proteger el medio ambiente.',level:'b1',theme:'nature'},
+  {es:'el desarrollo',type:'noun',en:'development',example:'El desarrollo sostenible es clave.',level:'b1',theme:'society'},
+  {es:'la empresa',type:'noun',en:'company / business',example:'Trabajo en una empresa internacional.',level:'b1',theme:'work'},
+  {es:'el ciudadano',type:'noun',en:'citizen',example:'Los ciudadanos tienen derechos y deberes.',level:'b1',theme:'society'},
+  {es:'lograr',type:'verb',en:'to achieve / accomplish',example:'Logré mis objetivos este año.',level:'b1',theme:'work'},
+  {es:'superar',type:'verb',en:'to overcome / surpass',example:'Hay que superar los obstáculos.',level:'b1',theme:'emotions'},
+  {es:'a menudo',type:'adv',en:'often / frequently',example:'A menudo viajo por trabajo.',level:'b1',theme:'time'},
+  {es:'el plazo',type:'noun',en:'deadline / term',example:'El plazo de entrega es mañana.',level:'b1',theme:'work'},
+  // B2
+  {es:'la conciencia',type:'noun',en:'conscience / awareness',example:'La conciencia ambiental ha crecido.',level:'b2',theme:'society'},
+  {es:'el ámbito',type:'noun',en:'field / scope / domain',example:'En el ámbito profesional, es fundamental.',level:'b2',theme:'work'},
+  {es:'dar por sentado',type:'phrase',en:'to take for granted',example:'No debes dar por sentado el éxito.',level:'b2',theme:'work'},
+  {es:'cabe destacar',type:'phrase',en:'it is worth noting',example:'Cabe destacar la importancia del estudio.',level:'b2',theme:'work'},
+  {es:'la perspectiva',type:'noun',en:'perspective / outlook',example:'Desde una perspectiva global, es complejo.',level:'b2',theme:'society'},
+  {es:'el vínculo',type:'noun',en:'bond / link / tie',example:'Hay un fuerte vínculo entre cultura e idioma.',level:'b2',theme:'society'},
+  {es:'asumir',type:'verb',en:'to assume / take on',example:'Asumió la responsabilidad del proyecto.',level:'b2',theme:'work'},
+  {es:'matizar',type:'verb',en:'to nuance / qualify',example:'Es importante matizar esa afirmación.',level:'b2',theme:'work'},
+  {es:'el reto',type:'noun',en:'challenge',example:'Aprender un idioma es un gran reto.',level:'b2',theme:'work'},
+  {es:'la índole',type:'noun',en:'nature / kind / type',example:'Problemas de índole económica.',level:'b2',theme:'society'},
+  // C1
+  {es:'no obstante',type:'conj',en:'nevertheless / notwithstanding',example:'No obstante, la situación mejoró.',level:'c1',theme:'work'},
+  {es:'por ende',type:'phrase',en:'therefore / hence',example:'El mercado cayó; por ende, ajustamos.',level:'c1',theme:'work'},
+  {es:'coyuntural',type:'adj',en:'conjunctural / situational',example:'Es una medida de carácter coyuntural.',level:'c1',theme:'society'},
+  {es:'en aras de',type:'phrase',en:'for the sake of / in pursuit of',example:'En aras de la eficiencia, simplificamos.',level:'c1',theme:'work'},
+  {es:'la tesitura',type:'noun',en:'situation / predicament / juncture',example:'En esta tesitura, debemos actuar.',level:'c1',theme:'society'},
+  {es:'fehacientemente',type:'adv',en:'conclusively / definitively',example:'Queda demostrado fehacientemente.',level:'c1',theme:'work'},
+  {es:'el arraigo',type:'noun',en:'rootedness / deep ties',example:'Tiene un arraigo cultural muy profundo.',level:'c1',theme:'society'},
+  {es:'dilucidar',type:'verb',en:'to elucidate / clarify',example:'Hay que dilucidar la causa del problema.',level:'c1',theme:'work'},
+  {es:'el entramado',type:'noun',en:'framework / web / structure',example:'El entramado legal es complejo.',level:'c1',theme:'society'},
+  {es:'palmario',type:'adj',en:'obvious / evident / clear',example:'Es palmario que la estrategia falló.',level:'c1',theme:'work'},
+];
+
+let activeLevel = 'all';
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'es-ES';
+  u.rate = 0.9;
+  window.speechSynthesis.speak(u);
+}
+
+function filterVocab() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const theme = document.getElementById('themeFilter').value;
+  let data = VOCAB;
+  if (activeLevel !== 'all') data = data.filter(w => w.level === activeLevel);
+  if (theme !== 'all') data = data.filter(w => w.theme === theme);
+  if (q) data = data.filter(w =>
+    w.es.toLowerCase().includes(q) ||
+    w.en.toLowerCase().includes(q)
+  );
+  renderVocab(data);
+  document.getElementById('countBadge').textContent = `Showing ${data.length} of ${VOCAB.length} words`;
+}
+
+function setLevel(lv, btn) {
+  activeLevel = lv;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterVocab();
+}
+
+function renderVocab(data) {
+  const grid = document.getElementById('vocabGrid');
+  if (!data.length) { grid.innerHTML = '<p style="color:var(--text2);padding:2rem 0">No words found.</p>'; return; }
+  grid.innerHTML = data.map(w => `
+    <div class="word-card">
+      <div class="word-es">
+        ${w.es}
+        <span class="word-type">${w.type}</span>
+        <button class="audio-btn" onclick="speak('${w.es.replace(/'/g,"\\'")}')">🔊</button>
+      </div>
+      <div class="word-en">${w.en}</div>
+      <div class="word-example">${w.example}</div>
+      <div class="word-level"><span>${w.level.toUpperCase()}</span></div>
+    </div>
+  `).join('');
+}
+
+filterVocab();
+
+// Shared controls
+const theme = localStorage.getItem('es_theme') || 'dark';
+if (theme === 'light') document.body.classList.add('light');
+document.querySelectorAll('.themeBtn').forEach(b => b.textContent = theme === 'light' ? '🌙' : '☀️');
+const fs = parseInt(localStorage.getItem('es_fontsize') || '18');
+document.body.style.fontSize = fs + 'px';
+function toggleTheme() { const l = document.body.classList.toggle('light'); localStorage.setItem('es_theme', l?'light':'dark'); document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️'); }
+function toggleFont(d) { let f = parseInt(document.body.style.fontSize||'18'); f=Math.min(24,Math.max(14,f+d)); document.body.style.fontSize=f+'px'; localStorage.setItem('es_fontsize',f); }
+function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+</script>
+</body>
+</html>

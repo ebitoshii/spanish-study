@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.fc-area{max-width:500px;margin:2rem auto;padding:0 2rem;text-align:center;}
+.fc-count{color:var(--text2);font-size:.88rem;margin-bottom:1rem;}
+.card-wrap{perspective:1000px;height:240px;margin-bottom:1.5rem;cursor:pointer;}
+.card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;}
+.card-inner.flipped{transform:rotateY(180deg);}
+.card-face{position:absolute;inset:0;background:var(--card);border:1px solid var(--border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;backface-visibility:hidden;}
+.card-back{transform:rotateY(180deg);background:var(--bg2);}
+.card-word{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--accent3);}
+.card-hint{color:var(--text2);font-size:.85rem;margin-top:.4rem;}
+.card-en{font-size:1.2rem;color:var(--text);margin-top:.5rem;}
+.card-example{color:var(--text2);font-size:.88rem;font-style:italic;margin-top:.8rem;border-top:1px solid var(--border);padding-top:.8rem;width:100%;text-align:center;}
+.tap-hint{color:var(--text2);font-size:.78rem;margin-bottom:1rem;}
+.rating-btns{display:flex;gap:.8rem;justify-content:center;margin-top:.5rem;}
+.rate-btn{border:none;padding:.6rem 1.4rem;border-radius:8px;cursor:pointer;font-family:'Playfair Display',serif;font-size:1rem;transition:all .2s;}
+.rate-again{background:var(--red);color:#fff;}
+.rate-good{background:var(--accent2);color:#fff;}
+.rate-easy{background:var(--green);color:#fff;}
+.rate-btn:hover{opacity:.85;transform:translateY(-1px);}
+.done-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:2rem;text-align:center;}
+.done-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--accent3);margin-bottom:.5rem;}
+.restart-btn{background:var(--accent);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1rem;cursor:pointer;margin-top:1rem;}
+.setup-area{max-width:500px;margin:2rem auto;padding:0 2rem;}
+.setup-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;}
+.setup-label{font-size:.85rem;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;}
+.setup-opts{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.opt-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .7rem;border-radius:20px;cursor:pointer;font-size:.85rem;font-family:inherit;transition:all .2s;}
+.opt-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.start-btn{width:100%;background:var(--accent);color:#fff;border:none;padding:.7rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1.1rem;cursor:pointer;}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.fc-area,.setup-area{padding:0 1rem;}.rating-btns{gap:.5rem;}.rate-btn{padding:.5rem 1rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="reading.html">Reading</a>
+    <a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html" class="active">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button><button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a><a href="vocabulary.html">📝 Vocabulary</a>
+  <a href="flashcards.html">🃏 Flashcards</a><a href="quiz.html">🧠 Quiz</a><a href="progress.html">📊 Progress</a>
+</div>
+<div class="page-header">
+  <div class="page-title">Flashcards — Tarjetas</div>
+  <div class="page-sub">Flip cards with Again / Good / Easy spaced repetition</div>
+</div>
+<div class="setup-area" id="setupArea">
+  <div class="setup-card">
+    <div class="setup-label">Level</div>
+    <div class="setup-opts">
+      <button class="opt-btn active" onclick="setOpt('level','all',this)">All</button>
+      <button class="opt-btn" onclick="setOpt('level','a1',this)">A1</button>
+      <button class="opt-btn" onclick="setOpt('level','a2',this)">A2</button>
+      <button class="opt-btn" onclick="setOpt('level','b1',this)">B1</button>
+      <button class="opt-btn" onclick="setOpt('level','b2',this)">B2</button>
+      <button class="opt-btn" onclick="setOpt('level','c1',this)">C1</button>
+    </div>
+    <div class="setup-label">Direction</div>
+    <div class="setup-opts">
+      <button class="opt-btn active" onclick="setOpt('dir','es-en',this)">ES → EN</button>
+      <button class="opt-btn" onclick="setOpt('dir','en-es',this)">EN → ES</button>
+    </div>
+    <div class="setup-label">Count</div>
+    <div class="setup-opts">
+      <button class="opt-btn" onclick="setOpt('count',10,this)">10</button>
+      <button class="opt-btn active" onclick="setOpt('count',20,this)">20</button>
+      <button class="opt-btn" onclick="setOpt('count',30,this)">30</button>
+    </div>
+    <button class="start-btn" onclick="startFC()">Start →</button>
+  </div>
+</div>
+<div class="fc-area" id="fcArea" style="display:none">
+  <div class="fc-count" id="fcCount"></div>
+  <div class="tap-hint">Tap card to flip</div>
+  <div class="card-wrap" onclick="flipCard()">
+    <div class="card-inner" id="cardInner">
+      <div class="card-face" id="cardFront"></div>
+      <div class="card-face card-back" id="cardBack"></div>
+    </div>
+  </div>
+  <div class="rating-btns" id="ratingBtns" style="display:none">
+    <button class="rate-btn rate-again" onclick="rate('again')">Again</button>
+    <button class="rate-btn rate-good" onclick="rate('good')">Good</button>
+    <button class="rate-btn rate-easy" onclick="rate('easy')">Easy</button>
+  </div>
+</div>
+<div class="fc-area" id="doneArea" style="display:none">
+  <div class="done-box">
+    <div class="done-title">¡Hecho! 🎉</div>
+    <p style="color:var(--text2)">Session complete.</p>
+    <button class="restart-btn" onclick="location.reload()">New Session</button>
+  </div>
+</div>
+<script>
+const VOCAB=[
+  {es:'hablar',type:'verb',en:'to speak',example:'Hablo español.',level:'a1'},
+  {es:'comer',type:'verb',en:'to eat',example:'Me gusta comer paella.',level:'a1'},
+  {es:'vivir',type:'verb',en:'to live',example:'Vivo en Singapur.',level:'a1'},
+  {es:'querer',type:'verb',en:'to want/love',example:'Quiero aprender español.',level:'a1'},
+  {es:'el trabajo',type:'noun',en:'work / job',example:'Mi trabajo es interesante.',level:'a1'},
+  {es:'el vuelo',type:'noun',en:'flight',example:'El vuelo sale a las diez.',level:'a2'},
+  {es:'reservar',type:'verb',en:'to book',example:'Reservé el hotel.',level:'a2'},
+  {es:'sin embargo',type:'conj',en:'however',example:'Es difícil; sin embargo, lo intento.',level:'a2'},
+  {es:'aunque',type:'conj',en:'although',example:'Aunque llueve, saldremos.',level:'a2'},
+  {es:'lograr',type:'verb',en:'to achieve',example:'Logré mis objetivos.',level:'b1'},
+  {es:'superar',type:'verb',en:'to overcome',example:'Hay que superar los obstáculos.',level:'b1'},
+  {es:'el plazo',type:'noun',en:'deadline',example:'El plazo es mañana.',level:'b1'},
+  {es:'sin duda',type:'phrase',en:'without a doubt',example:'Sin duda, es correcto.',level:'b1'},
+  {es:'asumir',type:'verb',en:'to assume',example:'Asumió la responsabilidad.',level:'b2'},
+  {es:'el reto',type:'noun',en:'challenge',example:'Es un gran reto.',level:'b2'},
+  {es:'la perspectiva',type:'noun',en:'perspective',example:'Desde esa perspectiva...',level:'b2'},
+  {es:'no obstante',type:'conj',en:'nevertheless',example:'No obstante, continuamos.',level:'c1'},
+  {es:'por ende',type:'phrase',en:'therefore',example:'Por ende, decidimos actuar.',level:'c1'},
+  {es:'dilucidar',type:'verb',en:'to elucidate',example:'Hay que dilucidar el problema.',level:'c1'},
+  {es:'palmario',type:'adj',en:'obvious / evident',example:'Es palmario que falló.',level:'c1'},
+];
+let settings={level:'all',dir:'es-en',count:20};
+let deck=[],idx=0,flipped=false;
+function setOpt(k,v,btn){settings[k]=v;btn.closest('.setup-opts').querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function startFC(){
+  let pool=VOCAB;
+  if(settings.level!=='all')pool=pool.filter(w=>w.level===settings.level);
+  deck=pool.sort(()=>Math.random()-.5).slice(0,settings.count);
+  idx=0;
+  document.getElementById('setupArea').style.display='none';
+  document.getElementById('fcArea').style.display='block';
+  showCard();
+}
+function showCard(){
+  if(idx>=deck.length){document.getElementById('fcArea').style.display='none';document.getElementById('doneArea').style.display='block';return;}
+  const w=deck[idx];
+  flipped=false;
+  document.getElementById('cardInner').classList.remove('flipped');
+  document.getElementById('ratingBtns').style.display='none';
+  document.getElementById('fcCount').textContent=`Card ${idx+1} of ${deck.length}`;
+  if(settings.dir==='es-en'){
+    document.getElementById('cardFront').innerHTML=`<div class="card-word">${w.es}</div><div class="card-hint">${w.type}</div>`;
+    document.getElementById('cardBack').innerHTML=`<div class="card-en">${w.en}</div><div class="card-example">${w.example}</div>`;
+  } else {
+    document.getElementById('cardFront').innerHTML=`<div class="card-word">${w.en}</div><div class="card-hint">${w.type}</div>`;
+    document.getElementById('cardBack').innerHTML=`<div class="card-word" style="font-size:1.4rem">${w.es}</div><div class="card-example">${w.example}</div>`;
+  }
+}
+function flipCard(){
+  flipped=!flipped;
+  document.getElementById('cardInner').classList.toggle('flipped',flipped);
+  if(flipped)document.getElementById('ratingBtns').style.display='flex';
+}
+function rate(r){idx++;showCard();}
+const tv=localStorage.getItem('es_theme')||'dark';if(tv==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=tv==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

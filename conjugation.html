@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conjugation — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+
+.verb-search{padding:1rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;}
+.verb-search input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.45rem 1rem;border-radius:6px;font-family:inherit;font-size:1rem;outline:none;min-width:200px;}
+.verb-search input:focus{border-color:var(--accent);}
+.verb-search input::placeholder{color:var(--text2);}
+.verb-chips{display:flex;gap:.4rem;flex-wrap:wrap;}
+.chip{background:none;border:1px solid var(--border);color:var(--text2);padding:.25rem .7rem;border-radius:20px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
+.chip:hover,.chip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.conj-content{max-width:900px;margin:0 auto;padding:1.5rem 2rem;}
+.verb-title{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--accent3);margin-bottom:.2rem;}
+.verb-meta{color:var(--text2);font-size:.9rem;margin-bottom:1.5rem;}
+.tense-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.tab-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.35rem .8rem;border-radius:6px;cursor:pointer;font-size:.85rem;font-family:inherit;transition:all .2s;}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.tables-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;}
+.conj-table{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.table-title{background:var(--bg3);padding:.6rem 1rem;font-size:.82rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;font-weight:600;border-bottom:1px solid var(--border);}
+.conj-row{display:flex;justify-content:space-between;padding:.45rem 1rem;border-bottom:1px solid var(--border);font-size:.95rem;}
+.conj-row:last-child{border-bottom:none;}
+.pronoun{color:var(--text2);font-size:.88rem;}
+.form{color:var(--text);font-weight:500;}
+.form.irregular{color:var(--accent2);}
+.irreg-legend{font-size:.78rem;color:var(--accent2);margin-top:.8rem;display:flex;align-items:center;gap:.4rem;}
+
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.conj-content{padding:1rem;}.verb-search{padding:.8rem 1rem;}.tables-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a>
+    <a href="vocabulary.html">Vocab</a>
+    <a href="reading.html">Reading</a>
+    <a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a>
+    <a href="conjugation.html" class="active">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a>
+    <a href="progress.html">Progress</a>
+    <a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocabulary</a><a href="conjugation.html">🔀 Conjugation</a>
+  <a href="quiz.html">🧠 Quiz</a><a href="progress.html">📊 Progress</a>
+</div>
+
+<div class="page-header">
+  <div class="page-title">Conjugation — Conjugación</div>
+  <div class="page-sub">Complete verb tables across all tenses</div>
+</div>
+
+<div class="verb-search">
+  <input type="text" id="verbInput" placeholder="Enter a verb (e.g. hablar, ser, tener)..." oninput="onVerbInput()">
+  <div class="verb-chips" id="commonChips"></div>
+</div>
+
+<div class="conj-content" id="conjContent">
+  <p style="color:var(--text2);font-style:italic">Enter a verb above or choose from the common verbs.</p>
+</div>
+
+<script>
+const COMMON = ['ser','estar','tener','hacer','ir','poder','querer','saber','hablar','comer','vivir','venir','dar','ver','haber'];
+
+const VERBS = {
+  hablar: {
+    meaning: 'to speak / to talk', type: '-ar regular',
+    present:   ['hablo','hablas','habla','hablamos','habláis','hablan'],
+    preterite: ['hablé','hablaste','habló','hablamos','hablasteis','hablaron'],
+    imperfect: ['hablaba','hablabas','hablaba','hablábamos','hablabais','hablaban'],
+    future:    ['hablaré','hablarás','hablará','hablaremos','hablaréis','hablarán'],
+    conditional:['hablaría','hablarías','hablaría','hablaríamos','hablaríais','hablarían'],
+    subjunctive:['hable','hables','hable','hablemos','habléis','hablen'],
+    imperative: ['—','habla','hable','hablemos','hablad','hablen'],
+    irregular: [],
+  },
+  comer: {
+    meaning: 'to eat', type: '-er regular',
+    present:   ['como','comes','come','comemos','coméis','comen'],
+    preterite: ['comí','comiste','comió','comimos','comisteis','comieron'],
+    imperfect: ['comía','comías','comía','comíamos','comíais','comían'],
+    future:    ['comeré','comerás','comerá','comeremos','comeréis','comerán'],
+    conditional:['comería','comerías','comería','comeríamos','comeríais','comerían'],
+    subjunctive:['coma','comas','coma','comamos','comáis','coman'],
+    imperative: ['—','come','coma','comamos','comed','coman'],
+    irregular: [],
+  },
+  vivir: {
+    meaning: 'to live', type: '-ir regular',
+    present:   ['vivo','vives','vive','vivimos','vivís','viven'],
+    preterite: ['viví','viviste','vivió','vivimos','vivisteis','vivieron'],
+    imperfect: ['vivía','vivías','vivía','vivíamos','vivíais','vivían'],
+    future:    ['viviré','vivirás','vivirá','viviremos','viviréis','vivirán'],
+    conditional:['viviría','vivirías','viviría','viviríamos','viviríais','vivirían'],
+    subjunctive:['viva','vivas','viva','vivamos','viváis','vivan'],
+    imperative: ['—','vive','viva','vivamos','vivid','vivan'],
+    irregular: [],
+  },
+  ser: {
+    meaning: 'to be (permanent)', type: 'irregular',
+    present:   ['soy','eres','es','somos','sois','son'],
+    preterite: ['fui','fuiste','fue','fuimos','fuisteis','fueron'],
+    imperfect: ['era','eras','era','éramos','erais','eran'],
+    future:    ['seré','serás','será','seremos','seréis','serán'],
+    conditional:['sería','serías','sería','seríamos','seríais','serían'],
+    subjunctive:['sea','seas','sea','seamos','seáis','sean'],
+    imperative: ['—','sé','sea','seamos','sed','sean'],
+    irregular: [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+  },
+  estar: {
+    meaning: 'to be (temporary/state)', type: 'irregular',
+    present:   ['estoy','estás','está','estamos','estáis','están'],
+    preterite: ['estuve','estuviste','estuvo','estuvimos','estuvisteis','estuvieron'],
+    imperfect: ['estaba','estabas','estaba','estábamos','estabais','estaban'],
+    future:    ['estaré','estarás','estará','estaremos','estaréis','estarán'],
+    conditional:['estaría','estarías','estaría','estaríamos','estaríais','estarían'],
+    subjunctive:['esté','estés','esté','estemos','estéis','estén'],
+    imperative: ['—','está','esté','estemos','estad','estén'],
+    irregular: [0,6,7,8,9,10,11],
+  },
+  tener: {
+    meaning: 'to have', type: 'irregular',
+    present:   ['tengo','tienes','tiene','tenemos','tenéis','tienen'],
+    preterite: ['tuve','tuviste','tuvo','tuvimos','tuvisteis','tuvieron'],
+    imperfect: ['tenía','tenías','tenía','teníamos','teníais','tenían'],
+    future:    ['tendré','tendrás','tendrá','tendremos','tendréis','tendrán'],
+    conditional:['tendría','tendrías','tendría','tendríamos','tendríais','tendrían'],
+    subjunctive:['tenga','tengas','tenga','tengamos','tengáis','tengan'],
+    imperative: ['—','ten','tenga','tengamos','tened','tengan'],
+    irregular: [0,6,7,8,9,10,11,18,19,20,21,22,23,24,25],
+  },
+  hacer: {
+    meaning: 'to do / to make', type: 'irregular',
+    present:   ['hago','haces','hace','hacemos','hacéis','hacen'],
+    preterite: ['hice','hiciste','hizo','hicimos','hicisteis','hicieron'],
+    imperfect: ['hacía','hacías','hacía','hacíamos','hacíais','hacían'],
+    future:    ['haré','harás','hará','haremos','haréis','harán'],
+    conditional:['haría','harías','haría','haríamos','haríais','harían'],
+    subjunctive:['haga','hagas','haga','hagamos','hagáis','hagan'],
+    imperative: ['—','haz','haga','hagamos','haced','hagan'],
+    irregular: [0,6,7,8,9,10,11,18,19,20,21,22,23,24,25,30,31,32,33,34,35],
+  },
+  ir: {
+    meaning: 'to go', type: 'irregular',
+    present:   ['voy','vas','va','vamos','vais','van'],
+    preterite: ['fui','fuiste','fue','fuimos','fuisteis','fueron'],
+    imperfect: ['iba','ibas','iba','íbamos','ibais','iban'],
+    future:    ['iré','irás','irá','iremos','iréis','irán'],
+    conditional:['iría','irías','iría','iríamos','iríais','irían'],
+    subjunctive:['vaya','vayas','vaya','vayamos','vayáis','vayan'],
+    imperative: ['—','ve','vaya','vayamos','id','vayan'],
+    irregular: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41],
+  },
+  poder: {
+    meaning: 'to be able to / can', type: 'irregular stem-changing (o→ue)',
+    present:   ['puedo','puedes','puede','podemos','podéis','pueden'],
+    preterite: ['pude','pudiste','pudo','pudimos','pudisteis','pudieron'],
+    imperfect: ['podía','podías','podía','podíamos','podíais','podían'],
+    future:    ['podré','podrás','podrá','podremos','podréis','podrán'],
+    conditional:['podría','podrías','podría','podríamos','podríais','podrían'],
+    subjunctive:['pueda','puedas','pueda','podamos','podáis','puedan'],
+    imperative: ['—','puede','pueda','podamos','poded','puedan'],
+    irregular: [0,1,2,4,5,6,7,8,9,10,11,18,19,20,21,22,23,24,25,30,31,33,35],
+  },
+  querer: {
+    meaning: 'to want / to love', type: 'irregular stem-changing (e→ie)',
+    present:   ['quiero','quieres','quiere','queremos','queréis','quieren'],
+    preterite: ['quise','quisiste','quiso','quisimos','quisisteis','quisieron'],
+    imperfect: ['quería','querías','quería','queríamos','queríais','querían'],
+    future:    ['querré','querrás','querrá','querremos','querréis','querrán'],
+    conditional:['querría','querrías','querría','querríamos','querríais','querrían'],
+    subjunctive:['quiera','quieras','quiera','queramos','queráis','quieran'],
+    imperative: ['—','quiere','quiera','queramos','quered','quieran'],
+    irregular: [0,1,2,4,5,6,7,8,9,10,11,18,19,20,21,22,23,24,25,30,31,33,35],
+  },
+};
+
+const PRONOUNS = ['yo','tú','él/ella','nosotros','vosotros','ellos/ellas'];
+const TENSES = [
+  {key:'present', label:'Presente'},
+  {key:'preterite', label:'Pretérito'},
+  {key:'imperfect', label:'Imperfecto'},
+  {key:'future', label:'Futuro'},
+  {key:'conditional', label:'Condicional'},
+  {key:'subjunctive', label:'Subjuntivo'},
+  {key:'imperative', label:'Imperativo'},
+];
+
+let activeTenses = ['present','preterite','imperfect','future'];
+let currentVerb = 'hablar';
+
+function buildChips() {
+  const c = document.getElementById('commonChips');
+  c.innerHTML = COMMON.map(v =>
+    `<button class="chip${v===currentVerb?' active':''}" onclick="loadVerb('${v}',this)">${v}</button>`
+  ).join('');
+}
+
+function loadVerb(v, btn) {
+  currentVerb = v;
+  document.getElementById('verbInput').value = v;
+  document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderVerb(v);
+}
+
+function onVerbInput() {
+  const v = document.getElementById('verbInput').value.trim().toLowerCase();
+  if (VERBS[v]) loadVerb(v);
+}
+
+function renderVerb(v) {
+  const data = VERBS[v];
+  if (!data) {
+    document.getElementById('conjContent').innerHTML = `<p style="color:var(--text2);font-style:italic">Verb "${v}" not in database yet. Try: ${COMMON.join(', ')}</p>`;
+    return;
+  }
+  const tabs = TENSES.map(t =>
+    `<button class="tab-btn${activeTenses.includes(t.key)?' active':''}" onclick="toggleTense('${t.key}',this)">${t.label}</button>`
+  ).join('');
+
+  const tables = TENSES.filter(t => activeTenses.includes(t.key)).map(t => {
+    const forms = data[t.key];
+    const rows = PRONOUNS.map((p, i) => {
+      const irreg = (data.irregular || []).length > 0;
+      const isIrreg = irreg; // simplified — all marked if verb is irregular
+      return `<div class="conj-row"><span class="pronoun">${p}</span><span class="form${irreg?' irregular':''}">${forms[i]}</span></div>`;
+    }).join('');
+    return `<div class="conj-table"><div class="table-title">${t.label}</div>${rows}</div>`;
+  }).join('');
+
+  document.getElementById('conjContent').innerHTML = `
+    <div class="verb-title">${v}</div>
+    <div class="verb-meta">${data.meaning} &nbsp;·&nbsp; ${data.type}</div>
+    <div class="tense-tabs">${tabs}</div>
+    <div class="tables-grid">${tables}</div>
+    ${data.irregular.length ? '<div class="irreg-legend"><span style="color:var(--accent2)">●</span> Orange = irregular forms</div>' : ''}
+  `;
+}
+
+function toggleTense(key, btn) {
+  const idx = activeTenses.indexOf(key);
+  if (idx > -1) activeTenses.splice(idx, 1);
+  else activeTenses.push(key);
+  renderVerb(currentVerb);
+}
+
+buildChips();
+renderVerb(currentVerb);
+
+// Shared controls
+const themeVal = localStorage.getItem('es_theme') || 'dark';
+if (themeVal === 'light') document.body.classList.add('light');
+document.querySelectorAll('.themeBtn').forEach(b => b.textContent = themeVal === 'light' ? '🌙' : '☀️');
+const fs = parseInt(localStorage.getItem('es_fontsize') || '18');
+document.body.style.fontSize = fs + 'px';
+function toggleTheme() { const l = document.body.classList.toggle('light'); localStorage.setItem('es_theme', l?'light':'dark'); document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️'); }
+function toggleFont(d) { let f = parseInt(document.body.style.fontSize||'18'); f=Math.min(24,Math.max(14,f+d)); document.body.style.fontSize=f+'px'; localStorage.setItem('es_fontsize',f); }
+function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+</script>
+</body>
+</html>

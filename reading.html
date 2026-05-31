@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.filters{display:flex;gap:.5rem;padding:.8rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .7rem;border-radius:20px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.passages-list{max-width:800px;margin:0 auto;padding:1.5rem 2rem;}
+.passage-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:1.2rem;overflow:hidden;}
+.pass-header{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;cursor:pointer;}
+.pass-header:hover{background:var(--bg3);}
+.level-badge{font-size:.7rem;padding:.15rem .5rem;border-radius:12px;font-weight:600;}
+.level-badge.a2{background:rgba(41,128,185,.15);color:#2980b9;border:1px solid #2980b9;}
+.level-badge.b1{background:rgba(192,57,43,.15);color:var(--accent);border:1px solid var(--accent);}
+.level-badge.b2{background:rgba(243,156,18,.15);color:var(--accent3);border:1px solid var(--accent3);}
+.level-badge.c1{background:rgba(142,68,173,.15);color:#9b59b6;border:1px solid #9b59b6;}
+.pass-title{font-family:'Playfair Display',serif;font-size:1.05rem;flex:1;}
+.pass-topic{font-size:.82rem;color:var(--text2);}
+.pass-body{display:none;padding:1.2rem;border-top:1px solid var(--border);}
+.pass-body.open{display:block;}
+.pass-text{line-height:2;margin-bottom:1rem;}
+.qs-section{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;}
+.qs-title{font-size:.82rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem;}
+.q-item{margin-bottom:.8rem;}
+.q-text{margin-bottom:.4rem;}
+.q-choices{display:flex;flex-direction:column;gap:.3rem;}
+.q-btn{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.4rem .8rem;border-radius:6px;cursor:pointer;font-family:inherit;font-size:.88rem;text-align:left;transition:all .2s;}
+.q-btn:hover:not(:disabled){background:var(--bg3);}
+.q-btn.correct{background:rgba(39,174,96,.2);border-color:var(--green);color:var(--green);}
+.q-btn.wrong{background:rgba(231,76,60,.12);border-color:var(--red);color:var(--red);}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.passages-list{padding:1rem;}.filters{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="reading.html" class="active">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocabulary</a><a href="reading.html">📖 Reading</a>
+  <a href="quiz.html">🧠 Quiz</a><a href="progress.html">📊 Progress</a>
+</div>
+<div class="page-header">
+  <div class="page-title">Reading — Lectura</div>
+  <div class="page-sub">Graded passages from everyday topics to complex authentic texts</div>
+</div>
+<div class="filters">
+  <button class="filter-btn active" onclick="setLevel('all',this)">All</button>
+  <button class="filter-btn" onclick="setLevel('a2',this)">A2</button>
+  <button class="filter-btn" onclick="setLevel('b1',this)">B1</button>
+  <button class="filter-btn" onclick="setLevel('b2',this)">B2</button>
+  <button class="filter-btn" onclick="setLevel('c1',this)">C1</button>
+</div>
+<div class="passages-list" id="passagesList"></div>
+<script>
+const PASSAGES = [
+  {id:1,level:'a2',title:'Mi rutina diaria',topic:'Daily life',
+   text:'Me llamo Carlos y soy piloto. Cada día me levanto a las cinco de la mañana porque mis vuelos salen muy temprano. Primero, me ducho y desayuno rápidamente. Luego cojo el metro hasta el aeropuerto. El trabajo es muy interesante pero también cansado. Cuando llego a casa por la noche, ceno con mi familia y después leo un poco antes de dormir. Los fines de semana descanso y hago deporte.',
+   questions:[
+     {q:'¿A qué hora se levanta Carlos?',choices:['A las seis','A las cinco','A las siete','A las ocho'],ans:1},
+     {q:'¿Cómo va Carlos al aeropuerto?',choices:['En coche','En taxi','En metro','A pie'],ans:2},
+     {q:'¿Qué hace Carlos por la noche?',choices:['Ve la televisión','Sale con amigos','Cena con su familia','Trabaja más'],ans:2},
+   ]},
+  {id:2,level:'b1',title:'El turismo en España',topic:'Travel & culture',
+   text:'España es uno de los destinos turísticos más visitados del mundo. Cada año, millones de viajeros llegan atraídos por su clima mediterráneo, su gastronomía, sus monumentos históricos y sus playas. Ciudades como Barcelona, Madrid y Sevilla ofrecen una mezcla única de modernidad y tradición. Sin embargo, el turismo masivo también plantea desafíos importantes: la presión sobre los recursos locales, el encarecimiento de la vivienda y la pérdida de identidad cultural en algunas zonas. Es un equilibrio delicado que las autoridades locales están intentando gestionar.',
+   questions:[
+     {q:'¿Qué atrae a los turistas a España?',choices:['Solo las playas','Solo la gastronomía','Clima, gastronomía, monumentos y playas','El precio bajo'],ans:2},
+     {q:'¿Qué problema causa el turismo masivo?',choices:['Más empleo','Encarecimiento de la vivienda','Mejora del transporte','Más parques'],ans:1},
+   ]},
+  {id:3,level:'b2',title:'El mercado de trabajo en la era digital',topic:'Economy & technology',
+   text:'La inteligencia artificial está transformando el mercado laboral de formas que hace una década resultaban inimaginables. Tareas rutinarias que antes requerían horas de trabajo humano ahora se automatizan en segundos. Esto genera una paradoja: mientras que ciertos empleos desaparecen, emergen nuevas profesiones que demandan habilidades digitales avanzadas. Los expertos coinciden en que la clave no es resistirse al cambio, sino adaptarse a él a través de la formación continua. Aquellos trabajadores que logren combinar competencias técnicas con habilidades interpersonales estarán mejor posicionados para prosperar en este nuevo entorno.',
+   questions:[
+     {q:'¿Qué genera la automatización de tareas?',choices:['Solo pérdidas de empleo','Solo nuevos empleos','Una paradoja: empleos desaparecen y otros emergen','Ningún cambio significativo'],ans:2},
+     {q:'¿Qué habilidades son clave según el texto?',choices:['Solo las técnicas','Solo las interpersonales','Técnicas e interpersonales combinadas','Ninguna habilidad especial'],ans:2},
+   ]},
+  {id:4,level:'c1',title:'La memoria colectiva y la identidad nacional',topic:'Philosophy & society',
+   text:'La identidad de una nación no reside únicamente en sus fronteras geográficas ni en sus instituciones políticas, sino en la memoria compartida de sus ciudadanos: los mitos fundacionales, los traumas históricos, los héroes y los villanos que cada generación hereda y reinterpreta. Esta memoria colectiva es, por definición, selectiva y mutable. Cada época elige qué recordar y qué olvidar, qué glorificar y qué silenciar. La cuestión de quién tiene el poder de moldear esa narrativa no es trivial; es, en esencia, una cuestión de poder político y cultural. Por ello, las disputas en torno a la memoria histórica son, con frecuencia, disputas sobre el presente y sobre el futuro.',
+   questions:[
+     {q:'¿En qué reside la identidad nacional según el texto?',choices:['Solo en las fronteras','En las instituciones políticas exclusivamente','En la memoria compartida de los ciudadanos','En la economía del país'],ans:2},
+     {q:'¿Qué característica tiene la memoria colectiva?',choices:['Es objetiva y permanente','Es selectiva y mutable','Es siempre positiva','Es igual en todas las naciones'],ans:1},
+   ]},
+];
+
+let activeLevel = 'all';
+const answered = {};
+
+function setLevel(lv,btn){activeLevel=lv;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+
+function checkQ(pid,qi,ai,btn){
+  const p=PASSAGES.find(p=>p.id===pid);
+  const q=p.questions[qi];
+  if(!answered[`${pid}-${qi}`]){
+    answered[`${pid}-${qi}`]=true;
+    btn.closest('.q-choices').querySelectorAll('.q-btn').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('correct');else if(b===btn&&i!==q.ans)b.classList.add('wrong');});
+  }
+}
+
+function togglePass(id){document.getElementById('pass-body-'+id).classList.toggle('open');}
+
+function render(){
+  const data=PASSAGES.filter(p=>activeLevel==='all'||p.level===activeLevel);
+  const list=document.getElementById('passagesList');
+  if(!data.length){list.innerHTML='<p style="color:var(--text2)">No passages at this level.</p>';return;}
+  list.innerHTML=data.map(p=>`
+    <div class="passage-card">
+      <div class="pass-header" onclick="togglePass(${p.id})">
+        <span class="level-badge ${p.level}">${p.level.toUpperCase()}</span>
+        <span class="pass-title">${p.title}</span>
+        <span class="pass-topic">${p.topic}</span>
+      </div>
+      <div class="pass-body" id="pass-body-${p.id}">
+        <div class="pass-text">${p.text}</div>
+        <div class="qs-section">
+          <div class="qs-title">Comprehension Questions</div>
+          ${p.questions.map((q,qi)=>`
+            <div class="q-item">
+              <div class="q-text">${qi+1}. ${q.q}</div>
+              <div class="q-choices">
+                ${q.choices.map((c,ai)=>`<button class="q-btn" onclick="checkQ(${p.id},${qi},${ai},this)">${String.fromCharCode(65+ai)}. ${c}</button>`).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+render();
+const themeVal=localStorage.getItem('es_theme')||'dark';if(themeVal==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=themeVal==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.wr-area{max-width:600px;margin:2rem auto;padding:0 2rem;}
+.setup-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;margin-bottom:1.5rem;}
+.setup-row{margin-bottom:.8rem;}
+.setup-label{font-size:.82rem;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;}
+.opts{display:flex;gap:.4rem;flex-wrap:wrap;}
+.opt-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.25rem .65rem;border-radius:20px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
+.opt-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.start-btn{width:100%;background:var(--accent);color:#fff;border:none;padding:.7rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1.1rem;cursor:pointer;}
+.progress-bar{background:var(--bg3);border-radius:20px;height:6px;margin-bottom:1rem;overflow:hidden;}
+.progress-fill{background:var(--accent);height:100%;border-radius:20px;transition:width .4s;}
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;}
+.prompt{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:1rem;}
+.ans-input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.6rem 1rem;border-radius:6px;font-family:inherit;font-size:1rem;outline:none;margin-bottom:.8rem;}
+.ans-input:focus{border-color:var(--accent);}
+.check-btn{background:var(--accent);color:#fff;border:none;padding:.55rem 1.5rem;border-radius:8px;font-family:inherit;font-size:1rem;cursor:pointer;}
+.feedback{margin-top:.8rem;padding:.7rem 1rem;border-radius:8px;font-size:.95rem;}
+.feedback.correct{background:rgba(39,174,96,.15);border:1px solid var(--green);color:var(--green);}
+.feedback.wrong{background:rgba(231,76,60,.1);border:1px solid var(--red);color:var(--red);}
+.next-btn{width:100%;background:var(--bg3);color:var(--text);border:1px solid var(--border);padding:.55rem;border-radius:8px;font-family:inherit;font-size:1rem;cursor:pointer;margin-top:.6rem;transition:all .2s;}
+.next-btn:hover{border-color:var(--accent);color:var(--accent);}
+.done-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:2rem;text-align:center;}
+.score{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--accent3);}
+.replay-btn{background:var(--accent);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1rem;cursor:pointer;margin-top:1rem;}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.wr-area{padding:0 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="reading.html">Reading</a>
+    <a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html" class="active">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button><button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="writing.html">✍️ Writing</a><a href="quiz.html">🧠 Quiz</a><a href="progress.html">📊 Progress</a>
+</div>
+<div class="page-header">
+  <div class="page-title">Writing — Escritura</div>
+  <div class="page-sub">Type translations and fill-in-the-blank drills</div>
+</div>
+<div class="wr-area">
+  <div id="setupArea">
+    <div class="setup-card">
+      <div class="setup-row"><div class="setup-label">Mode</div>
+        <div class="opts">
+          <button class="opt-btn active" onclick="setOpt('mode','en-es',this)">EN → ES</button>
+          <button class="opt-btn" onclick="setOpt('mode','es-en',this)">ES → EN</button>
+        </div>
+      </div>
+      <div class="setup-row"><div class="setup-label">Level</div>
+        <div class="opts">
+          <button class="opt-btn active" onclick="setOpt('level','all',this)">All</button>
+          <button class="opt-btn" onclick="setOpt('level','a1',this)">A1</button>
+          <button class="opt-btn" onclick="setOpt('level','a2',this)">A2</button>
+          <button class="opt-btn" onclick="setOpt('level','b1',this)">B1</button>
+          <button class="opt-btn" onclick="setOpt('level','b2',this)">B2</button>
+        </div>
+      </div>
+      <div class="setup-row"><div class="setup-label">Count</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="setOpt('count',10,this)">10</button>
+          <button class="opt-btn active" onclick="setOpt('count',15,this)">15</button>
+          <button class="opt-btn" onclick="setOpt('count',20,this)">20</button>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startWriting()">Start →</button>
+    </div>
+  </div>
+  <div id="quizArea" style="display:none">
+    <div class="progress-bar"><div class="progress-fill" id="pFill" style="width:0%"></div></div>
+    <div id="qArea"></div>
+  </div>
+  <div id="doneArea" style="display:none">
+    <div class="done-card">
+      <div class="score" id="finalScore"></div>
+      <p style="color:var(--text2)" id="finalLabel"></p>
+      <button class="replay-btn" onclick="location.reload()">Try Again</button>
+    </div>
+  </div>
+</div>
+<script>
+const VOCAB=[
+  {es:'hablar',en:'to speak',level:'a1'},{es:'comer',en:'to eat',level:'a1'},{es:'vivir',en:'to live',level:'a1'},
+  {es:'querer',en:'to want',level:'a1'},{es:'el trabajo',en:'work',level:'a1'},
+  {es:'el vuelo',en:'flight',level:'a2'},{es:'reservar',en:'to book',level:'a2'},
+  {es:'sin embargo',en:'however',level:'a2'},{es:'aunque',en:'although',level:'a2'},
+  {es:'lograr',en:'to achieve',level:'b1'},{es:'superar',en:'to overcome',level:'b1'},
+  {es:'el plazo',en:'deadline',level:'b1'},{es:'sin duda',en:'without a doubt',level:'b1'},
+  {es:'asumir',en:'to assume',level:'b2'},{es:'el reto',en:'challenge',level:'b2'},
+  {es:'la perspectiva',en:'perspective',level:'b2'},{es:'dar por sentado',en:'to take for granted',level:'b2'},
+];
+let settings={mode:'en-es',level:'all',count:15},deck=[],idx=0,correct=0;
+function setOpt(k,v,btn){settings[k]=v;btn.closest('.opts').querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function startWriting(){
+  let pool=VOCAB;if(settings.level!=='all')pool=pool.filter(w=>w.level===settings.level);
+  deck=pool.sort(()=>Math.random()-.5).slice(0,settings.count);
+  idx=0;correct=0;
+  document.getElementById('setupArea').style.display='none';
+  document.getElementById('quizArea').style.display='block';
+  showQ();
+}
+function showQ(){
+  if(idx>=deck.length){document.getElementById('quizArea').style.display='none';document.getElementById('doneArea').style.display='block';
+    const pct=Math.round(correct/deck.length*100);
+    document.getElementById('finalScore').textContent=pct+'%';
+    document.getElementById('finalLabel').textContent=correct+' / '+deck.length+' correct';return;}
+  const w=deck[idx];
+  const prompt=settings.mode==='en-es'?w.en:w.es;
+  const answer=settings.mode==='en-es'?w.es:w.en;
+  document.getElementById('pFill').style.width=(idx/deck.length*100)+'%';
+  document.getElementById('qArea').innerHTML=`
+    <div class="q-card">
+      <div style="font-size:.82rem;color:var(--text2);margin-bottom:.5rem">Question ${idx+1} of ${deck.length}</div>
+      <div class="prompt">${prompt}</div>
+      <input class="ans-input" id="ansInput" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')checkAns('${answer.replace(/'/g,"\\'")}')">
+      <button class="check-btn" onclick="checkAns('${answer.replace(/'/g,"\\'")}')">Check</button>
+      <div id="fb" style="display:none" class="feedback"></div>
+      <button id="nextBtn" onclick="nextQ()" style="display:none" class="next-btn">Next →</button>
+    </div>
+  `;
+  document.getElementById('ansInput').focus();
+}
+function checkAns(ans){
+  const inp=document.getElementById('ansInput');
+  const given=inp.value.trim().toLowerCase();
+  const correct_ans=ans.toLowerCase();
+  inp.disabled=true;
+  const fb=document.getElementById('fb');fb.style.display='block';
+  if(given===correct_ans||given===correct_ans.replace(/^(el|la|los|las|un|una)\s/,'')){
+    fb.className='feedback correct';fb.textContent='✓ Correct! — '+ans;correct++;
+  } else {
+    fb.className='feedback wrong';fb.innerHTML='✗ Correct answer: <strong>'+ans+'</strong>';
+  }
+  document.getElementById('nextBtn').style.display='block';
+}
+function nextQ(){idx++;showQ();}
+const tv=localStorage.getItem('es_theme')||'dark';if(tv==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=tv==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

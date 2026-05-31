@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #2d1b0e; --bg2: #3a2415; --bg3: #4a2e1a;
+    --text: #f0e6d3; --text2: #c8b49a;
+    --accent: #c0392b; --accent2: #e67e22; --accent3: #f39c12;
+    --card: #3a2415; --border: #5a3825; --nav-bg: #1e1208;
+  }
+  .light {
+    --bg: #fdf6ec; --bg2: #f5ead8; --bg3: #ecdcc4;
+    --text: #2d1b0e; --text2: #6b4c2a;
+    --accent: #c0392b; --accent2: #e67e22; --accent3: #f39c12;
+    --card: #fff8ef; --border: #d4b896; --nav-bg: #3a1f0d;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Crimson Pro',Georgia,serif; font-size:18px; line-height:1.7; min-height:100vh; transition:background 0.3s,color 0.3s; }
+  nav { background:var(--nav-bg); padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:56px; position:sticky; top:0; z-index:100; border-bottom:2px solid var(--accent); }
+  .nav-brand { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--accent3); text-decoration:none; letter-spacing:0.05em; }
+  .nav-links { display:flex; gap:0.2rem; align-items:center; flex-wrap:wrap; }
+  .nav-links a { color:var(--text2); text-decoration:none; font-size:0.85rem; padding:0.3rem 0.6rem; border-radius:4px; transition:color 0.2s,background 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color:var(--accent3); background:rgba(192,57,43,0.2); }
+  .nav-controls { display:flex; gap:0.5rem; align-items:center; }
+  .btn-icon { background:none; border:1px solid var(--border); color:var(--text2); cursor:pointer; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.8rem; transition:all 0.2s; }
+  .btn-icon:hover { color:var(--accent3); border-color:var(--accent); }
+  .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+  .hamburger span { display:block; width:22px; height:2px; background:var(--text2); }
+  .mobile-menu { display:none; position:fixed; top:56px; left:0; right:0; background:var(--nav-bg); padding:1rem; z-index:99; border-bottom:2px solid var(--accent); flex-direction:column; gap:0.3rem; }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a { color:var(--text2); text-decoration:none; padding:0.5rem 0.8rem; border-radius:4px; font-size:1rem; transition:all 0.2s; }
+  .mobile-menu a:hover { color:var(--accent3); background:rgba(192,57,43,0.2); }
+
+  .page-header { text-align:center; padding:3rem 2rem 2rem; border-bottom:1px solid var(--border); background:linear-gradient(180deg,rgba(192,57,43,0.08) 0%,transparent 100%); }
+  .page-header h1 { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3rem); color:var(--accent3); margin-bottom:0.3rem; }
+  .page-header p { color:var(--text2); font-style:italic; }
+
+  .container { max-width:960px; margin:0 auto; padding:2rem 1.5rem; }
+
+  .streak-hero { display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; margin-bottom:2.5rem; }
+  .streak-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.5rem 2rem; text-align:center; min-width:130px; }
+  .streak-card .big { font-size:3rem; font-family:'Playfair Display',serif; color:var(--accent3); line-height:1; }
+  .streak-card .label { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--text2); margin-top:0.4rem; }
+  .streak-fire { font-size:2rem; }
+
+  .section-title { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--accent3); margin-bottom:1rem; padding-bottom:0.4rem; border-bottom:1px solid var(--border); }
+
+  .cal-section { margin-bottom:2.5rem; }
+  .cal-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
+  .cal-nav h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--text); }
+  .cal-btn { background:none; border:1px solid var(--border); color:var(--text2); cursor:pointer; padding:0.3rem 0.8rem; border-radius:6px; font-size:0.9rem; transition:all 0.2s; }
+  .cal-btn:hover { border-color:var(--accent); color:var(--accent3); }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-dow { text-align:center; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--text2); padding:0.3rem 0; }
+  .cal-cell { aspect-ratio:1; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:0.85rem; color:var(--text2); background:var(--bg2); border:1px solid transparent; cursor:default; }
+  .cal-cell.studied { background:rgba(192,57,43,0.25); color:var(--accent3); border-color:rgba(192,57,43,0.4); font-weight:600; }
+  .cal-cell.today { border-color:var(--accent3) !important; color:var(--accent3); font-weight:700; }
+  .cal-cell.today.studied { background:rgba(243,156,18,0.2); }
+  .cal-cell.empty { background:transparent; border:none; }
+
+  .goal-section { margin-bottom:2.5rem; }
+  .goal-wrap { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1.5rem; }
+  .goal-row { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; flex-wrap:wrap; }
+  .goal-row label { color:var(--text2); font-size:0.9rem; width:130px; }
+  .goal-row input[type=range] { flex:1; min-width:120px; accent-color:var(--accent); }
+  .goal-row .val { color:var(--accent3); font-weight:600; width:60px; }
+  .goal-track { margin-top:1rem; }
+  .goal-bar-label { display:flex; justify-content:space-between; margin-bottom:0.4rem; font-size:0.88rem; color:var(--text2); }
+  .goal-track-bar { background:var(--bg3); border-radius:20px; height:18px; overflow:hidden; }
+  .goal-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--accent),var(--accent3)); transition:width 0.5s ease; }
+  .goal-done { color:var(--accent3); font-size:0.88rem; margin-top:0.4rem; text-align:center; }
+
+  .lifetime-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:1rem; }
+  .lt-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:1rem; text-align:center; }
+  .lt-card .num { font-size:1.6rem; font-weight:700; color:var(--accent3); font-family:'Playfair Display',serif; }
+  .lt-card .lbl { font-size:0.75rem; color:var(--text2); text-transform:uppercase; letter-spacing:0.06em; }
+
+  .week-dots { display:flex; justify-content:center; gap:0.6rem; margin-top:1.2rem; }
+  .week-dot { width:14px; height:14px; border-radius:50%; border:2px solid var(--border); }
+  .week-dot.done { background:var(--accent3); border-color:var(--accent3); }
+  .week-dot.today { border-color:var(--accent); }
+
+  @media(max-width:640px) { .nav-links { display:none; } .hamburger { display:flex; } .streak-hero { gap:1rem; } }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a>
+    <a href="vocabulary.html">Vocabulary</a>
+    <a href="conjugation.html">Conjugation</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a>
+    <a href="listening.html">Listening</a>
+    <a href="reading.html">Reading</a>
+    <a href="mistakes.html">Mistakes</a>
+    <a href="progress.html">Progress</a>
+    <a href="schedule.html" class="active">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" id="themeBtn">☀</button>
+    <button class="btn-icon" id="fontDn">A−</button>
+    <button class="btn-icon" id="fontReset">A</button>
+    <button class="btn-icon" id="fontUp">A+</button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="grammar.html">Grammar</a>
+  <a href="vocabulary.html">Vocabulary</a>
+  <a href="conjugation.html">Conjugation</a>
+  <a href="quiz.html">Quiz</a>
+  <a href="flashcards.html">Flashcards</a>
+  <a href="writing.html">Writing</a>
+  <a href="listening.html">Listening</a>
+  <a href="reading.html">Reading</a>
+  <a href="mistakes.html">Mistakes</a>
+  <a href="progress.html">Progress</a>
+  <a href="schedule.html">Schedule</a>
+</div>
+
+<div class="page-header">
+  <h1>📅 Schedule</h1>
+  <p>Streaks, goals, and your study calendar</p>
+</div>
+
+<div class="container">
+
+  <!-- Streak hero -->
+  <div class="streak-hero" id="streakHero"></div>
+
+  <!-- This week dots -->
+  <div style="text-align:center;margin-bottom:2rem">
+    <div style="font-size:0.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">This week</div>
+    <div class="week-dots" id="weekDots"></div>
+    <div style="display:flex;justify-content:center;gap:0.6rem;margin-top:0.3rem;font-size:0.72rem;color:var(--text2)">
+      <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+    </div>
+  </div>
+
+  <!-- Daily goal -->
+  <div class="goal-section">
+    <div class="section-title">Daily Goal</div>
+    <div class="goal-wrap">
+      <div class="goal-row">
+        <label>Sessions per day</label>
+        <input type="range" id="goalSlider" min="1" max="10" value="3">
+        <span class="val" id="goalVal">3</span>
+      </div>
+      <div class="goal-track">
+        <div class="goal-bar-label">
+          <span>Today's progress</span>
+          <span id="goalProg">0 / 3</span>
+        </div>
+        <div class="goal-track-bar"><div class="goal-fill" id="goalFill" style="width:0%"></div></div>
+      </div>
+      <div class="goal-done" id="goalDone"></div>
+    </div>
+  </div>
+
+  <!-- Calendar -->
+  <div class="cal-section">
+    <div class="section-title">Study Calendar</div>
+    <div class="cal-nav">
+      <button class="cal-btn" id="calPrev">← Prev</button>
+      <h2 id="calTitle"></h2>
+      <button class="cal-btn" id="calNext">Next →</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div style="display:flex;gap:1rem;margin-top:0.8rem;font-size:0.8rem;color:var(--text2);align-items:center">
+      <span style="display:flex;align-items:center;gap:0.4rem"><span style="width:12px;height:12px;border-radius:3px;background:rgba(192,57,43,0.3);display:inline-block"></span>Studied</span>
+      <span style="display:flex;align-items:center;gap:0.4rem"><span style="width:12px;height:12px;border-radius:3px;border:2px solid var(--accent3);display:inline-block"></span>Today</span>
+    </div>
+  </div>
+
+  <!-- Lifetime stats -->
+  <div class="cal-section">
+    <div class="section-title">Lifetime Stats</div>
+    <div class="lifetime-grid" id="lifetimeGrid"></div>
+  </div>
+
+  <!-- Mark today button -->
+  <div style="text-align:center;margin-top:1rem;margin-bottom:3rem">
+    <button id="markTodayBtn" style="background:var(--accent);color:#fff;border:none;padding:0.8rem 2rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1rem;cursor:pointer;transition:all 0.2s">
+      ✓ Mark Today as Studied
+    </button>
+  </div>
+</div>
+
+<script>
+  // Theme / font
+  const theme = localStorage.getItem('es_theme') || 'dark';
+  if (theme === 'light') document.body.classList.add('light');
+  let fontSize = parseInt(localStorage.getItem('es_fontsize') || '18');
+  document.body.style.fontSize = fontSize + 'px';
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    localStorage.setItem('es_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  });
+  document.getElementById('fontDn').addEventListener('click', () => { fontSize=Math.max(14,fontSize-1); document.body.style.fontSize=fontSize+'px'; localStorage.setItem('es_fontsize',fontSize); });
+  document.getElementById('fontReset').addEventListener('click', () => { fontSize=18; document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); });
+  document.getElementById('fontUp').addEventListener('click', () => { fontSize=Math.min(26,fontSize+1); document.body.style.fontSize=fontSize+'px'; localStorage.setItem('es_fontsize',fontSize); });
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+
+  function getStudyDays() { try { return new Set(JSON.parse(localStorage.getItem('es_studyDays')||'[]')); } catch { return new Set(); } }
+  function getScores() { try { return JSON.parse(localStorage.getItem('es_scores')||'[]'); } catch { return []; } }
+
+  function todayStr() { return new Date().toISOString().slice(0,10); }
+
+  function computeStreak(days) {
+    if (!days.size) return {current:0, longest:0};
+    const sorted = [...days].sort();
+    let current = 0, longest = 0, streak = 0;
+    const t = todayStr();
+    // current streak backwards from today
+    let d = new Date(t);
+    while (true) {
+      const s = d.toISOString().slice(0,10);
+      if (days.has(s)) { current++; d.setDate(d.getDate()-1); }
+      else if (s === t) { d.setDate(d.getDate()-1); } // might not have studied yet today
+      else break;
+    }
+    // longest
+    streak = 1;
+    for (let i=1; i<sorted.length; i++) {
+      const prev = new Date(sorted[i-1]); prev.setDate(prev.getDate()+1);
+      if (prev.toISOString().slice(0,10) === sorted[i]) { streak++; longest = Math.max(longest,streak); }
+      else { streak = 1; }
+    }
+    longest = Math.max(longest, current, 1);
+    return {current, longest};
+  }
+
+  function renderStreakHero(days, scores) {
+    const {current, longest} = computeStreak(days);
+    const todayStudied = days.has(todayStr());
+    document.getElementById('streakHero').innerHTML = `
+      <div class="streak-card"><div class="big"><span class="streak-fire">${current > 0 ? '🔥' : '💤'}</span> ${current}</div><div class="label">Current Streak</div></div>
+      <div class="streak-card"><div class="big">🏆 ${longest}</div><div class="label">Longest Streak</div></div>
+      <div class="streak-card"><div class="big">📚 ${days.size}</div><div class="label">Days Studied</div></div>
+      <div class="streak-card"><div class="big">${todayStudied ? '✅' : '⬜'}</div><div class="label">Today</div></div>
+    `;
+  }
+
+  function renderWeekDots(days) {
+    const container = document.getElementById('weekDots');
+    const today = new Date();
+    const dayOfWeek = (today.getDay() + 6) % 7; // Mon=0
+    const dots = [];
+    for (let i=0; i<7; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - dayOfWeek + i);
+      const s = d.toISOString().slice(0,10);
+      const isToday = s === todayStr();
+      const studied = days.has(s);
+      dots.push(`<div class="week-dot ${studied?'done':''} ${isToday?'today':''}"></div>`);
+    }
+    container.innerHTML = dots.join('');
+  }
+
+  // Calendar
+  let calYear = new Date().getFullYear();
+  let calMonth = new Date().getMonth();
+
+  function renderCalendar(days) {
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('calTitle').textContent = `${months[calMonth]} ${calYear}`;
+    const grid = document.getElementById('calGrid');
+    const dows = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    let html = dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+
+    const firstDay = new Date(calYear, calMonth, 1);
+    const lastDay = new Date(calYear, calMonth+1, 0);
+    const startDow = (firstDay.getDay()+6)%7; // Mon=0
+    const today = todayStr();
+
+    for (let i=0; i<startDow; i++) html += '<div class="cal-cell empty"></div>';
+    for (let d=1; d<=lastDay.getDate(); d++) {
+      const ds = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const studied = days.has(ds);
+      const isToday = ds === today;
+      html += `<div class="cal-cell ${studied?'studied':''} ${isToday?'today':''}">${d}</div>`;
+    }
+    grid.innerHTML = html;
+  }
+
+  document.getElementById('calPrev').addEventListener('click', () => {
+    calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(getStudyDays());
+  });
+  document.getElementById('calNext').addEventListener('click', () => {
+    calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(getStudyDays());
+  });
+
+  // Goal
+  const goalSlider = document.getElementById('goalSlider');
+  const savedGoal = parseInt(localStorage.getItem('es_dailyGoal')||'3');
+  goalSlider.value = savedGoal;
+  document.getElementById('goalVal').textContent = savedGoal;
+
+  function updateGoal() {
+    const goal = parseInt(goalSlider.value);
+    localStorage.setItem('es_dailyGoal', goal);
+    document.getElementById('goalVal').textContent = goal;
+    const scores = getScores();
+    const todaySessions = scores.filter(s => s.date && s.date.slice(0,10) === todayStr()).length;
+    const pct = Math.min(100, Math.round(todaySessions/goal*100));
+    document.getElementById('goalProg').textContent = `${todaySessions} / ${goal}`;
+    document.getElementById('goalFill').style.width = pct+'%';
+    document.getElementById('goalDone').textContent = todaySessions >= goal ? '🎉 Goal reached for today!' : '';
+  }
+  goalSlider.addEventListener('input', updateGoal);
+
+  function renderLifetime(days, scores) {
+    const totalQ = scores.reduce((a,s)=>a+s.total,0);
+    const totalRight = scores.reduce((a,s)=>a+s.correct,0);
+    const avgPct = totalQ ? Math.round(totalRight/totalQ*100) : 0;
+    const {longest} = computeStreak(days);
+    document.getElementById('lifetimeGrid').innerHTML = `
+      <div class="lt-card"><div class="num">${days.size}</div><div class="lbl">Days Studied</div></div>
+      <div class="lt-card"><div class="num">${scores.length}</div><div class="lbl">Quiz Sessions</div></div>
+      <div class="lt-card"><div class="num">${totalQ}</div><div class="lbl">Questions Done</div></div>
+      <div class="lt-card"><div class="num">${avgPct}%</div><div class="lbl">Overall Accuracy</div></div>
+      <div class="lt-card"><div class="num">${longest}</div><div class="lbl">Best Streak</div></div>
+    `;
+  }
+
+  document.getElementById('markTodayBtn').addEventListener('click', () => {
+    const days = getStudyDays();
+    const t = todayStr();
+    days.add(t);
+    const arr = [...days];
+    localStorage.setItem('es_studyDays', JSON.stringify(arr));
+    // compute streak
+    let streak = 0, d = new Date(t);
+    while (days.has(d.toISOString().slice(0,10))) { streak++; d.setDate(d.getDate()-1); }
+    localStorage.setItem('es_streak', streak);
+    init();
+    const btn = document.getElementById('markTodayBtn');
+    btn.textContent = '✅ Marked!';
+    btn.style.background = 'var(--accent3)';
+    setTimeout(() => { btn.textContent = '✓ Mark Today as Studied'; btn.style.background = 'var(--accent)'; }, 2000);
+  });
+
+  function init() {
+    const days = getStudyDays();
+    const scores = getScores();
+    renderStreakHero(days, scores);
+    renderWeekDots(days);
+    renderCalendar(days);
+    renderLifetime(days, scores);
+    updateGoal();
+  }
+
+  init();
+</script>
+</body>
+</html>

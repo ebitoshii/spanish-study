@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:color .2s,background .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+
+.filters{display:flex;gap:.5rem;padding:1rem 2rem;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--bg2);}
+.filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .8rem;border-radius:20px;cursor:pointer;font-size:.85rem;font-family:inherit;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.search-bar{padding:.8rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
+.search-bar input{width:100%;max-width:400px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem 1rem;border-radius:6px;font-family:inherit;font-size:.9rem;outline:none;}
+.search-bar input:focus{border-color:var(--accent);}
+.search-bar input::placeholder{color:var(--text2);}
+
+.grammar-list{max-width:900px;margin:0 auto;padding:1.5rem 2rem;}
+.rule-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:1rem;overflow:hidden;}
+.rule-header{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;cursor:pointer;user-select:none;}
+.rule-header:hover{background:var(--bg3);}
+.rule-level{font-size:.7rem;padding:.15rem .5rem;border-radius:12px;font-weight:600;letter-spacing:.05em;background:var(--bg3);color:var(--text2);border:1px solid var(--border);white-space:nowrap;}
+.rule-level.a1{background:rgba(39,174,96,.15);color:#27ae60;border-color:#27ae60;}
+.rule-level.a2{background:rgba(41,128,185,.15);color:#2980b9;border-color:#2980b9;}
+.rule-level.b1{background:rgba(192,57,43,.15);color:var(--accent);border-color:var(--accent);}
+.rule-level.b2{background:rgba(243,156,18,.15);color:var(--accent3);border-color:var(--accent3);}
+.rule-level.c1{background:rgba(142,68,173,.15);color:#9b59b6;border-color:#9b59b6;}
+.rule-name{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--text);flex:1;}
+.rule-es{font-size:.85rem;color:var(--accent2);font-style:italic;}
+.rule-toggle{color:var(--text2);font-size:.8rem;margin-left:auto;transition:transform .2s;}
+.rule-body{display:none;padding:0 1.2rem 1.2rem;border-top:1px solid var(--border);}
+.rule-body.open{display:block;}
+.rule-desc{margin:1rem 0 .5rem;color:var(--text);}
+.rule-formula{background:var(--bg3);border-left:3px solid var(--accent);padding:.6rem 1rem;margin:.5rem 0;font-family:monospace;font-size:.9rem;color:var(--accent3);border-radius:0 4px 4px 0;}
+.examples{margin-top:.8rem;}
+.example{background:var(--bg2);border-radius:6px;padding:.6rem 1rem;margin:.4rem 0;}
+.example-es{color:var(--text);font-weight:600;}
+.example-en{color:var(--text2);font-size:.88rem;font-style:italic;}
+.nuance-box{background:rgba(243,156,18,.08);border:1px solid rgba(243,156,18,.3);border-radius:6px;padding:.8rem 1rem;margin-top:.8rem;}
+.nuance-title{color:var(--accent3);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;}
+
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.grammar-list{padding:1rem;}.filters{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html" class="active">Grammar</a>
+    <a href="vocabulary.html">Vocab</a>
+    <a href="reading.html">Reading</a>
+    <a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a>
+    <a href="conjugation.html">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a>
+    <a href="progress.html">Progress</a>
+    <a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a>
+  <a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocabulary</a>
+  <a href="reading.html">📖 Reading</a>
+  <a href="listening.html">🎧 Listening</a>
+  <a href="quiz.html">🧠 Quiz</a>
+  <a href="flashcards.html">🃏 Flashcards</a>
+  <a href="writing.html">✍️ Writing</a>
+  <a href="conjugation.html">🔀 Conjugation</a>
+  <a href="mistakes.html">❌ Mistakes</a>
+  <a href="progress.html">📊 Progress</a>
+  <a href="schedule.html">📅 Schedule</a>
+</div>
+
+<div class="page-header">
+  <div class="page-title">Grammar — Gramática</div>
+  <div class="page-sub">Rules, structures, and nuances from A1 to C1</div>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search grammar rules..." oninput="filterAll()">
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+  <button class="filter-btn" onclick="setFilter('a1', this)">A1</button>
+  <button class="filter-btn" onclick="setFilter('a2', this)">A2</button>
+  <button class="filter-btn" onclick="setFilter('b1', this)">B1</button>
+  <button class="filter-btn" onclick="setFilter('b2', this)">B2</button>
+  <button class="filter-btn" onclick="setFilter('c1', this)">C1</button>
+</div>
+
+<div class="grammar-list" id="grammarList"></div>
+
+<script src="shared-nav.js"></script>
+<script>
+const GRAMMAR = [
+  {
+    id: 1, level: 'a1', name: 'Ser vs Estar', es: 'Ser y Estar',
+    desc: 'Both mean "to be" but are used in fundamentally different contexts. Ser is for permanent or inherent characteristics; Estar is for states, conditions, and location.',
+    formula: 'SER: identity, origin, material, time, possession | ESTAR: location, emotion, condition, progressive',
+    examples: [
+      {es: 'Soy médico.', en: 'I am a doctor. (profession → ser)'},
+      {es: 'Estoy cansado.', en: 'I am tired. (state → estar)'},
+      {es: 'La reunión es en la oficina.', en: 'The meeting is at the office. (event → ser)'},
+      {es: 'Estoy en la oficina.', en: 'I am at the office. (physical location → estar)'},
+    ],
+    nuance: 'Some adjectives change meaning: "Es aburrido" = He is a boring person. "Está aburrido" = He is bored right now.'
+  },
+  {
+    id: 2, level: 'a1', name: 'Present Tense Regular Verbs', es: 'Presente de Indicativo',
+    desc: 'Regular verbs follow predictable patterns based on their infinitive ending (-ar, -er, -ir).',
+    formula: '-AR: o/as/a/amos/áis/an | -ER: o/es/e/emos/éis/en | -IR: o/es/e/imos/ís/en',
+    examples: [
+      {es: 'Yo hablo español todos los días.', en: 'I speak Spanish every day.'},
+      {es: 'Ella come en casa.', en: 'She eats at home.'},
+      {es: 'Nosotros vivimos en Singapur.', en: 'We live in Singapore.'},
+    ],
+    nuance: null
+  },
+  {
+    id: 3, level: 'a1', name: 'Definite & Indefinite Articles', es: 'Artículos',
+    desc: 'Spanish nouns have grammatical gender. Articles must agree in gender and number.',
+    formula: 'Definite: el/la/los/las | Indefinite: un/una/unos/unas',
+    examples: [
+      {es: 'El libro es interesante.', en: 'The book is interesting.'},
+      {es: 'Necesito una silla.', en: 'I need a chair.'},
+      {es: 'Las flores son bonitas.', en: 'The flowers are beautiful.'},
+    ],
+    nuance: 'Use "el" before feminine nouns starting with stressed "a": el agua, el hacha — but las aguas, las hachas in plural.'
+  },
+  {
+    id: 4, level: 'a2', name: 'Preterite Tense', es: 'Pretérito Indefinido',
+    desc: 'Used for completed actions in the past at a specific time. The Spanish "simple past".',
+    formula: '-AR: é/aste/ó/amos/asteis/aron | -ER/-IR: í/iste/ió/imos/isteis/ieron',
+    examples: [
+      {es: 'Ayer comí sushi.', en: 'Yesterday I ate sushi.'},
+      {es: 'Ella llegó tarde a la reunión.', en: 'She arrived late to the meeting.'},
+      {es: '¿Dónde viviste de niño?', en: 'Where did you live as a child?'},
+    ],
+    nuance: null
+  },
+  {
+    id: 5, level: 'a2', name: 'Imperfect Tense', es: 'Pretérito Imperfecto',
+    desc: 'Used for ongoing or habitual past actions, background descriptions, and states of mind in the past.',
+    formula: '-AR: aba/abas/aba/ábamos/abais/aban | -ER/-IR: ía/ías/ía/íamos/íais/ían',
+    examples: [
+      {es: 'Cuando era joven, vivía en Madrid.', en: 'When I was young, I lived in Madrid.'},
+      {es: 'Todos los días tomaba café por la mañana.', en: 'Every day I used to have coffee in the morning.'},
+      {es: 'Llovía cuando salimos.', en: 'It was raining when we left.'},
+    ],
+    nuance: 'Preterite vs Imperfect: Preterite = completed action with endpoint. Imperfect = ongoing/habitual or background context.'
+  },
+  {
+    id: 6, level: 'a2', name: 'Direct & Indirect Object Pronouns', es: 'Pronombres de Complemento',
+    desc: 'Replace nouns that are the direct object (what) or indirect object (to whom) of a verb.',
+    formula: 'DO: me/te/lo,la/nos/os/los,las | IO: me/te/le/nos/os/les',
+    examples: [
+      {es: 'Lo veo todos los días.', en: 'I see him every day. (lo = direct object)'},
+      {es: 'Le doy el libro a María.', en: 'I give the book to María. (le = indirect object)'},
+      {es: 'Se lo digo mañana.', en: 'I\'ll tell it to him/her tomorrow. (le → se before lo)'},
+    ],
+    nuance: 'When IO "le/les" precedes DO "lo/la/los/las", le/les change to "se" to avoid le lo.'
+  },
+  {
+    id: 7, level: 'b1', name: 'Present Subjunctive', es: 'Presente de Subjuntivo',
+    desc: 'Used to express doubt, desire, emotion, necessity, or hypothetical situations. Required after certain conjunctions and expressions.',
+    formula: 'Take yo present, drop -o, add opposite vowel endings: -AR → e/es/e/emos/éis/en | -ER/-IR → a/as/a/amos/áis/an',
+    examples: [
+      {es: 'Quiero que vengas.', en: 'I want you to come.'},
+      {es: 'Es importante que estudies.', en: 'It\'s important that you study.'},
+      {es: 'Dudo que sea verdad.', en: 'I doubt that it\'s true.'},
+      {es: 'Cuando llegues, llámame.', en: 'When you arrive, call me.'},
+    ],
+    nuance: 'WEIRDO triggers: Wish/Want, Emotion, Impersonal expressions, Recommendations, Doubt/Denial, Ojalá'
+  },
+  {
+    id: 8, level: 'b1', name: 'Por vs Para', es: 'Por y Para',
+    desc: 'Both translate as "for" but have distinct uses. Por refers to cause/exchange/duration; Para refers to purpose/destination/deadline.',
+    formula: 'POR: cause, duration, exchange, on behalf of, movement through | PARA: purpose, destination, deadline, recipient, opinion',
+    examples: [
+      {es: 'Te llamo por teléfono.', en: 'I\'ll call you by phone. (means → por)'},
+      {es: 'Estudia para ser piloto.', en: 'He studies to be a pilot. (purpose → para)'},
+      {es: 'Lo hice por ti.', en: 'I did it because of you / for your sake. (cause → por)'},
+      {es: 'El informe es para el lunes.', en: 'The report is due Monday. (deadline → para)'},
+    ],
+    nuance: 'Mnemonic: PDDDE for Para (Purpose, Destination, Deadline, Despite [contrast], Employment). DEEMS for Por (Duration, Exchange, Emotions/motives, Movement, Substitution).'
+  },
+  {
+    id: 9, level: 'b1', name: 'Reflexive Verbs', es: 'Verbos Reflexivos',
+    desc: 'Verbs where the subject and object are the same — the subject acts on itself. Marked with -se in the infinitive.',
+    formula: 'Reflexive pronouns: me/te/se/nos/os/se (placed before conjugated verb or attached to infinitive)',
+    examples: [
+      {es: 'Me levanto a las seis.', en: 'I get up at six.'},
+      {es: 'Ella se peina antes de salir.', en: 'She combs her hair before going out.'},
+      {es: 'Nos divertimos mucho anoche.', en: 'We had a lot of fun last night.'},
+    ],
+    nuance: 'Many verbs change meaning when reflexive: ir (to go) → irse (to leave/go away); poner (to put) → ponerse (to put on clothing).'
+  },
+  {
+    id: 10, level: 'b2', name: 'Imperfect Subjunctive', es: 'Pretérito Imperfecto de Subjuntivo',
+    desc: 'Used in hypothetical situations (si clauses), polite requests, and when the main verb is in the past. Formed from the ellos preterite stem.',
+    formula: 'Ellos preterite → drop -ron → add: ra/ras/ra/ramos/rais/ran',
+    examples: [
+      {es: 'Si tuviera más tiempo, viajaría.', en: 'If I had more time, I would travel.'},
+      {es: 'Quería que lo hicieras tú.', en: 'I wanted you to do it.'},
+      {es: 'Quisiera un café, por favor.', en: 'I would like a coffee, please. (polite)'},
+    ],
+    nuance: 'Si clauses: If [imperfect subj] + [conditional] = hypothetical. If [present/future indicative] + [future] = real condition.'
+  },
+  {
+    id: 11, level: 'b2', name: 'Conditional Tense', es: 'Condicional Simple',
+    desc: 'Expresses what would happen under certain conditions. Also used for polite requests and reported speech.',
+    formula: 'Infinitive + ía/ías/ía/íamos/íais/ían (irregular stems: tener→tendr, poder→podr, hacer→har, etc.)',
+    examples: [
+      {es: 'Yo viajaría más si pudiera.', en: 'I would travel more if I could.'},
+      {es: '¿Podrías ayudarme?', en: 'Could you help me? (polite request)'},
+      {es: 'Dijo que vendría mañana.', en: 'He said he would come tomorrow. (reported speech)'},
+    ],
+    nuance: null
+  },
+  {
+    id: 12, level: 'c1', name: 'Pluperfect & Perfect Subjunctive', es: 'Subjuntivo Compuesto',
+    desc: 'Used to express doubt, emotion, or hypothetical situations about past events. Present perfect subj: haya + participle. Pluperfect subj: hubiera + participle.',
+    formula: 'Pres. perfect subj: haya/hayas/haya/hayamos/hayáis/hayan + participio\nPluperfect subj: hubiera + participio',
+    examples: [
+      {es: 'No creo que haya llegado todavía.', en: 'I don\'t think he has arrived yet.'},
+      {es: 'Si hubiera estudiado más, habría aprobado.', en: 'If I had studied more, I would have passed.'},
+      {es: 'Es una lástima que no hayas venido.', en: 'It\'s a shame you didn\'t come.'},
+    ],
+    nuance: 'The pluperfect subjunctive in si clauses always pairs with the conditional perfect: Si hubiera + [past participle] → habría + [past participle].'
+  },
+  {
+    id: 13, level: 'b1', name: 'Future Tense', es: 'Futuro Simple',
+    desc: 'Expresses future actions, predictions, or probability in the present.',
+    formula: 'Infinitive + é/ás/á/emos/éis/án (irregular: tener→tendr, hacer→har, poder→podr, decir→dir)',
+    examples: [
+      {es: 'Mañana iré al aeropuerto.', en: 'Tomorrow I will go to the airport.'},
+      {es: '¿Dónde estará él ahora?', en: 'I wonder where he is now. (probability)'},
+      {es: 'Haré el informe esta tarde.', en: 'I will write the report this afternoon.'},
+    ],
+    nuance: null
+  },
+  {
+    id: 14, level: 'a2', name: 'Adjective Agreement', es: 'Concordancia de Adjetivos',
+    desc: 'Adjectives must agree in gender and number with the noun they modify. Most adjectives follow predictable patterns.',
+    formula: 'Masc sing: -o | Fem sing: -a | Masc plural: -os | Fem plural: -as\nAdjectives ending in -e or consonant: same for masc/fem, add -s/-es for plural',
+    examples: [
+      {es: 'El libro rojo / La casa roja', en: 'The red book / The red house'},
+      {es: 'Los libros rojos / Las casas rojas', en: 'The red books / The red houses'},
+      {es: 'Un hombre inteligente / Una mujer inteligente', en: 'An intelligent man / woman'},
+    ],
+    nuance: 'Shortened adjectives before masculine singular nouns: buen, mal, gran, primer, tercer (e.g., un buen piloto).'
+  },
+  {
+    id: 15, level: 'b2', name: 'Passive Voice', es: 'Voz Pasiva',
+    desc: 'Spanish has two passive constructions: the true passive (ser + participle) and the reflexive passive (se + verb).',
+    formula: 'True: ser + past participle (agrees with subject) + por + agent\nReflexive: se + 3rd person verb',
+    examples: [
+      {es: 'El libro fue escrito por Cervantes.', en: 'The book was written by Cervantes.'},
+      {es: 'Se habla español aquí.', en: 'Spanish is spoken here.'},
+      {es: 'Se vendieron todos los billetes.', en: 'All the tickets were sold.'},
+    ],
+    nuance: 'The reflexive passive (se) is far more common in everyday speech. The true passive is more formal and common in writing.'
+  },
+];
+
+let activeFilter = 'all';
+
+function renderGrammar(data) {
+  const container = document.getElementById('grammarList');
+  if (!data.length) { container.innerHTML = '<p style="color:var(--text2);padding:2rem 0">No rules found.</p>'; return; }
+  container.innerHTML = data.map(r => `
+    <div class="rule-card" data-level="${r.level}">
+      <div class="rule-header" onclick="toggleRule(${r.id})">
+        <span class="rule-level ${r.level}">${r.level.toUpperCase()}</span>
+        <span class="rule-name">${r.name}</span>
+        <span class="rule-es">${r.es}</span>
+        <span class="rule-toggle" id="tog-${r.id}">▶</span>
+      </div>
+      <div class="rule-body" id="body-${r.id}">
+        <p class="rule-desc">${r.desc}</p>
+        <div class="rule-formula">${r.formula.replace(/\n/g, '<br>')}</div>
+        <div class="examples">
+          ${r.examples.map(e => `<div class="example"><div class="example-es">${e.es}</div><div class="example-en">${e.en}</div></div>`).join('')}
+        </div>
+        ${r.nuance ? `<div class="nuance-box"><div class="nuance-title">⚠ Nuance Note</div>${r.nuance}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleRule(id) {
+  const body = document.getElementById('body-' + id);
+  const tog = document.getElementById('tog-' + id);
+  const open = body.classList.toggle('open');
+  tog.textContent = open ? '▼' : '▶';
+}
+
+function filterAll() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let data = GRAMMAR;
+  if (activeFilter !== 'all') data = data.filter(r => r.level === activeFilter);
+  if (q) data = data.filter(r =>
+    r.name.toLowerCase().includes(q) ||
+    r.es.toLowerCase().includes(q) ||
+    r.desc.toLowerCase().includes(q)
+  );
+  renderGrammar(data);
+}
+
+function setFilter(level, btn) {
+  activeFilter = level;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterAll();
+}
+
+renderGrammar(GRAMMAR);
+
+// Shared controls
+const theme = localStorage.getItem('es_theme') || 'dark';
+if (theme === 'light') document.body.classList.add('light');
+document.querySelectorAll('.themeBtn').forEach(b => b.textContent = theme === 'light' ? '🌙' : '☀️');
+const fs = parseInt(localStorage.getItem('es_fontsize') || '18');
+document.body.style.fontSize = fs + 'px';
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('es_theme', isLight ? 'light' : 'dark');
+  document.querySelectorAll('.themeBtn').forEach(b => b.textContent = isLight ? '🌙' : '☀️');
+}
+function toggleFont(d) { let f = parseInt(document.body.style.fontSize||'18'); f=Math.min(24,Math.max(14,f+d)); document.body.style.fontSize=f+'px'; localStorage.setItem('es_fontsize',f); }
+function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+</script>
+</body>
+</html>

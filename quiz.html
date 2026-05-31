@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+
+.quiz-setup{max-width:600px;margin:2rem auto;padding:0 2rem;}
+.setup-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;}
+.setup-row{margin-bottom:1rem;}
+.setup-label{font-size:.85rem;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;}
+.setup-options{display:flex;gap:.4rem;flex-wrap:wrap;}
+.opt-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .7rem;border-radius:20px;cursor:pointer;font-size:.85rem;font-family:inherit;transition:all .2s;}
+.opt-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.start-btn{width:100%;background:var(--accent);color:#fff;border:none;padding:.8rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1.1rem;cursor:pointer;transition:background .2s;margin-top:.5rem;}
+.start-btn:hover{background:var(--accent2);}
+
+.quiz-area{display:none;max-width:640px;margin:2rem auto;padding:0 2rem;}
+.progress-bar{background:var(--bg3);border-radius:20px;height:6px;margin-bottom:1.5rem;overflow:hidden;}
+.progress-fill{background:var(--accent);height:100%;border-radius:20px;transition:width .4s;}
+.q-count{color:var(--text2);font-size:.85rem;margin-bottom:1rem;}
+.question-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.8rem;margin-bottom:1rem;}
+.q-type-badge{font-size:.72rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem;}
+.q-prompt{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--text);margin-bottom:.3rem;}
+.q-hint{color:var(--text2);font-size:.9rem;font-style:italic;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem;}
+.choice-btn{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.7rem 1rem;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.95rem;text-align:left;transition:all .2s;}
+.choice-btn:hover:not(:disabled){background:var(--bg3);border-color:var(--accent2);}
+.choice-btn.correct{background:rgba(39,174,96,.2);border-color:var(--green);color:var(--green);}
+.choice-btn.wrong{background:rgba(231,76,60,.15);border-color:var(--red);color:var(--red);}
+.feedback{padding:.8rem 1rem;border-radius:8px;margin-top:.8rem;font-size:.95rem;}
+.feedback.correct{background:rgba(39,174,96,.15);border:1px solid var(--green);color:var(--green);}
+.feedback.wrong{background:rgba(231,76,60,.1);border:1px solid var(--red);color:var(--red);}
+.next-btn{width:100%;background:var(--accent);color:#fff;border:none;padding:.7rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1rem;cursor:pointer;margin-top:.8rem;transition:background .2s;}
+.next-btn:hover{background:var(--accent2);}
+
+.results{display:none;max-width:500px;margin:2rem auto;padding:0 2rem;text-align:center;}
+.results-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:2rem;}
+.result-score{font-family:'Playfair Display',serif;font-size:3rem;color:var(--accent3);}
+.result-label{color:var(--text2);margin-bottom:1rem;}
+.result-breakdown{text-align:left;margin:1rem 0;border-top:1px solid var(--border);padding-top:1rem;}
+.result-row{display:flex;justify-content:space-between;padding:.3rem 0;font-size:.9rem;border-bottom:1px dashed var(--border);}
+.replay-btn{background:var(--accent);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1rem;cursor:pointer;margin-top:1rem;transition:background .2s;}
+.replay-btn:hover{background:var(--accent2);}
+
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.choices{grid-template-columns:1fr;}.quiz-setup,.quiz-area,.results{padding:0 1rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a>
+    <a href="vocabulary.html">Vocab</a>
+    <a href="reading.html">Reading</a>
+    <a href="listening.html">Listening</a>
+    <a href="quiz.html" class="active">Quiz</a>
+    <a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a>
+    <a href="conjugation.html">Conjugation</a>
+    <a href="mistakes.html">Mistakes</a>
+    <a href="progress.html">Progress</a>
+    <a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a>
+  <a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocabulary</a>
+  <a href="quiz.html">🧠 Quiz</a>
+  <a href="flashcards.html">🃏 Flashcards</a>
+  <a href="writing.html">✍️ Writing</a>
+  <a href="mistakes.html">❌ Mistakes</a>
+  <a href="progress.html">📊 Progress</a>
+</div>
+
+<div class="page-header">
+  <div class="page-title">Quiz — Cuestionario</div>
+  <div class="page-sub">Vocabulary, grammar, and translation drills with spaced repetition</div>
+</div>
+
+<div class="quiz-setup" id="setupArea">
+  <div class="setup-card">
+    <div class="setup-row">
+      <div class="setup-label">Level</div>
+      <div class="setup-options">
+        <button class="opt-btn active" onclick="setOpt('level','all',this)">All</button>
+        <button class="opt-btn" onclick="setOpt('level','a1',this)">A1</button>
+        <button class="opt-btn" onclick="setOpt('level','a2',this)">A2</button>
+        <button class="opt-btn" onclick="setOpt('level','b1',this)">B1</button>
+        <button class="opt-btn" onclick="setOpt('level','b2',this)">B2</button>
+        <button class="opt-btn" onclick="setOpt('level','c1',this)">C1</button>
+      </div>
+    </div>
+    <div class="setup-row">
+      <div class="setup-label">Type</div>
+      <div class="setup-options">
+        <button class="opt-btn active" onclick="setOpt('type','all',this)">All</button>
+        <button class="opt-btn" onclick="setOpt('type','es-en',this)">ES → EN</button>
+        <button class="opt-btn" onclick="setOpt('type','en-es',this)">EN → ES</button>
+      </div>
+    </div>
+    <div class="setup-row">
+      <div class="setup-label">Questions</div>
+      <div class="setup-options">
+        <button class="opt-btn" onclick="setOpt('count',10,this)">10</button>
+        <button class="opt-btn active" onclick="setOpt('count',20,this)">20</button>
+        <button class="opt-btn" onclick="setOpt('count',30,this)">30</button>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+</div>
+
+<div class="quiz-area" id="quizArea">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="q-count" id="qCount"></div>
+  <div class="question-card">
+    <div class="q-type-badge" id="qTypeBadge"></div>
+    <div class="q-prompt" id="qPrompt"></div>
+    <div class="q-hint" id="qHint"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback" style="display:none"></div>
+  </div>
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()" style="display:none">Next →</button>
+</div>
+
+<div class="results" id="resultsArea">
+  <div class="results-card">
+    <div class="result-score" id="resultScore"></div>
+    <div class="result-label" id="resultLabel"></div>
+    <div class="result-breakdown" id="resultBreakdown"></div>
+    <button class="replay-btn" onclick="location.reload()">Try Again</button>
+    <a href="mistakes.html" style="display:block;margin-top:.8rem;color:var(--accent2);text-decoration:none;font-size:.9rem">Review Mistakes →</a>
+  </div>
+</div>
+
+<script>
+const VOCAB = [
+  {es:'hablar',en:'to speak',level:'a1'},{es:'comer',en:'to eat',level:'a1'},{es:'vivir',en:'to live',level:'a1'},
+  {es:'la casa',en:'house / home',level:'a1'},{es:'el tiempo',en:'weather / time',level:'a1'},
+  {es:'siempre',en:'always',level:'a1'},{es:'querer',en:'to want / to love',level:'a1'},
+  {es:'la comida',en:'food / meal',level:'a1'},{es:'el trabajo',en:'work / job',level:'a1'},
+  {es:'el vuelo',en:'flight',level:'a2'},{es:'el aeropuerto',en:'airport',level:'a2'},
+  {es:'reservar',en:'to book',level:'a2'},{es:'el billete',en:'ticket',level:'a2'},
+  {es:'sin embargo',en:'however',level:'a2'},{es:'aunque',en:'although',level:'a2'},
+  {es:'la salud',en:'health',level:'a2'},{es:'el sabor',en:'flavor',level:'a2'},
+  {es:'sin duda',en:'without a doubt',level:'b1'},{es:'a pesar de',en:'in spite of',level:'b1'},
+  {es:'el medio ambiente',en:'environment',level:'b1'},{es:'el desarrollo',en:'development',level:'b1'},
+  {es:'lograr',en:'to achieve',level:'b1'},{es:'superar',en:'to overcome',level:'b1'},
+  {es:'el plazo',en:'deadline',level:'b1'},{es:'la empresa',en:'company',level:'b1'},
+  {es:'la conciencia',en:'awareness',level:'b2'},{es:'el ámbito',en:'field / domain',level:'b2'},
+  {es:'dar por sentado',en:'to take for granted',level:'b2'},{es:'la perspectiva',en:'perspective',level:'b2'},
+  {es:'asumir',en:'to assume',level:'b2'},{es:'el reto',en:'challenge',level:'b2'},
+  {es:'no obstante',en:'nevertheless',level:'c1'},{es:'por ende',en:'therefore',level:'c1'},
+  {es:'en aras de',en:'for the sake of',level:'c1'},{es:'la tesitura',en:'predicament',level:'c1'},
+  {es:'dilucidar',en:'to elucidate',level:'c1'},{es:'palmario',en:'obvious / evident',level:'c1'},
+];
+
+let settings = { level: 'all', type: 'all', count: 20 };
+let queueData = [], currentQ = 0, correctCount = 0, wrongItems = [];
+let srWeights = JSON.parse(localStorage.getItem('es_srWeights') || '{}');
+
+function setOpt(key, val, btn) {
+  settings[key] = val;
+  btn.closest('.setup-options').querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function buildQueue() {
+  let pool = VOCAB;
+  if (settings.level !== 'all') pool = pool.filter(w => w.level === settings.level);
+  // Weighted selection
+  const weighted = [];
+  pool.forEach(w => {
+    const wt = srWeights[w.es] || 1;
+    for (let i = 0; i < wt; i++) weighted.push(w);
+  });
+  const shuffled = weighted.sort(() => Math.random() - 0.5);
+  // Deduplicate
+  const seen = new Set();
+  const unique = [];
+  for (const w of shuffled) {
+    if (!seen.has(w.es)) { seen.add(w.es); unique.push(w); }
+    if (unique.length >= settings.count) break;
+  }
+  return unique;
+}
+
+function makeQuestion(word) {
+  const dir = settings.type === 'all' ? (Math.random() > 0.5 ? 'es-en' : 'en-es') : settings.type;
+  const wrong = VOCAB.filter(w => w.es !== word.es).sort(() => Math.random() - 0.5).slice(0, 3);
+  if (dir === 'es-en') {
+    const choices = [word.en, ...wrong.map(w => w.en)].sort(() => Math.random() - 0.5);
+    return { type: 'ES → EN', prompt: word.es, hint: '', answer: word.en, choices, word };
+  } else {
+    const choices = [word.es, ...wrong.map(w => w.es)].sort(() => Math.random() - 0.5);
+    return { type: 'EN → ES', prompt: word.en, hint: '', answer: word.es, choices, word };
+  }
+}
+
+function startQuiz() {
+  queueData = buildQueue().map(w => makeQuestion(w));
+  currentQ = 0; correctCount = 0; wrongItems = [];
+  document.getElementById('setupArea').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = queueData[currentQ];
+  document.getElementById('qCount').textContent = `Question ${currentQ + 1} of ${queueData.length}`;
+  document.getElementById('progressFill').style.width = `${(currentQ / queueData.length) * 100}%`;
+  document.getElementById('qTypeBadge').textContent = q.type;
+  document.getElementById('qPrompt').textContent = q.prompt;
+  document.getElementById('qHint').textContent = q.hint;
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  const choicesDiv = document.getElementById('choices');
+  choicesDiv.innerHTML = q.choices.map(c =>
+    `<button class="choice-btn" onclick="selectAnswer('${c.replace(/'/g, "\\'")}',this)">${c}</button>`
+  ).join('');
+}
+
+function selectAnswer(chosen, btn) {
+  const q = queueData[currentQ];
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedback');
+  if (chosen === q.answer) {
+    btn.classList.add('correct');
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct!';
+    correctCount++;
+    srWeights[q.word.es] = Math.max(1, (srWeights[q.word.es] || 1) - 1);
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      if (b.textContent === q.answer) b.classList.add('correct');
+    });
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `✗ Wrong — correct: <strong>${q.answer}</strong>`;
+    srWeights[q.word.es] = Math.min(8, (srWeights[q.word.es] || 1) + 2);
+    wrongItems.push({ prompt: q.prompt, answer: q.answer, type: q.type, level: q.word.level });
+  }
+  fb.style.display = 'block';
+  document.getElementById('nextBtn').style.display = 'block';
+  localStorage.setItem('es_srWeights', JSON.stringify(srWeights));
+
+  // Save mistakes
+  const log = JSON.parse(localStorage.getItem('es_mistakeLog') || '[]');
+  if (chosen !== q.answer) {
+    log.push({ date: new Date().toISOString(), prompt: q.prompt, answer: q.answer, type: q.type, level: q.word.level });
+    localStorage.setItem('es_mistakeLog', JSON.stringify(log.slice(-200)));
+  }
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= queueData.length) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quizArea').style.display = 'none';
+  document.getElementById('resultsArea').style.display = 'block';
+  const pct = Math.round((correctCount / queueData.length) * 100);
+  document.getElementById('resultScore').textContent = pct + '%';
+  document.getElementById('resultLabel').textContent = `${correctCount} / ${queueData.length} correct`;
+  const grades = ['🌱 Keep practicing!','📖 Good effort!','⭐ Well done!','🎯 Excellent!','🏆 Perfect!'];
+  document.getElementById('resultBreakdown').innerHTML = `
+    <div class="result-row"><span>Score</span><span>${pct}%</span></div>
+    <div class="result-row"><span>Correct</span><span>${correctCount}</span></div>
+    <div class="result-row"><span>Wrong</span><span>${queueData.length - correctCount}</span></div>
+    <div style="text-align:center;padding-top:.8rem;font-size:1.1rem">${grades[Math.min(4, Math.floor(pct/20))]}</div>
+  `;
+  // Save score
+  const scores = JSON.parse(localStorage.getItem('es_scores') || '[]');
+  scores.push({ date: new Date().toISOString(), score: pct, correct: correctCount, total: queueData.length });
+  localStorage.setItem('es_scores', JSON.stringify(scores.slice(-100)));
+}
+
+// Shared controls
+const themeVal = localStorage.getItem('es_theme') || 'dark';
+if (themeVal === 'light') document.body.classList.add('light');
+document.querySelectorAll('.themeBtn').forEach(b => b.textContent = themeVal === 'light' ? '🌙' : '☀️');
+const fs = parseInt(localStorage.getItem('es_fontsize') || '18');
+document.body.style.fontSize = fs + 'px';
+function toggleTheme() { const l = document.body.classList.toggle('light'); localStorage.setItem('es_theme', l?'light':'dark'); document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️'); }
+function toggleFont(d) { let f = parseInt(document.body.style.fontSize||'18'); f=Math.min(24,Math.max(14,f+d)); document.body.style.fontSize=f+'px'; localStorage.setItem('es_fontsize',f); }
+function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+</script>
+</body>
+</html>
