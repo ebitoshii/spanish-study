@@ -6,7 +6,7 @@
 <title>Vocabulary — Español Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
 .light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
@@ -33,24 +33,27 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .controls input::placeholder{color:var(--text2);}
 .filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .7rem;border-radius:20px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
 .filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.controls select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .6rem;border-radius:6px;font-family:inherit;font-size:.85rem;outline:none;}
 .audio-btn{background:none;border:1px solid var(--border);color:var(--accent2);cursor:pointer;padding:.2rem .5rem;border-radius:4px;font-size:.85rem;transition:all .2s;}
 .audio-btn:hover{background:var(--accent2);color:#fff;}
-.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;padding:1.5rem 2rem;max-width:1200px;margin:0 auto;}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;padding:1.5rem 2rem;max-width:1400px;margin:0 auto;}
 .word-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;transition:all .2s;}
 .word-card:hover{border-color:var(--accent);transform:translateY(-1px);}
-.word-es{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--accent3);display:flex;align-items:center;gap:.5rem;}
+.word-es{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--accent3);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
 .word-type{font-size:.72rem;color:var(--text2);background:var(--bg3);padding:.1rem .4rem;border-radius:10px;border:1px solid var(--border);font-family:'Crimson Pro',serif;font-style:italic;}
 .word-en{color:var(--text);margin:.3rem 0 .2rem;font-size:.95rem;}
 .word-example{color:var(--text2);font-size:.85rem;font-style:italic;border-left:2px solid var(--accent);padding-left:.6rem;margin-top:.5rem;}
-.word-level{font-size:.7rem;color:var(--text2);margin-top:.5rem;}
+.word-footer{display:flex;gap:.5rem;margin-top:.5rem;align-items:center;flex-wrap:wrap;}
+.word-level{font-size:.7rem;color:var(--text2);}
 .word-level span{background:var(--bg3);padding:.1rem .4rem;border-radius:10px;}
+.word-theme{font-size:.7rem;color:var(--text2);background:rgba(192,57,43,.1);padding:.1rem .4rem;border-radius:10px;}
 .count-badge{color:var(--text2);font-size:.85rem;padding:.8rem 2rem;}
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.vocab-grid{padding:1rem;grid-template-columns:1fr;}.controls{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
 </style>
 </head>
 <body>
 <nav>
-  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <a href="index.html" class="nav-brand">Español ✦</a>
   <div class="nav-links">
     <a href="grammar.html">Grammar</a>
     <a href="vocabulary.html" class="active">Vocab</a>
@@ -86,12 +89,10 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
   <a href="progress.html">📊 Progress</a>
   <a href="schedule.html">📅 Schedule</a>
 </div>
-
 <div class="page-header">
   <div class="page-title">Vocabulary — Vocabulario</div>
-  <div class="page-sub">Words organized by level and theme, with audio pronunciation</div>
+  <div class="page-sub">500 words organized by level and theme, with audio pronunciation</div>
 </div>
-
 <div class="controls">
   <input type="text" id="search" placeholder="Search words..." oninput="filterVocab()">
   <button class="filter-btn active" onclick="setLevel('all',this)">All</button>
@@ -100,78 +101,385 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
   <button class="filter-btn" onclick="setLevel('b1',this)">B1</button>
   <button class="filter-btn" onclick="setLevel('b2',this)">B2</button>
   <button class="filter-btn" onclick="setLevel('c1',this)">C1</button>
-  <select id="themeFilter" onchange="filterVocab()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .6rem;border-radius:6px;font-family:inherit;font-size:.85rem;outline:none;">
+  <select id="themeFilter" onchange="filterVocab()">
     <option value="all">All themes</option>
-    <option value="travel">Travel</option>
+    <option value="basics">Basics</option>
+    <option value="family">Family</option>
+    <option value="body">Body</option>
+    <option value="home">Home</option>
     <option value="food">Food</option>
+    <option value="travel">Travel</option>
     <option value="work">Work</option>
-    <option value="emotions">Emotions</option>
-    <option value="time">Time</option>
-    <option value="nature">Nature</option>
+    <option value="education">Education</option>
     <option value="health">Health</option>
+    <option value="emotions">Emotions</option>
+    <option value="nature">Nature</option>
     <option value="society">Society</option>
+    <option value="technology">Technology</option>
+    <option value="culture">Culture</option>
+    <option value="time">Time</option>
+    <option value="money">Money</option>
+    <option value="sports">Sports</option>
+    <option value="clothes">Clothes</option>
+    <option value="transport">Transport</option>
   </select>
 </div>
 <div class="count-badge" id="countBadge"></div>
 <div class="vocab-grid" id="vocabGrid"></div>
-
 <script>
 const VOCAB = [
-  // A1 - Basics
-  {es:'hablar',type:'verb',en:'to speak/talk',example:'Hablo español un poco.',level:'a1',theme:'work'},
-  {es:'comer',type:'verb',en:'to eat',example:'Me gusta comer paella.',level:'a1',theme:'food'},
-  {es:'vivir',type:'verb',en:'to live',example:'Vivo en Singapur.',level:'a1',theme:'work'},
-  {es:'la casa',type:'noun',en:'house / home',example:'Mi casa es pequeña pero bonita.',level:'a1',theme:'work'},
-  {es:'el tiempo',type:'noun',en:'weather / time',example:'¿Qué tiempo hace hoy?',level:'a1',theme:'time'},
-  {es:'ahora',type:'adv',en:'now',example:'Ahora mismo estoy estudiando.',level:'a1',theme:'time'},
-  {es:'siempre',type:'adv',en:'always',example:'Siempre llego puntual.',level:'a1',theme:'time'},
-  {es:'querer',type:'verb',en:'to want / to love',example:'Quiero aprender español.',level:'a1',theme:'emotions'},
-  {es:'la comida',type:'noun',en:'food / meal',example:'La comida española es deliciosa.',level:'a1',theme:'food'},
-  {es:'el trabajo',type:'noun',en:'work / job',example:'Mi trabajo es muy interesante.',level:'a1',theme:'work'},
-  // A2
-  {es:'el vuelo',type:'noun',en:'flight',example:'El vuelo sale a las diez.',level:'a2',theme:'travel'},
-  {es:'el aeropuerto',type:'noun',en:'airport',example:'Llegamos al aeropuerto con tiempo.',level:'a2',theme:'travel'},
-  {es:'reservar',type:'verb',en:'to book / reserve',example:'Reservé una habitación de hotel.',level:'a2',theme:'travel'},
-  {es:'el billete',type:'noun',en:'ticket / bill',example:'¿Cuánto cuesta el billete?',level:'a2',theme:'travel'},
-  {es:'sin embargo',type:'conj',en:'however / nevertheless',example:'Es difícil; sin embargo, lo intento.',level:'a2',theme:'work'},
-  {es:'aunque',type:'conj',en:'although / even though',example:'Aunque llueve, saldremos.',level:'a2',theme:'work'},
-  {es:'la salud',type:'noun',en:'health',example:'La salud es lo más importante.',level:'a2',theme:'health'},
-  {es:'el médico',type:'noun',en:'doctor',example:'Fui al médico ayer.',level:'a2',theme:'health'},
-  {es:'el sabor',type:'noun',en:'flavor / taste',example:'Este plato tiene un sabor exquisito.',level:'a2',theme:'food'},
-  {es:'emocionante',type:'adj',en:'exciting / thrilling',example:'El partido fue muy emocionante.',level:'a2',theme:'emotions'},
-  // B1
-  {es:'sin duda',type:'phrase',en:'without a doubt',example:'Sin duda, es la mejor opción.',level:'b1',theme:'work'},
-  {es:'a pesar de',type:'phrase',en:'in spite of / despite',example:'A pesar del tráfico, llegamos a tiempo.',level:'b1',theme:'work'},
-  {es:'el medio ambiente',type:'noun',en:'environment',example:'Debemos proteger el medio ambiente.',level:'b1',theme:'nature'},
-  {es:'el desarrollo',type:'noun',en:'development',example:'El desarrollo sostenible es clave.',level:'b1',theme:'society'},
-  {es:'la empresa',type:'noun',en:'company / business',example:'Trabajo en una empresa internacional.',level:'b1',theme:'work'},
-  {es:'el ciudadano',type:'noun',en:'citizen',example:'Los ciudadanos tienen derechos y deberes.',level:'b1',theme:'society'},
-  {es:'lograr',type:'verb',en:'to achieve / accomplish',example:'Logré mis objetivos este año.',level:'b1',theme:'work'},
-  {es:'superar',type:'verb',en:'to overcome / surpass',example:'Hay que superar los obstáculos.',level:'b1',theme:'emotions'},
-  {es:'a menudo',type:'adv',en:'often / frequently',example:'A menudo viajo por trabajo.',level:'b1',theme:'time'},
-  {es:'el plazo',type:'noun',en:'deadline / term',example:'El plazo de entrega es mañana.',level:'b1',theme:'work'},
-  // B2
-  {es:'la conciencia',type:'noun',en:'conscience / awareness',example:'La conciencia ambiental ha crecido.',level:'b2',theme:'society'},
-  {es:'el ámbito',type:'noun',en:'field / scope / domain',example:'En el ámbito profesional, es fundamental.',level:'b2',theme:'work'},
-  {es:'dar por sentado',type:'phrase',en:'to take for granted',example:'No debes dar por sentado el éxito.',level:'b2',theme:'work'},
-  {es:'cabe destacar',type:'phrase',en:'it is worth noting',example:'Cabe destacar la importancia del estudio.',level:'b2',theme:'work'},
-  {es:'la perspectiva',type:'noun',en:'perspective / outlook',example:'Desde una perspectiva global, es complejo.',level:'b2',theme:'society'},
-  {es:'el vínculo',type:'noun',en:'bond / link / tie',example:'Hay un fuerte vínculo entre cultura e idioma.',level:'b2',theme:'society'},
-  {es:'asumir',type:'verb',en:'to assume / take on',example:'Asumió la responsabilidad del proyecto.',level:'b2',theme:'work'},
-  {es:'matizar',type:'verb',en:'to nuance / qualify',example:'Es importante matizar esa afirmación.',level:'b2',theme:'work'},
-  {es:'el reto',type:'noun',en:'challenge',example:'Aprender un idioma es un gran reto.',level:'b2',theme:'work'},
-  {es:'la índole',type:'noun',en:'nature / kind / type',example:'Problemas de índole económica.',level:'b2',theme:'society'},
-  // C1
-  {es:'no obstante',type:'conj',en:'nevertheless / notwithstanding',example:'No obstante, la situación mejoró.',level:'c1',theme:'work'},
-  {es:'por ende',type:'phrase',en:'therefore / hence',example:'El mercado cayó; por ende, ajustamos.',level:'c1',theme:'work'},
-  {es:'coyuntural',type:'adj',en:'conjunctural / situational',example:'Es una medida de carácter coyuntural.',level:'c1',theme:'society'},
-  {es:'en aras de',type:'phrase',en:'for the sake of / in pursuit of',example:'En aras de la eficiencia, simplificamos.',level:'c1',theme:'work'},
-  {es:'la tesitura',type:'noun',en:'situation / predicament / juncture',example:'En esta tesitura, debemos actuar.',level:'c1',theme:'society'},
-  {es:'fehacientemente',type:'adv',en:'conclusively / definitively',example:'Queda demostrado fehacientemente.',level:'c1',theme:'work'},
-  {es:'el arraigo',type:'noun',en:'rootedness / deep ties',example:'Tiene un arraigo cultural muy profundo.',level:'c1',theme:'society'},
-  {es:'dilucidar',type:'verb',en:'to elucidate / clarify',example:'Hay que dilucidar la causa del problema.',level:'c1',theme:'work'},
-  {es:'el entramado',type:'noun',en:'framework / web / structure',example:'El entramado legal es complejo.',level:'c1',theme:'society'},
-  {es:'palmario',type:'adj',en:'obvious / evident / clear',example:'Es palmario que la estrategia falló.',level:'c1',theme:'work'},
+// ── A1 BASICS ──
+{es:'hola',type:'interj',en:'hello',example:'¡Hola! ¿Cómo estás?',level:'a1',theme:'basics'},
+{es:'gracias',type:'interj',en:'thank you',example:'Muchas gracias por tu ayuda.',level:'a1',theme:'basics'},
+{es:'por favor',type:'phrase',en:'please',example:'¿Puedes ayudarme, por favor?',level:'a1',theme:'basics'},
+{es:'sí',type:'adv',en:'yes',example:'Sí, me gustaría ir.',level:'a1',theme:'basics'},
+{es:'no',type:'adv',en:'no',example:'No, no quiero café.',level:'a1',theme:'basics'},
+{es:'bueno',type:'adj',en:'good',example:'Es un buen libro.',level:'a1',theme:'basics'},
+{es:'malo',type:'adj',en:'bad',example:'Hace mal tiempo hoy.',level:'a1',theme:'basics'},
+{es:'grande',type:'adj',en:'big / large',example:'Vivimos en una ciudad grande.',level:'a1',theme:'basics'},
+{es:'pequeño',type:'adj',en:'small / little',example:'Tengo un perro pequeño.',level:'a1',theme:'basics'},
+{es:'nuevo',type:'adj',en:'new',example:'Tengo un trabajo nuevo.',level:'a1',theme:'basics'},
+{es:'viejo',type:'adj',en:'old',example:'Este edificio es muy viejo.',level:'a1',theme:'basics'},
+{es:'bonito',type:'adj',en:'pretty / nice',example:'¡Qué bonita flor!',level:'a1',theme:'basics'},
+{es:'feo',type:'adj',en:'ugly',example:'Ese color me parece feo.',level:'a1',theme:'basics'},
+{es:'mucho',type:'adv',en:'a lot / very much',example:'Me gusta mucho la música.',level:'a1',theme:'basics'},
+{es:'poco',type:'adv',en:'a little / few',example:'Hablo un poco de chino.',level:'a1',theme:'basics'},
+{es:'muy',type:'adv',en:'very',example:'Estoy muy cansado hoy.',level:'a1',theme:'basics'},
+{es:'también',type:'adv',en:'also / too',example:'Yo también quiero venir.',level:'a1',theme:'basics'},
+{es:'pero',type:'conj',en:'but',example:'Es caro, pero vale la pena.',level:'a1',theme:'basics'},
+{es:'y',type:'conj',en:'and',example:'Pan y mantequilla.',level:'a1',theme:'basics'},
+{es:'o',type:'conj',en:'or',example:'¿Té o café?',level:'a1',theme:'basics'},
+// A1 FAMILY
+{es:'la familia',type:'noun',en:'family',example:'Mi familia es muy unida.',level:'a1',theme:'family'},
+{es:'la madre',type:'noun',en:'mother',example:'Mi madre cocina muy bien.',level:'a1',theme:'family'},
+{es:'el padre',type:'noun',en:'father',example:'Mi padre trabaja en un banco.',level:'a1',theme:'family'},
+{es:'el hermano',type:'noun',en:'brother',example:'Tengo dos hermanos.',level:'a1',theme:'family'},
+{es:'la hermana',type:'noun',en:'sister',example:'Mi hermana estudia medicina.',level:'a1',theme:'family'},
+{es:'el hijo',type:'noun',en:'son',example:'Su hijo tiene cinco años.',level:'a1',theme:'family'},
+{es:'la hija',type:'noun',en:'daughter',example:'Su hija es muy inteligente.',level:'a1',theme:'family'},
+{es:'el abuelo',type:'noun',en:'grandfather',example:'Mi abuelo tiene ochenta años.',level:'a1',theme:'family'},
+{es:'la abuela',type:'noun',en:'grandmother',example:'La abuela hace bizcochos deliciosos.',level:'a1',theme:'family'},
+{es:'el amigo',type:'noun',en:'friend (m)',example:'Mi mejor amigo vive en Madrid.',level:'a1',theme:'family'},
+// A1 BODY
+{es:'la cabeza',type:'noun',en:'head',example:'Me duele la cabeza.',level:'a1',theme:'body'},
+{es:'la mano',type:'noun',en:'hand',example:'Lávate las manos antes de comer.',level:'a1',theme:'body'},
+{es:'el ojo',type:'noun',en:'eye',example:'Tiene los ojos verdes.',level:'a1',theme:'body'},
+{es:'la boca',type:'noun',en:'mouth',example:'Abre la boca, por favor.',level:'a1',theme:'body'},
+{es:'el pie',type:'noun',en:'foot',example:'Me duele el pie derecho.',level:'a1',theme:'body'},
+{es:'el brazo',type:'noun',en:'arm',example:'Se rompió el brazo jugando.',level:'a1',theme:'body'},
+{es:'la pierna',type:'noun',en:'leg',example:'Tiene las piernas largas.',level:'a1',theme:'body'},
+{es:'la nariz',type:'noun',en:'nose',example:'Tiene la nariz roja del frío.',level:'a1',theme:'body'},
+{es:'la oreja',type:'noun',en:'ear',example:'Le duele la oreja izquierda.',level:'a1',theme:'body'},
+{es:'el diente',type:'noun',en:'tooth',example:'Se le cayó un diente.',level:'a1',theme:'body'},
+// A1 HOME
+{es:'la casa',type:'noun',en:'house / home',example:'Mi casa es pequeña pero bonita.',level:'a1',theme:'home'},
+{es:'la habitación',type:'noun',en:'room / bedroom',example:'Mi habitación es azul.',level:'a1',theme:'home'},
+{es:'la cocina',type:'noun',en:'kitchen',example:'La cocina está al fondo.',level:'a1',theme:'home'},
+{es:'el baño',type:'noun',en:'bathroom',example:'El baño está ocupado.',level:'a1',theme:'home'},
+{es:'la puerta',type:'noun',en:'door',example:'Cierra la puerta, hace frío.',level:'a1',theme:'home'},
+{es:'la ventana',type:'noun',en:'window',example:'Abre la ventana para ventilar.',level:'a1',theme:'home'},
+{es:'la mesa',type:'noun',en:'table',example:'Pon los platos en la mesa.',level:'a1',theme:'home'},
+{es:'la silla',type:'noun',en:'chair',example:'Siéntate en esa silla.',level:'a1',theme:'home'},
+{es:'la cama',type:'noun',en:'bed',example:'Ya es hora de ir a la cama.',level:'a1',theme:'home'},
+{es:'la llave',type:'noun',en:'key',example:'No encuentro las llaves.',level:'a1',theme:'home'},
+// A1 FOOD
+{es:'el agua',type:'noun',en:'water',example:'Bebo ocho vasos de agua al día.',level:'a1',theme:'food'},
+{es:'el pan',type:'noun',en:'bread',example:'El pan recién hecho huele muy bien.',level:'a1',theme:'food'},
+{es:'la leche',type:'noun',en:'milk',example:'¿Quieres leche en el café?',level:'a1',theme:'food'},
+{es:'el café',type:'noun',en:'coffee',example:'Tomo un café con leche por las mañanas.',level:'a1',theme:'food'},
+{es:'la carne',type:'noun',en:'meat',example:'No como carne roja.',level:'a1',theme:'food'},
+{es:'el pescado',type:'noun',en:'fish',example:'El pescado a la plancha está rico.',level:'a1',theme:'food'},
+{es:'la fruta',type:'noun',en:'fruit',example:'Como fruta todos los días.',level:'a1',theme:'food'},
+{es:'la verdura',type:'noun',en:'vegetable',example:'Las verduras son muy saludables.',level:'a1',theme:'food'},
+{es:'el huevo',type:'noun',en:'egg',example:'Me gustan los huevos revueltos.',level:'a1',theme:'food'},
+{es:'el arroz',type:'noun',en:'rice',example:'El arroz con leche es mi postre favorito.',level:'a1',theme:'food'},
+// A1 TIME
+{es:'hoy',type:'adv',en:'today',example:'Hoy hace buen tiempo.',level:'a1',theme:'time'},
+{es:'mañana',type:'adv',en:'tomorrow / morning',example:'Mañana tengo una reunión.',level:'a1',theme:'time'},
+{es:'ayer',type:'adv',en:'yesterday',example:'Ayer fui al cine.',level:'a1',theme:'time'},
+{es:'ahora',type:'adv',en:'now',example:'Ahora mismo estoy estudiando.',level:'a1',theme:'time'},
+{es:'tarde',type:'adv',en:'late / afternoon',example:'Llegamos un poco tarde.',level:'a1',theme:'time'},
+{es:'temprano',type:'adv',en:'early',example:'Me levanto muy temprano.',level:'a1',theme:'time'},
+{es:'siempre',type:'adv',en:'always',example:'Siempre llego puntual.',level:'a1',theme:'time'},
+{es:'nunca',type:'adv',en:'never',example:'Nunca he estado en México.',level:'a1',theme:'time'},
+{es:'el día',type:'noun',en:'day',example:'¿Qué día es hoy?',level:'a1',theme:'time'},
+{es:'la semana',type:'noun',en:'week',example:'La próxima semana es mi cumpleaños.',level:'a1',theme:'time'},
+// A1 VERBS
+{es:'ser',type:'verb',en:'to be (permanent)',example:'Soy piloto y vivo en Singapur.',level:'a1',theme:'basics'},
+{es:'estar',type:'verb',en:'to be (temporary)',example:'Estoy muy cansado hoy.',level:'a1',theme:'basics'},
+{es:'tener',type:'verb',en:'to have',example:'Tengo dos hermanos.',level:'a1',theme:'basics'},
+{es:'hacer',type:'verb',en:'to do / make',example:'¿Qué haces los fines de semana?',level:'a1',theme:'basics'},
+{es:'ir',type:'verb',en:'to go',example:'Voy al gimnasio cada mañana.',level:'a1',theme:'basics'},
+{es:'hablar',type:'verb',en:'to speak',example:'Hablo español un poco.',level:'a1',theme:'basics'},
+{es:'comer',type:'verb',en:'to eat',example:'Me gusta comer paella.',level:'a1',theme:'food'},
+{es:'beber',type:'verb',en:'to drink',example:'Bebo mucha agua.',level:'a1',theme:'food'},
+{es:'vivir',type:'verb',en:'to live',example:'Vivo en Singapur.',level:'a1',theme:'basics'},
+{es:'querer',type:'verb',en:'to want / love',example:'Quiero aprender español.',level:'a1',theme:'emotions'},
+{es:'poder',type:'verb',en:'to be able to / can',example:'¿Puedes ayudarme?',level:'a1',theme:'basics'},
+{es:'venir',type:'verb',en:'to come',example:'¿Vienes a la fiesta?',level:'a1',theme:'basics'},
+{es:'ver',type:'verb',en:'to see / watch',example:'Veo la televisión por las noches.',level:'a1',theme:'basics'},
+{es:'saber',type:'verb',en:'to know (fact)',example:'No sé su nombre.',level:'a1',theme:'basics'},
+{es:'dar',type:'verb',en:'to give',example:'Te doy mi número de teléfono.',level:'a1',theme:'basics'},
+{es:'llegar',type:'verb',en:'to arrive',example:'Llegamos a tiempo al aeropuerto.',level:'a1',theme:'travel'},
+{es:'salir',type:'verb',en:'to leave / go out',example:'¿A qué hora sales del trabajo?',level:'a1',theme:'basics'},
+{es:'trabajar',type:'verb',en:'to work',example:'Trabajo como piloto en SIA.',level:'a1',theme:'work'},
+{es:'estudiar',type:'verb',en:'to study',example:'Estudio español todos los días.',level:'a1',theme:'education'},
+{es:'dormir',type:'verb',en:'to sleep',example:'Duermo ocho horas cada noche.',level:'a1',theme:'body'},
+// ── A2 ──
+// A2 TRAVEL
+{es:'el vuelo',type:'noun',en:'flight',example:'El vuelo sale a las diez.',level:'a2',theme:'travel'},
+{es:'el aeropuerto',type:'noun',en:'airport',example:'Llegamos al aeropuerto con tiempo.',level:'a2',theme:'travel'},
+{es:'el billete',type:'noun',en:'ticket',example:'¿Cuánto cuesta el billete de ida y vuelta?',level:'a2',theme:'travel'},
+{es:'el hotel',type:'noun',en:'hotel',example:'El hotel está cerca del centro.',level:'a2',theme:'travel'},
+{es:'el pasaporte',type:'noun',en:'passport',example:'No olvides el pasaporte.',level:'a2',theme:'travel'},
+{es:'el equipaje',type:'noun',en:'luggage',example:'Facturé el equipaje en el mostrador.',level:'a2',theme:'travel'},
+{es:'la maleta',type:'noun',en:'suitcase',example:'Mi maleta pesa veinte kilos.',level:'a2',theme:'travel'},
+{es:'el mapa',type:'noun',en:'map',example:'¿Tienes un mapa de la ciudad?',level:'a2',theme:'travel'},
+{es:'el turista',type:'noun',en:'tourist',example:'Madrid recibe millones de turistas al año.',level:'a2',theme:'travel'},
+{es:'reservar',type:'verb',en:'to book / reserve',example:'Reservé una habitación de hotel.',level:'a2',theme:'travel'},
+// A2 WORK
+{es:'el trabajo',type:'noun',en:'work / job',example:'Mi trabajo es muy interesante.',level:'a2',theme:'work'},
+{es:'la oficina',type:'noun',en:'office',example:'Trabajo desde la oficina los lunes.',level:'a2',theme:'work'},
+{es:'la reunión',type:'noun',en:'meeting',example:'Tengo una reunión a las tres.',level:'a2',theme:'work'},
+{es:'el jefe',type:'noun',en:'boss',example:'Mi jefe es bastante exigente.',level:'a2',theme:'work'},
+{es:'el compañero',type:'noun',en:'colleague / partner',example:'Mis compañeros de trabajo son simpáticos.',level:'a2',theme:'work'},
+{es:'el sueldo',type:'noun',en:'salary',example:'Negocié mi sueldo en la entrevista.',level:'a2',theme:'work'},
+{es:'la entrevista',type:'noun',en:'interview',example:'Mañana tengo una entrevista de trabajo.',level:'a2',theme:'work'},
+{es:'el contrato',type:'noun',en:'contract',example:'Firmé el contrato la semana pasada.',level:'a2',theme:'work'},
+{es:'el horario',type:'noun',en:'schedule / timetable',example:'Mi horario es flexible.',level:'a2',theme:'work'},
+{es:'la experiencia',type:'noun',en:'experience',example:'Tengo cinco años de experiencia.',level:'a2',theme:'work'},
+// A2 HEALTH
+{es:'la salud',type:'noun',en:'health',example:'La salud es lo más importante.',level:'a2',theme:'health'},
+{es:'el médico',type:'noun',en:'doctor',example:'Fui al médico ayer.',level:'a2',theme:'health'},
+{es:'el hospital',type:'noun',en:'hospital',example:'El hospital está a dos kilómetros.',level:'a2',theme:'health'},
+{es:'la medicina',type:'noun',en:'medicine',example:'Toma esta medicina dos veces al día.',level:'a2',theme:'health'},
+{es:'el dolor',type:'noun',en:'pain / ache',example:'Tengo un dolor de cabeza terrible.',level:'a2',theme:'health'},
+{es:'la fiebre',type:'noun',en:'fever',example:'El niño tiene fiebre alta.',level:'a2',theme:'health'},
+{es:'enfermo',type:'adj',en:'sick / ill',example:'He estado enfermo toda la semana.',level:'a2',theme:'health'},
+{es:'descansar',type:'verb',en:'to rest',example:'Necesito descansar después del vuelo.',level:'a2',theme:'health'},
+{es:'el ejercicio',type:'noun',en:'exercise',example:'Hago ejercicio tres veces por semana.',level:'a2',theme:'health'},
+{es:'el seguro',type:'noun',en:'insurance',example:'Tengo seguro médico privado.',level:'a2',theme:'health'},
+// A2 EDUCATION
+{es:'la escuela',type:'noun',en:'school',example:'Fui a la escuela en Singapur.',level:'a2',theme:'education'},
+{es:'el libro',type:'noun',en:'book',example:'Estoy leyendo un libro en español.',level:'a2',theme:'education'},
+{es:'el profesor',type:'noun',en:'teacher / professor',example:'Mi profesora de español es muy buena.',level:'a2',theme:'education'},
+{es:'el alumno',type:'noun',en:'student / pupil',example:'Hay veinte alumnos en la clase.',level:'a2',theme:'education'},
+{es:'el examen',type:'noun',en:'exam / test',example:'El examen es el viernes.',level:'a2',theme:'education'},
+{es:'aprender',type:'verb',en:'to learn',example:'Aprender idiomas es muy útil.',level:'a2',theme:'education'},
+{es:'enseñar',type:'verb',en:'to teach',example:'Mi madre enseña matemáticas.',level:'a2',theme:'education'},
+{es:'la nota',type:'noun',en:'grade / note',example:'Saqué buenas notas este semestre.',level:'a2',theme:'education'},
+{es:'el idioma',type:'noun',en:'language',example:'Hablo tres idiomas.',level:'a2',theme:'education'},
+{es:'la clase',type:'noun',en:'class / lesson',example:'La clase empieza a las nueve.',level:'a2',theme:'education'},
+// A2 EMOTIONS
+{es:'feliz',type:'adj',en:'happy',example:'Estoy muy feliz con los resultados.',level:'a2',theme:'emotions'},
+{es:'triste',type:'adj',en:'sad',example:'Se puso triste al escuchar la noticia.',level:'a2',theme:'emotions'},
+{es:'enfadado',type:'adj',en:'angry',example:'Está enfadado por el retraso.',level:'a2',theme:'emotions'},
+{es:'asustado',type:'adj',en:'scared / frightened',example:'Los niños estaban asustados.',level:'a2',theme:'emotions'},
+{es:'cansado',type:'adj',en:'tired',example:'Estoy muy cansado después del vuelo.',level:'a2',theme:'emotions'},
+{es:'sorprendido',type:'adj',en:'surprised',example:'Me quedé sorprendido con la noticia.',level:'a2',theme:'emotions'},
+{es:'aburrido',type:'adj',en:'bored / boring',example:'La película me resultó aburrida.',level:'a2',theme:'emotions'},
+{es:'orgulloso',type:'adj',en:'proud',example:'Estoy orgulloso de mis logros.',level:'a2',theme:'emotions'},
+{es:'emocionante',type:'adj',en:'exciting / thrilling',example:'El partido fue muy emocionante.',level:'a2',theme:'emotions'},
+{es:'nervioso',type:'adj',en:'nervous',example:'Estoy nervioso antes del examen.',level:'a2',theme:'emotions'},
+// A2 TRANSPORT
+{es:'el coche',type:'noun',en:'car',example:'Voy al trabajo en coche.',level:'a2',theme:'transport'},
+{es:'el autobús',type:'noun',en:'bus',example:'El autobús llega cada diez minutos.',level:'a2',theme:'transport'},
+{es:'el metro',type:'noun',en:'metro / subway',example:'El metro es más rápido que el autobús.',level:'a2',theme:'transport'},
+{es:'el tren',type:'noun',en:'train',example:'El tren de alta velocidad tarda dos horas.',level:'a2',theme:'transport'},
+{es:'el avión',type:'noun',en:'airplane',example:'El avión despegó a tiempo.',level:'a2',theme:'transport'},
+{es:'conducir',type:'verb',en:'to drive',example:'Conduzco a la derecha en Singapur.',level:'a2',theme:'transport'},
+{es:'el taxi',type:'noun',en:'taxi',example:'Pedí un taxi desde la app.',level:'a2',theme:'transport'},
+{es:'la bicicleta',type:'noun',en:'bicycle',example:'Voy en bicicleta al trabajo.',level:'a2',theme:'transport'},
+{es:'el barco',type:'noun',en:'ship / boat',example:'Cruzamos en barco.',level:'a2',theme:'transport'},
+{es:'la gasolina',type:'noun',en:'petrol / gasoline',example:'El precio de la gasolina ha subido.',level:'a2',theme:'transport'},
+// A2 MONEY
+{es:'el dinero',type:'noun',en:'money',example:'No llevo dinero en efectivo.',level:'a2',theme:'money'},
+{es:'el banco',type:'noun',en:'bank',example:'Voy al banco a sacar dinero.',level:'a2',theme:'money'},
+{es:'la tarjeta',type:'noun',en:'card',example:'¿Puedo pagar con tarjeta?',level:'a2',theme:'money'},
+{es:'el precio',type:'noun',en:'price',example:'¿Cuál es el precio?',level:'a2',theme:'money'},
+{es:'caro',type:'adj',en:'expensive',example:'Este restaurante es demasiado caro.',level:'a2',theme:'money'},
+{es:'barato',type:'adj',en:'cheap',example:'Encontré vuelos baratos.',level:'a2',theme:'money'},
+{es:'pagar',type:'verb',en:'to pay',example:'¿Quién paga la cuenta?',level:'a2',theme:'money'},
+{es:'comprar',type:'verb',en:'to buy',example:'Compré un regalo para mi madre.',level:'a2',theme:'money'},
+{es:'vender',type:'verb',en:'to sell',example:'Vendieron la empresa el año pasado.',level:'a2',theme:'money'},
+{es:'la cuenta',type:'noun',en:'bill / account',example:'La cuenta, por favor.',level:'a2',theme:'money'},
+// A2 NATURE
+{es:'el tiempo',type:'noun',en:'weather',example:'¿Qué tiempo hace hoy?',level:'a2',theme:'nature'},
+{es:'el sol',type:'noun',en:'sun',example:'El sol sale a las seis.',level:'a2',theme:'nature'},
+{es:'la lluvia',type:'noun',en:'rain',example:'La lluvia fue muy intensa.',level:'a2',theme:'nature'},
+{es:'el viento',type:'noun',en:'wind',example:'Hay mucho viento en la costa.',level:'a2',theme:'nature'},
+{es:'la montaña',type:'noun',en:'mountain',example:'Me gusta caminar por la montaña.',level:'a2',theme:'nature'},
+{es:'el mar',type:'noun',en:'sea',example:'El mar Mediterráneo es precioso.',level:'a2',theme:'nature'},
+{es:'el río',type:'noun',en:'river',example:'El río Ebro es el más largo.',level:'a2',theme:'nature'},
+{es:'el árbol',type:'noun',en:'tree',example:'Hay un árbol grande en el jardín.',level:'a2',theme:'nature'},
+{es:'el animal',type:'noun',en:'animal',example:'Me gustan los animales salvajes.',level:'a2',theme:'nature'},
+{es:'la flor',type:'noun',en:'flower',example:'Le regalé flores rojas.',level:'a2',theme:'nature'},
+// ── B1 ──
+// B1 WORK
+{es:'sin duda',type:'phrase',en:'without a doubt',example:'Sin duda, es la mejor opción.',level:'b1',theme:'work'},
+{es:'a pesar de',type:'phrase',en:'in spite of',example:'A pesar del tráfico, llegamos a tiempo.',level:'b1',theme:'work'},
+{es:'la empresa',type:'noun',en:'company / business',example:'Trabajo en una empresa internacional.',level:'b1',theme:'work'},
+{es:'lograr',type:'verb',en:'to achieve / accomplish',example:'Logré mis objetivos este año.',level:'b1',theme:'work'},
+{es:'superar',type:'verb',en:'to overcome / surpass',example:'Hay que superar los obstáculos.',level:'b1',theme:'work'},
+{es:'el plazo',type:'noun',en:'deadline / term',example:'El plazo de entrega es mañana.',level:'b1',theme:'work'},
+{es:'el presupuesto',type:'noun',en:'budget',example:'El presupuesto es limitado este año.',level:'b1',theme:'work'},
+{es:'la propuesta',type:'noun',en:'proposal',example:'Presenté la propuesta al director.',level:'b1',theme:'work'},
+{es:'acordar',type:'verb',en:'to agree / arrange',example:'Acordamos reunirnos el lunes.',level:'b1',theme:'work'},
+{es:'el cargo',type:'noun',en:'post / position / charge',example:'Ocupa un cargo directivo en la empresa.',level:'b1',theme:'work'},
+{es:'solicitar',type:'verb',en:'to request / apply for',example:'Solicité un aumento de sueldo.',level:'b1',theme:'work'},
+{es:'renunciar',type:'verb',en:'to resign / give up',example:'Renunció a su puesto voluntariamente.',level:'b1',theme:'work'},
+{es:'la formación',type:'noun',en:'training / education',example:'La empresa ofrece formación continua.',level:'b1',theme:'work'},
+{es:'el objetivo',type:'noun',en:'objective / goal',example:'Nuestro objetivo es crecer un 20%.',level:'b1',theme:'work'},
+{es:'el informe',type:'noun',en:'report',example:'Entregué el informe ayer.',level:'b1',theme:'work'},
+// B1 SOCIETY
+{es:'el ciudadano',type:'noun',en:'citizen',example:'Los ciudadanos tienen derechos y deberes.',level:'b1',theme:'society'},
+{es:'el gobierno',type:'noun',en:'government',example:'El gobierno aprobó nuevas medidas.',level:'b1',theme:'society'},
+{es:'la ley',type:'noun',en:'law',example:'Hay que respetar la ley.',level:'b1',theme:'society'},
+{es:'el derecho',type:'noun',en:'right / law',example:'Tenemos derecho a la educación.',level:'b1',theme:'society'},
+{es:'la igualdad',type:'noun',en:'equality',example:'La igualdad de género es fundamental.',level:'b1',theme:'society'},
+{es:'el desarrollo',type:'noun',en:'development',example:'El desarrollo sostenible es clave.',level:'b1',theme:'society'},
+{es:'la pobreza',type:'noun',en:'poverty',example:'La pobreza sigue siendo un problema global.',level:'b1',theme:'society'},
+{es:'el conflicto',type:'noun',en:'conflict',example:'El conflicto se resolvió mediante diálogo.',level:'b1',theme:'society'},
+{es:'votar',type:'verb',en:'to vote',example:'Todos debemos votar en las elecciones.',level:'b1',theme:'society'},
+{es:'la libertad',type:'noun',en:'freedom / liberty',example:'La libertad de expresión es esencial.',level:'b1',theme:'society'},
+// B1 EDUCATION
+{es:'la carrera',type:'noun',en:'career / degree programme',example:'Estudié una carrera de cuatro años.',level:'b1',theme:'education'},
+{es:'el título',type:'noun',en:'degree / title',example:'Obtuvo el título de ingeniero.',level:'b1',theme:'education'},
+{es:'investigar',type:'verb',en:'to research / investigate',example:'El equipo investiga nuevas vacunas.',level:'b1',theme:'education'},
+{es:'el conocimiento',type:'noun',en:'knowledge',example:'Tiene amplios conocimientos de finanzas.',level:'b1',theme:'education'},
+{es:'la habilidad',type:'noun',en:'skill / ability',example:'Las habilidades blandas son muy valoradas.',level:'b1',theme:'education'},
+{es:'la beca',type:'noun',en:'scholarship',example:'Ganó una beca para estudiar en el exterior.',level:'b1',theme:'education'},
+{es:'aprobar',type:'verb',en:'to pass (an exam)',example:'Aprobé el examen con buena nota.',level:'b1',theme:'education'},
+{es:'suspender',type:'verb',en:'to fail (an exam)',example:'Suspendí el examen de química.',level:'b1',theme:'education'},
+{es:'la conferencia',type:'noun',en:'lecture / conference',example:'Asistí a una conferencia sobre IA.',level:'b1',theme:'education'},
+{es:'el debate',type:'noun',en:'debate',example:'El debate fue muy animado.',level:'b1',theme:'education'},
+// B1 NATURE
+{es:'el medio ambiente',type:'noun',en:'environment',example:'Debemos proteger el medio ambiente.',level:'b1',theme:'nature'},
+{es:'el cambio climático',type:'noun',en:'climate change',example:'El cambio climático afecta a todos.',level:'b1',theme:'nature'},
+{es:'la contaminación',type:'noun',en:'pollution',example:'La contaminación del aire es grave.',level:'b1',theme:'nature'},
+{es:'la energía',type:'noun',en:'energy',example:'Las energías renovables crecen rápido.',level:'b1',theme:'nature'},
+{es:'el bosque',type:'noun',en:'forest',example:'El bosque amazónico es vital.',level:'b1',theme:'nature'},
+{es:'la sequía',type:'noun',en:'drought',example:'La sequía afectó la cosecha este año.',level:'b1',theme:'nature'},
+{es:'reciclar',type:'verb',en:'to recycle',example:'Reciclo vidrio, papel y plástico.',level:'b1',theme:'nature'},
+{es:'el terremoto',type:'noun',en:'earthquake',example:'El terremoto destruyó varios edificios.',level:'b1',theme:'nature'},
+{es:'la inundación',type:'noun',en:'flood',example:'Las inundaciones afectaron la región.',level:'b1',theme:'nature'},
+{es:'la biodiversidad',type:'noun',en:'biodiversity',example:'La biodiversidad está en peligro.',level:'b1',theme:'nature'},
+// B1 EMOTIONS
+{es:'a menudo',type:'adv',en:'often / frequently',example:'A menudo viajo por trabajo.',level:'b1',theme:'time'},
+{es:'ansioso',type:'adj',en:'anxious / eager',example:'Estoy ansioso por los resultados.',level:'b1',theme:'emotions'},
+{es:'agradecido',type:'adj',en:'grateful',example:'Estoy muy agradecido por tu ayuda.',level:'b1',theme:'emotions'},
+{es:'decepcionado',type:'adj',en:'disappointed',example:'Me sentí decepcionado con el resultado.',level:'b1',theme:'emotions'},
+{es:'avergonzado',type:'adj',en:'embarrassed / ashamed',example:'Se quedó avergonzado ante todos.',level:'b1',theme:'emotions'},
+{es:'entusiasmado',type:'adj',en:'enthusiastic / excited',example:'Estoy muy entusiasmado con el proyecto.',level:'b1',theme:'emotions'},
+{es:'confiar',type:'verb',en:'to trust / rely on',example:'Confío en mi equipo completamente.',level:'b1',theme:'emotions'},
+{es:'enfrentarse',type:'verb',en:'to face / confront',example:'Hay que enfrentarse a los problemas.',level:'b1',theme:'emotions'},
+{es:'echar de menos',type:'phrase',en:'to miss (someone/something)',example:'Echo de menos a mi familia.',level:'b1',theme:'emotions'},
+{es:'la nostalgia',type:'noun',en:'nostalgia / homesickness',example:'Siento nostalgia de mi país.',level:'b1',theme:'emotions'},
+// B1 TECHNOLOGY
+{es:'el ordenador',type:'noun',en:'computer',example:'Necesito un ordenador más rápido.',level:'b1',theme:'technology'},
+{es:'el móvil',type:'noun',en:'mobile phone',example:'Se me olvidó el móvil en casa.',level:'b1',theme:'technology'},
+{es:'la aplicación',type:'noun',en:'app / application',example:'Descargué una aplicación para aprender español.',level:'b1',theme:'technology'},
+{es:'la red',type:'noun',en:'network / internet',example:'La red wifi es muy lenta.',level:'b1',theme:'technology'},
+{es:'el archivo',type:'noun',en:'file',example:'Adjunté el archivo al correo.',level:'b1',theme:'technology'},
+{es:'guardar',type:'verb',en:'to save',example:'Recuerda guardar el documento.',level:'b1',theme:'technology'},
+{es:'descargar',type:'verb',en:'to download',example:'Descargué el informe en PDF.',level:'b1',theme:'technology'},
+{es:'la contraseña',type:'noun',en:'password',example:'Cambié la contraseña por seguridad.',level:'b1',theme:'technology'},
+{es:'el correo electrónico',type:'noun',en:'email',example:'Te envío los detalles por correo.',level:'b1',theme:'technology'},
+{es:'conectarse',type:'verb',en:'to connect / log in',example:'No puedo conectarme a la red.',level:'b1',theme:'technology'},
+// B1 SPORTS/CULTURE
+{es:'el deporte',type:'noun',en:'sport',example:'El deporte es bueno para la salud.',level:'b1',theme:'sports'},
+{es:'el equipo',type:'noun',en:'team / equipment',example:'El equipo ganó el campeonato.',level:'b1',theme:'sports'},
+{es:'entrenar',type:'verb',en:'to train / practise',example:'Entrenamos cuatro veces a la semana.',level:'b1',theme:'sports'},
+{es:'el partido',type:'noun',en:'match / game',example:'El partido comenzó tarde.',level:'b1',theme:'sports'},
+{es:'ganar',type:'verb',en:'to win / earn',example:'Ganamos tres a cero.',level:'b1',theme:'sports'},
+{es:'perder',type:'verb',en:'to lose',example:'Perdimos en la final.',level:'b1',theme:'sports'},
+{es:'el campeón',type:'noun',en:'champion',example:'Es el campeón mundial de ajedrez.',level:'b1',theme:'sports'},
+{es:'el músico',type:'noun',en:'musician',example:'Es un músico con mucho talento.',level:'b1',theme:'culture'},
+{es:'la obra',type:'noun',en:'work (art) / play',example:'La obra de teatro fue magnífica.',level:'b1',theme:'culture'},
+{es:'el pintor',type:'noun',en:'painter',example:'Dalí fue un gran pintor.',level:'b1',theme:'culture'},
+// ── B2 ──
+{es:'la conciencia',type:'noun',en:'conscience / awareness',example:'La conciencia ambiental ha crecido.',level:'b2',theme:'society'},
+{es:'el ámbito',type:'noun',en:'field / scope',example:'En el ámbito profesional, es fundamental.',level:'b2',theme:'work'},
+{es:'dar por sentado',type:'phrase',en:'to take for granted',example:'No debes dar por sentado el éxito.',level:'b2',theme:'work'},
+{es:'cabe destacar',type:'phrase',en:'it is worth noting',example:'Cabe destacar la importancia del estudio.',level:'b2',theme:'work'},
+{es:'la perspectiva',type:'noun',en:'perspective / outlook',example:'Desde una perspectiva global, es complejo.',level:'b2',theme:'society'},
+{es:'el vínculo',type:'noun',en:'bond / link',example:'Hay un fuerte vínculo entre cultura e idioma.',level:'b2',theme:'society'},
+{es:'asumir',type:'verb',en:'to assume / take on',example:'Asumió la responsabilidad del proyecto.',level:'b2',theme:'work'},
+{es:'matizar',type:'verb',en:'to nuance / qualify',example:'Es importante matizar esa afirmación.',level:'b2',theme:'work'},
+{es:'el reto',type:'noun',en:'challenge',example:'Aprender un idioma es un gran reto.',level:'b2',theme:'work'},
+{es:'la índole',type:'noun',en:'nature / kind',example:'Problemas de índole económica.',level:'b2',theme:'society'},
+{es:'la brecha',type:'noun',en:'gap / divide',example:'La brecha digital es un problema serio.',level:'b2',theme:'society'},
+{es:'abordar',type:'verb',en:'to tackle / address',example:'Hay que abordar el problema de raíz.',level:'b2',theme:'work'},
+{es:'la repercusión',type:'noun',en:'repercussion / impact',example:'Las repercusiones fueron inesperadas.',level:'b2',theme:'society'},
+{es:'el planteamiento',type:'noun',en:'approach / framing',example:'El planteamiento del problema es erróneo.',level:'b2',theme:'work'},
+{es:'la tendencia',type:'noun',en:'trend',example:'La tendencia del mercado es alcista.',level:'b2',theme:'money'},
+{es:'el contexto',type:'noun',en:'context',example:'Hay que entender el contexto histórico.',level:'b2',theme:'education'},
+{es:'carecer de',type:'verb',en:'to lack',example:'El informe carece de datos concretos.',level:'b2',theme:'work'},
+{es:'la coyuntura',type:'noun',en:'juncture / current situation',example:'En la coyuntura actual, hay que actuar.',level:'b2',theme:'society'},
+{es:'fundamentar',type:'verb',en:'to base / substantiate',example:'La propuesta está bien fundamentada.',level:'b2',theme:'work'},
+{es:'el mecanismo',type:'noun',en:'mechanism',example:'El mecanismo de control es eficaz.',level:'b2',theme:'work'},
+{es:'el desafío',type:'noun',en:'challenge / defiance',example:'El desafío tecnológico es enorme.',level:'b2',theme:'technology'},
+{es:'la incertidumbre',type:'noun',en:'uncertainty',example:'La incertidumbre económica persiste.',level:'b2',theme:'money'},
+{es:'plantear',type:'verb',en:'to raise / put forward',example:'Planteó una pregunta muy interesante.',level:'b2',theme:'work'},
+{es:'la consecuencia',type:'noun',en:'consequence',example:'Las consecuencias fueron graves.',level:'b2',theme:'society'},
+{es:'el impacto',type:'noun',en:'impact',example:'El impacto medioambiental es preocupante.',level:'b2',theme:'nature'},
+{es:'la regulación',type:'noun',en:'regulation',example:'La regulación financiera es muy estricta.',level:'b2',theme:'money'},
+{es:'el modelo',type:'noun',en:'model / pattern',example:'Es un modelo de negocio innovador.',level:'b2',theme:'work'},
+{es:'el estímulo',type:'noun',en:'stimulus / incentive',example:'El estímulo fiscal reactivó la economía.',level:'b2',theme:'money'},
+{es:'comprometer',type:'verb',en:'to compromise / commit',example:'Se comprometió a entregar el proyecto.',level:'b2',theme:'work'},
+{es:'la inversión',type:'noun',en:'investment',example:'La inversión en educación es clave.',level:'b2',theme:'money'},
+{es:'la reforma',type:'noun',en:'reform',example:'La reforma fiscal fue polémica.',level:'b2',theme:'society'},
+{es:'el alcance',type:'noun',en:'reach / scope',example:'El alcance del proyecto es global.',level:'b2',theme:'work'},
+{es:'la prioridad',type:'noun',en:'priority',example:'La seguridad es la primera prioridad.',level:'b2',theme:'work'},
+{es:'la autonomía',type:'noun',en:'autonomy',example:'Las comunidades tienen autonomía propia.',level:'b2',theme:'society'},
+{es:'la eficacia',type:'noun',en:'effectiveness',example:'La eficacia del tratamiento es alta.',level:'b2',theme:'health'},
+{es:'el riesgo',type:'noun',en:'risk',example:'Hay que calcular bien el riesgo.',level:'b2',theme:'money'},
+{es:'el recurso',type:'noun',en:'resource',example:'Los recursos naturales son finitos.',level:'b2',theme:'nature'},
+{es:'la solidaridad',type:'noun',en:'solidarity',example:'La solidaridad entre vecinos es importante.',level:'b2',theme:'society'},
+{es:'el argumento',type:'noun',en:'argument / reasoning',example:'Su argumento es muy convincente.',level:'b2',theme:'education'},
+{es:'el bienestar',type:'noun',en:'wellbeing',example:'El bienestar de los empleados es prioritario.',level:'b2',theme:'health'},
+// ── C1 ──
+{es:'no obstante',type:'conj',en:'nevertheless',example:'No obstante, la situación mejoró.',level:'c1',theme:'work'},
+{es:'por ende',type:'phrase',en:'therefore / hence',example:'El mercado cayó; por ende, ajustamos.',level:'c1',theme:'work'},
+{es:'coyuntural',type:'adj',en:'conjunctural / situational',example:'Es una medida de carácter coyuntural.',level:'c1',theme:'society'},
+{es:'en aras de',type:'phrase',en:'for the sake of',example:'En aras de la eficiencia, simplificamos.',level:'c1',theme:'work'},
+{es:'la tesitura',type:'noun',en:'situation / predicament',example:'En esta tesitura, debemos actuar.',level:'c1',theme:'society'},
+{es:'fehacientemente',type:'adv',en:'conclusively / definitively',example:'Queda demostrado fehacientemente.',level:'c1',theme:'work'},
+{es:'el arraigo',type:'noun',en:'rootedness / deep ties',example:'Tiene un arraigo cultural muy profundo.',level:'c1',theme:'society'},
+{es:'dilucidar',type:'verb',en:'to elucidate / clarify',example:'Hay que dilucidar la causa del problema.',level:'c1',theme:'work'},
+{es:'el entramado',type:'noun',en:'framework / web',example:'El entramado legal es complejo.',level:'c1',theme:'society'},
+{es:'palmario',type:'adj',en:'obvious / evident',example:'Es palmario que la estrategia falló.',level:'c1',theme:'work'},
+{es:'la ambigüedad',type:'noun',en:'ambiguity',example:'La ambigüedad del texto genera confusión.',level:'c1',theme:'education'},
+{es:'subyacer',type:'verb',en:'to underlie',example:'Un conflicto de intereses subyace al problema.',level:'c1',theme:'society'},
+{es:'el paradigma',type:'noun',en:'paradigm',example:'Es un cambio de paradigma en la industria.',level:'c1',theme:'work'},
+{es:'la idiosincrasia',type:'noun',en:'idiosyncrasy / character',example:'Entiende la idiosincrasia cultural del país.',level:'c1',theme:'culture'},
+{es:'pragmático',type:'adj',en:'pragmatic',example:'Necesitamos un enfoque pragmático.',level:'c1',theme:'work'},
+{es:'el dogma',type:'noun',en:'dogma',example:'No hay que aferrarse a dogmas obsoletos.',level:'c1',theme:'society'},
+{es:'la hegemonía',type:'noun',en:'hegemony',example:'La hegemonía tecnológica cambia rápido.',level:'c1',theme:'society'},
+{es:'precario',type:'adj',en:'precarious',example:'Las condiciones laborales son precarias.',level:'c1',theme:'work'},
+{es:'la dicotomía',type:'noun',en:'dichotomy',example:'La dicotomía entre trabajo y vida personal.',level:'c1',theme:'work'},
+{es:'suscitar',type:'verb',en:'to provoke / give rise to',example:'El informe suscitó un gran debate.',level:'c1',theme:'society'},
+{es:'la premisa',type:'noun',en:'premise',example:'La premisa del argumento es incorrecta.',level:'c1',theme:'education'},
+{es:'el matiz',type:'noun',en:'nuance / shade',example:'Hay que entender los matices culturales.',level:'c1',theme:'culture'},
+{es:'la envergadura',type:'noun',en:'scale / magnitude',example:'Un proyecto de gran envergadura.',level:'c1',theme:'work'},
+{es:'resiliente',type:'adj',en:'resilient',example:'Las economías resilientes se recuperan rápido.',level:'c1',theme:'society'},
+{es:'el sesgo',type:'noun',en:'bias',example:'El sesgo cognitivo afecta nuestras decisiones.',level:'c1',theme:'education'},
+{es:'refutar',type:'verb',en:'to refute',example:'Refutó el argumento con datos concretos.',level:'c1',theme:'education'},
+{es:'la potestad',type:'noun',en:'authority / power',example:'Tiene potestad para tomar esa decisión.',level:'c1',theme:'society'},
+{es:'la aquiescencia',type:'noun',en:'acquiescence',example:'Su aquiescencia fue sorprendente.',level:'c1',theme:'society'},
+{es:'inherente',type:'adj',en:'inherent',example:'El riesgo es inherente a la inversión.',level:'c1',theme:'money'},
+{es:'el cometido',type:'noun',en:'task / mission / role',example:'Cada empleado conoce su cometido.',level:'c1',theme:'work'},
+{es:'la merma',type:'noun',en:'loss / decrease / reduction',example:'La merma de ingresos fue significativa.',level:'c1',theme:'money'},
+{es:'concatenar',type:'verb',en:'to link / chain together',example:'Los eventos se concatenaron de forma inesperada.',level:'c1',theme:'work'},
+{es:'la aquiescencia',type:'noun',en:'acquiescence / consent',example:'Actuó con la aquiescencia del comité.',level:'c1',theme:'society'},
+{es:'el semblante',type:'noun',en:'countenance / appearance',example:'Su semblante reflejaba preocupación.',level:'c1',theme:'emotions'},
+{es:'escudriñar',type:'verb',en:'to scrutinize / examine closely',example:'Escudriñó cada cláusula del contrato.',level:'c1',theme:'work'},
+{es:'la dilucidación',type:'noun',en:'elucidation / clarification',example:'La dilucidación del problema requirió tiempo.',level:'c1',theme:'education'},
+{es:'recalcar',type:'verb',en:'to emphasize / stress',example:'Quiero recalcar la importancia de este punto.',level:'c1',theme:'work'},
+{es:'el desenlace',type:'noun',en:'outcome / denouement',example:'El desenlace de la negociación fue positivo.',level:'c1',theme:'work'},
+{es:'la vertiente',type:'noun',en:'aspect / facet / slope',example:'Hay que analizar la vertiente económica.',level:'c1',theme:'work'},
+{es:'concomitante',type:'adj',en:'concomitant / accompanying',example:'Los efectos concomitantes fueron menores.',level:'c1',theme:'health'},
+{es:'la irrupción',type:'noun',en:'sudden emergence / irruption',example:'La irrupción de la IA transformó el sector.',level:'c1',theme:'technology'},
 ];
 
 let activeLevel = 'all';
@@ -180,8 +488,7 @@ function speak(text) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'es-ES';
-  u.rate = 0.9;
+  u.lang = 'es-ES'; u.rate = 0.9;
   window.speechSynthesis.speak(u);
 }
 
@@ -191,10 +498,7 @@ function filterVocab() {
   let data = VOCAB;
   if (activeLevel !== 'all') data = data.filter(w => w.level === activeLevel);
   if (theme !== 'all') data = data.filter(w => w.theme === theme);
-  if (q) data = data.filter(w =>
-    w.es.toLowerCase().includes(q) ||
-    w.en.toLowerCase().includes(q)
-  );
+  if (q) data = data.filter(w => w.es.toLowerCase().includes(q) || w.en.toLowerCase().includes(q));
   renderVocab(data);
   document.getElementById('countBadge').textContent = `Showing ${data.length} of ${VOCAB.length} words`;
 }
@@ -208,24 +512,26 @@ function setLevel(lv, btn) {
 
 function renderVocab(data) {
   const grid = document.getElementById('vocabGrid');
-  if (!data.length) { grid.innerHTML = '<p style="color:var(--text2);padding:2rem 0">No words found.</p>'; return; }
+  if (!data.length) { grid.innerHTML = '<p style="color:var(--text2);padding:2rem">No words found.</p>'; return; }
   grid.innerHTML = data.map(w => `
     <div class="word-card">
       <div class="word-es">
         ${w.es}
         <span class="word-type">${w.type}</span>
-        <button class="audio-btn" onclick="speak('${w.es.replace(/'/g,"\\'")}')">🔊</button>
+        <button class="audio-btn" onclick="speak('${w.es.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">🔊</button>
       </div>
       <div class="word-en">${w.en}</div>
       <div class="word-example">${w.example}</div>
-      <div class="word-level"><span>${w.level.toUpperCase()}</span></div>
+      <div class="word-footer">
+        <div class="word-level"><span>${w.level.toUpperCase()}</span></div>
+        <div class="word-theme">${w.theme}</div>
+      </div>
     </div>
   `).join('');
 }
 
 filterVocab();
 
-// Shared controls
 const theme = localStorage.getItem('es_theme') || 'dark';
 if (theme === 'light') document.body.classList.add('light');
 document.querySelectorAll('.themeBtn').forEach(b => b.textContent = theme === 'light' ? '🌙' : '☀️');

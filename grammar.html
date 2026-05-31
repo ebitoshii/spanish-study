@@ -6,7 +6,7 @@
 <title>Grammar — Español Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
 .light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
@@ -24,20 +24,16 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .mobile-menu.open{display:flex;}
 .mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
 .mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
-
 .page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
 .page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
 .page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
-
 .filters{display:flex;gap:.5rem;padding:1rem 2rem;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--bg2);}
 .filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .8rem;border-radius:20px;cursor:pointer;font-size:.85rem;font-family:inherit;transition:all .2s;}
 .filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
-
 .search-bar{padding:.8rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
 .search-bar input{width:100%;max-width:400px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem 1rem;border-radius:6px;font-family:inherit;font-size:.9rem;outline:none;}
 .search-bar input:focus{border-color:var(--accent);}
 .search-bar input::placeholder{color:var(--text2);}
-
 .grammar-list{max-width:900px;margin:0 auto;padding:1.5rem 2rem;}
 .rule-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:1rem;overflow:hidden;}
 .rule-header{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;cursor:pointer;user-select:none;}
@@ -61,13 +57,13 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .example-en{color:var(--text2);font-size:.88rem;font-style:italic;}
 .nuance-box{background:rgba(243,156,18,.08);border:1px solid rgba(243,156,18,.3);border-radius:6px;padding:.8rem 1rem;margin-top:.8rem;}
 .nuance-title{color:var(--accent3);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;}
-
+.count-info{color:var(--text2);font-size:.85rem;padding:.5rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.grammar-list{padding:1rem;}.filters{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
 </style>
 </head>
 <body>
 <nav>
-  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <a href="index.html" class="nav-brand">Español ✦</a>
   <div class="nav-links">
     <a href="grammar.html" class="active">Grammar</a>
     <a href="vocabulary.html">Vocab</a>
@@ -103,16 +99,13 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
   <a href="progress.html">📊 Progress</a>
   <a href="schedule.html">📅 Schedule</a>
 </div>
-
 <div class="page-header">
   <div class="page-title">Grammar — Gramática</div>
-  <div class="page-sub">Rules, structures, and nuances from A1 to C1</div>
+  <div class="page-sub">50 rules and structures from A1 to C1</div>
 </div>
-
 <div class="search-bar">
   <input type="text" id="searchInput" placeholder="Search grammar rules..." oninput="filterAll()">
 </div>
-
 <div class="filters">
   <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
   <button class="filter-btn" onclick="setFilter('a1', this)">A1</button>
@@ -121,186 +114,272 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
   <button class="filter-btn" onclick="setFilter('b2', this)">B2</button>
   <button class="filter-btn" onclick="setFilter('c1', this)">C1</button>
 </div>
-
+<div class="count-info" id="countInfo"></div>
 <div class="grammar-list" id="grammarList"></div>
-
-<script src="shared-nav.js"></script>
 <script>
 const GRAMMAR = [
-  {
-    id: 1, level: 'a1', name: 'Ser vs Estar', es: 'Ser y Estar',
-    desc: 'Both mean "to be" but are used in fundamentally different contexts. Ser is for permanent or inherent characteristics; Estar is for states, conditions, and location.',
-    formula: 'SER: identity, origin, material, time, possession | ESTAR: location, emotion, condition, progressive',
-    examples: [
-      {es: 'Soy médico.', en: 'I am a doctor. (profession → ser)'},
-      {es: 'Estoy cansado.', en: 'I am tired. (state → estar)'},
-      {es: 'La reunión es en la oficina.', en: 'The meeting is at the office. (event → ser)'},
-      {es: 'Estoy en la oficina.', en: 'I am at the office. (physical location → estar)'},
-    ],
-    nuance: 'Some adjectives change meaning: "Es aburrido" = He is a boring person. "Está aburrido" = He is bored right now.'
-  },
-  {
-    id: 2, level: 'a1', name: 'Present Tense Regular Verbs', es: 'Presente de Indicativo',
-    desc: 'Regular verbs follow predictable patterns based on their infinitive ending (-ar, -er, -ir).',
-    formula: '-AR: o/as/a/amos/áis/an | -ER: o/es/e/emos/éis/en | -IR: o/es/e/imos/ís/en',
-    examples: [
-      {es: 'Yo hablo español todos los días.', en: 'I speak Spanish every day.'},
-      {es: 'Ella come en casa.', en: 'She eats at home.'},
-      {es: 'Nosotros vivimos en Singapur.', en: 'We live in Singapore.'},
-    ],
-    nuance: null
-  },
-  {
-    id: 3, level: 'a1', name: 'Definite & Indefinite Articles', es: 'Artículos',
-    desc: 'Spanish nouns have grammatical gender. Articles must agree in gender and number.',
-    formula: 'Definite: el/la/los/las | Indefinite: un/una/unos/unas',
-    examples: [
-      {es: 'El libro es interesante.', en: 'The book is interesting.'},
-      {es: 'Necesito una silla.', en: 'I need a chair.'},
-      {es: 'Las flores son bonitas.', en: 'The flowers are beautiful.'},
-    ],
-    nuance: 'Use "el" before feminine nouns starting with stressed "a": el agua, el hacha — but las aguas, las hachas in plural.'
-  },
-  {
-    id: 4, level: 'a2', name: 'Preterite Tense', es: 'Pretérito Indefinido',
-    desc: 'Used for completed actions in the past at a specific time. The Spanish "simple past".',
-    formula: '-AR: é/aste/ó/amos/asteis/aron | -ER/-IR: í/iste/ió/imos/isteis/ieron',
-    examples: [
-      {es: 'Ayer comí sushi.', en: 'Yesterday I ate sushi.'},
-      {es: 'Ella llegó tarde a la reunión.', en: 'She arrived late to the meeting.'},
-      {es: '¿Dónde viviste de niño?', en: 'Where did you live as a child?'},
-    ],
-    nuance: null
-  },
-  {
-    id: 5, level: 'a2', name: 'Imperfect Tense', es: 'Pretérito Imperfecto',
-    desc: 'Used for ongoing or habitual past actions, background descriptions, and states of mind in the past.',
-    formula: '-AR: aba/abas/aba/ábamos/abais/aban | -ER/-IR: ía/ías/ía/íamos/íais/ían',
-    examples: [
-      {es: 'Cuando era joven, vivía en Madrid.', en: 'When I was young, I lived in Madrid.'},
-      {es: 'Todos los días tomaba café por la mañana.', en: 'Every day I used to have coffee in the morning.'},
-      {es: 'Llovía cuando salimos.', en: 'It was raining when we left.'},
-    ],
-    nuance: 'Preterite vs Imperfect: Preterite = completed action with endpoint. Imperfect = ongoing/habitual or background context.'
-  },
-  {
-    id: 6, level: 'a2', name: 'Direct & Indirect Object Pronouns', es: 'Pronombres de Complemento',
-    desc: 'Replace nouns that are the direct object (what) or indirect object (to whom) of a verb.',
-    formula: 'DO: me/te/lo,la/nos/os/los,las | IO: me/te/le/nos/os/les',
-    examples: [
-      {es: 'Lo veo todos los días.', en: 'I see him every day. (lo = direct object)'},
-      {es: 'Le doy el libro a María.', en: 'I give the book to María. (le = indirect object)'},
-      {es: 'Se lo digo mañana.', en: 'I\'ll tell it to him/her tomorrow. (le → se before lo)'},
-    ],
-    nuance: 'When IO "le/les" precedes DO "lo/la/los/las", le/les change to "se" to avoid le lo.'
-  },
-  {
-    id: 7, level: 'b1', name: 'Present Subjunctive', es: 'Presente de Subjuntivo',
-    desc: 'Used to express doubt, desire, emotion, necessity, or hypothetical situations. Required after certain conjunctions and expressions.',
-    formula: 'Take yo present, drop -o, add opposite vowel endings: -AR → e/es/e/emos/éis/en | -ER/-IR → a/as/a/amos/áis/an',
-    examples: [
-      {es: 'Quiero que vengas.', en: 'I want you to come.'},
-      {es: 'Es importante que estudies.', en: 'It\'s important that you study.'},
-      {es: 'Dudo que sea verdad.', en: 'I doubt that it\'s true.'},
-      {es: 'Cuando llegues, llámame.', en: 'When you arrive, call me.'},
-    ],
-    nuance: 'WEIRDO triggers: Wish/Want, Emotion, Impersonal expressions, Recommendations, Doubt/Denial, Ojalá'
-  },
-  {
-    id: 8, level: 'b1', name: 'Por vs Para', es: 'Por y Para',
-    desc: 'Both translate as "for" but have distinct uses. Por refers to cause/exchange/duration; Para refers to purpose/destination/deadline.',
-    formula: 'POR: cause, duration, exchange, on behalf of, movement through | PARA: purpose, destination, deadline, recipient, opinion',
-    examples: [
-      {es: 'Te llamo por teléfono.', en: 'I\'ll call you by phone. (means → por)'},
-      {es: 'Estudia para ser piloto.', en: 'He studies to be a pilot. (purpose → para)'},
-      {es: 'Lo hice por ti.', en: 'I did it because of you / for your sake. (cause → por)'},
-      {es: 'El informe es para el lunes.', en: 'The report is due Monday. (deadline → para)'},
-    ],
-    nuance: 'Mnemonic: PDDDE for Para (Purpose, Destination, Deadline, Despite [contrast], Employment). DEEMS for Por (Duration, Exchange, Emotions/motives, Movement, Substitution).'
-  },
-  {
-    id: 9, level: 'b1', name: 'Reflexive Verbs', es: 'Verbos Reflexivos',
-    desc: 'Verbs where the subject and object are the same — the subject acts on itself. Marked with -se in the infinitive.',
-    formula: 'Reflexive pronouns: me/te/se/nos/os/se (placed before conjugated verb or attached to infinitive)',
-    examples: [
-      {es: 'Me levanto a las seis.', en: 'I get up at six.'},
-      {es: 'Ella se peina antes de salir.', en: 'She combs her hair before going out.'},
-      {es: 'Nos divertimos mucho anoche.', en: 'We had a lot of fun last night.'},
-    ],
-    nuance: 'Many verbs change meaning when reflexive: ir (to go) → irse (to leave/go away); poner (to put) → ponerse (to put on clothing).'
-  },
-  {
-    id: 10, level: 'b2', name: 'Imperfect Subjunctive', es: 'Pretérito Imperfecto de Subjuntivo',
-    desc: 'Used in hypothetical situations (si clauses), polite requests, and when the main verb is in the past. Formed from the ellos preterite stem.',
-    formula: 'Ellos preterite → drop -ron → add: ra/ras/ra/ramos/rais/ran',
-    examples: [
-      {es: 'Si tuviera más tiempo, viajaría.', en: 'If I had more time, I would travel.'},
-      {es: 'Quería que lo hicieras tú.', en: 'I wanted you to do it.'},
-      {es: 'Quisiera un café, por favor.', en: 'I would like a coffee, please. (polite)'},
-    ],
-    nuance: 'Si clauses: If [imperfect subj] + [conditional] = hypothetical. If [present/future indicative] + [future] = real condition.'
-  },
-  {
-    id: 11, level: 'b2', name: 'Conditional Tense', es: 'Condicional Simple',
-    desc: 'Expresses what would happen under certain conditions. Also used for polite requests and reported speech.',
-    formula: 'Infinitive + ía/ías/ía/íamos/íais/ían (irregular stems: tener→tendr, poder→podr, hacer→har, etc.)',
-    examples: [
-      {es: 'Yo viajaría más si pudiera.', en: 'I would travel more if I could.'},
-      {es: '¿Podrías ayudarme?', en: 'Could you help me? (polite request)'},
-      {es: 'Dijo que vendría mañana.', en: 'He said he would come tomorrow. (reported speech)'},
-    ],
-    nuance: null
-  },
-  {
-    id: 12, level: 'c1', name: 'Pluperfect & Perfect Subjunctive', es: 'Subjuntivo Compuesto',
-    desc: 'Used to express doubt, emotion, or hypothetical situations about past events. Present perfect subj: haya + participle. Pluperfect subj: hubiera + participle.',
-    formula: 'Pres. perfect subj: haya/hayas/haya/hayamos/hayáis/hayan + participio\nPluperfect subj: hubiera + participio',
-    examples: [
-      {es: 'No creo que haya llegado todavía.', en: 'I don\'t think he has arrived yet.'},
-      {es: 'Si hubiera estudiado más, habría aprobado.', en: 'If I had studied more, I would have passed.'},
-      {es: 'Es una lástima que no hayas venido.', en: 'It\'s a shame you didn\'t come.'},
-    ],
-    nuance: 'The pluperfect subjunctive in si clauses always pairs with the conditional perfect: Si hubiera + [past participle] → habría + [past participle].'
-  },
-  {
-    id: 13, level: 'b1', name: 'Future Tense', es: 'Futuro Simple',
-    desc: 'Expresses future actions, predictions, or probability in the present.',
-    formula: 'Infinitive + é/ás/á/emos/éis/án (irregular: tener→tendr, hacer→har, poder→podr, decir→dir)',
-    examples: [
-      {es: 'Mañana iré al aeropuerto.', en: 'Tomorrow I will go to the airport.'},
-      {es: '¿Dónde estará él ahora?', en: 'I wonder where he is now. (probability)'},
-      {es: 'Haré el informe esta tarde.', en: 'I will write the report this afternoon.'},
-    ],
-    nuance: null
-  },
-  {
-    id: 14, level: 'a2', name: 'Adjective Agreement', es: 'Concordancia de Adjetivos',
-    desc: 'Adjectives must agree in gender and number with the noun they modify. Most adjectives follow predictable patterns.',
-    formula: 'Masc sing: -o | Fem sing: -a | Masc plural: -os | Fem plural: -as\nAdjectives ending in -e or consonant: same for masc/fem, add -s/-es for plural',
-    examples: [
-      {es: 'El libro rojo / La casa roja', en: 'The red book / The red house'},
-      {es: 'Los libros rojos / Las casas rojas', en: 'The red books / The red houses'},
-      {es: 'Un hombre inteligente / Una mujer inteligente', en: 'An intelligent man / woman'},
-    ],
-    nuance: 'Shortened adjectives before masculine singular nouns: buen, mal, gran, primer, tercer (e.g., un buen piloto).'
-  },
-  {
-    id: 15, level: 'b2', name: 'Passive Voice', es: 'Voz Pasiva',
-    desc: 'Spanish has two passive constructions: the true passive (ser + participle) and the reflexive passive (se + verb).',
-    formula: 'True: ser + past participle (agrees with subject) + por + agent\nReflexive: se + 3rd person verb',
-    examples: [
-      {es: 'El libro fue escrito por Cervantes.', en: 'The book was written by Cervantes.'},
-      {es: 'Se habla español aquí.', en: 'Spanish is spoken here.'},
-      {es: 'Se vendieron todos los billetes.', en: 'All the tickets were sold.'},
-    ],
-    nuance: 'The reflexive passive (se) is far more common in everyday speech. The true passive is more formal and common in writing.'
-  },
+  // ── A1 ──
+  {id:1,level:'a1',name:'Ser vs Estar',es:'Ser y Estar',
+   desc:'Both mean "to be" but are used in fundamentally different contexts. Ser is for permanent or inherent characteristics; Estar is for states, conditions, and location.',
+   formula:'SER: identity, origin, material, time, possession\nESTAR: location, emotion, condition, progressive tense',
+   examples:[{es:'Soy piloto.',en:'I am a pilot. (profession → ser)'},{es:'Estoy cansado.',en:'I am tired. (state → estar)'},{es:'La reunión es en la oficina.',en:'The meeting is at the office. (event → ser)'},{es:'Estoy en la oficina.',en:'I am at the office. (physical location → estar)'}],
+   nuance:'Some adjectives change meaning: "Es aburrido" = He is a boring person. "Está aburrido" = He is bored right now.'},
+  {id:2,level:'a1',name:'Present Tense Regular Verbs',es:'Presente de Indicativo Regular',
+   desc:'Regular verbs follow predictable patterns based on their infinitive ending (-ar, -er, -ir).',
+   formula:'-AR: o/as/a/amos/áis/an\n-ER: o/es/e/emos/éis/en\n-IR: o/es/e/imos/ís/en',
+   examples:[{es:'Yo hablo español todos los días.',en:'I speak Spanish every day.'},{es:'Ella come en casa.',en:'She eats at home.'},{es:'Nosotros vivimos en Singapur.',en:'We live in Singapore.'}],
+   nuance:null},
+  {id:3,level:'a1',name:'Definite & Indefinite Articles',es:'Artículos',
+   desc:'Spanish nouns have grammatical gender. Articles must agree in gender and number.',
+   formula:'Definite: el/la/los/las\nIndefinite: un/una/unos/unas',
+   examples:[{es:'El libro es interesante.',en:'The book is interesting.'},{es:'Necesito una silla.',en:'I need a chair.'},{es:'Las flores son bonitas.',en:'The flowers are beautiful.'}],
+   nuance:'Use "el" before feminine nouns starting with stressed "a": el agua, el hacha — but las aguas, las hachas in plural.'},
+  {id:4,level:'a1',name:'Noun Gender',es:'Género de los Sustantivos',
+   desc:'All Spanish nouns are masculine or feminine. Gender determines article and adjective agreement.',
+   formula:'Masc endings (often): -o, -or, -aje, -ma (Greek origin)\nFem endings (often): -a, -ión, -dad, -tad, -tud, -umbre',
+   examples:[{es:'el libro, el ordenador, el mensaje',en:'the book, the computer, the message (masculine)'},{es:'la casa, la nación, la ciudad',en:'the house, the nation, the city (feminine)'},{es:'el problema, el poema, el idioma',en:'the problem, poem, language — Greek-origin, masculine despite -a'}],
+   nuance:'Exceptions exist: la mano (hand), el día (day), la radio. Learn gender with the article.'},
+  {id:5,level:'a1',name:'Adjective Agreement',es:'Concordancia de Adjetivos',
+   desc:'Adjectives must agree in gender and number with the noun they modify.',
+   formula:'Masc sing: -o | Fem sing: -a | Masc pl: -os | Fem pl: -as\nAdj ending in -e or consonant: same for both genders, add -s/-es for plural',
+   examples:[{es:'El libro rojo / La casa roja',en:'The red book / The red house'},{es:'Los libros rojos / Las casas rojas',en:'The red books / The red houses'},{es:'Un hombre inteligente / Una mujer inteligente',en:'An intelligent man / woman'}],
+   nuance:'Shortened (apocopated) adjectives before masculine singular: buen, mal, gran, primer, tercer (e.g., un buen piloto, el primer vuelo).'},
+  {id:6,level:'a1',name:'Subject Pronouns',es:'Pronombres Personales',
+   desc:'Spanish often omits subject pronouns since verb endings indicate person and number.',
+   formula:'yo, tú, él/ella/usted, nosotros, vosotros, ellos/ellas/ustedes',
+   examples:[{es:'(Yo) hablo inglés.',en:'I speak English. (yo optional)'},{es:'¿(Tú) hablas español?',en:'Do you speak Spanish?'},{es:'Usted es muy amable.',en:'You are very kind. (formal — often kept for clarity)'}],
+   nuance:'"Vosotros" is used in Spain; Latin America uses "ustedes" for both formal and informal plural. "Usted/Ustedes" take 3rd person verb forms.'},
+  {id:7,level:'a1',name:'Negation',es:'Negación',
+   desc:'To negate a sentence, place "no" directly before the verb. Double negatives are grammatically correct in Spanish.',
+   formula:'no + verb\nno + verb + negative word (nunca, nada, nadie, ninguno)',
+   examples:[{es:'No hablo alemán.',en:'I don\'t speak German.'},{es:'No tengo nada.',en:'I don\'t have anything.'},{es:'No viene nadie.',en:'Nobody is coming.'},{es:'Nunca he estado en México.',en:'I have never been to Mexico.'}],
+   nuance:'Unlike English, double negatives are required: "No quiero nada" (I don\'t want anything — literally "I don\'t want nothing").'},
+  {id:8,level:'a1',name:'Question Formation',es:'Formación de Preguntas',
+   desc:'Questions use inverted word order and require an opening inverted question mark (¿). Intonation questions are also common.',
+   formula:'¿(Question word) + verb + subject + rest?\n¿Dónde, cuándo, quién, qué, cómo, cuánto, por qué, cuál?',
+   examples:[{es:'¿Hablas español?',en:'Do you speak Spanish?'},{es:'¿Dónde vives?',en:'Where do you live?'},{es:'¿Cuántos años tienes?',en:'How old are you?'},{es:'¿Por qué estudias español?',en:'Why are you studying Spanish?'}],
+   nuance:'"¿Cuál?" = which/what (implies a selection). "¿Qué?" = what (open-ended). "¿Cuál es tu nombre?" vs "¿Cómo te llamas?" — both ask your name.'},
+  {id:9,level:'a1',name:'Hay — There is / There are',es:'Hay',
+   desc:'"Hay" is an invariable form of haber used to express existence. It does not change for singular or plural.',
+   formula:'hay + noun (singular or plural)',
+   examples:[{es:'Hay un banco cerca de aquí.',en:'There is a bank nearby.'},{es:'Hay tres vuelos al día.',en:'There are three flights per day.'},{es:'No hay problema.',en:'There is no problem.'}],
+   nuance:'"Hay" (present) vs "Está/Están" (location): "Hay un hotel aquí" = There is a hotel here (existence). "El hotel está aquí" = The hotel is here (specific, known).'},
+  {id:10,level:'a1',name:'Tener — To Have & Expressions',es:'Tener y sus Expresiones',
+   desc:'"Tener" (to have) is used in many idiomatic expressions where English uses "to be".',
+   formula:'tener + noun (no article)\ntener que + infinitive = to have to / must',
+   examples:[{es:'Tengo hambre / sed / frío / calor / sueño / miedo.',en:'I am hungry / thirsty / cold / hot / sleepy / afraid.'},{es:'Tengo razón.',en:'I am right.'},{es:'Tengo que estudiar más.',en:'I have to study more.'},{es:'¿Cuántos años tienes?',en:'How old are you? (Lit: How many years do you have?)'}],
+   nuance:'Key tener expressions: tener ganas de (to feel like), tener en cuenta (to bear in mind), tener lugar (to take place).'},
+  // ── A2 ──
+  {id:11,level:'a2',name:'Preterite Tense',es:'Pretérito Indefinido',
+   desc:'Used for completed actions in the past at a specific time.',
+   formula:'-AR: é/aste/ó/amos/asteis/aron\n-ER/-IR: í/iste/ió/imos/isteis/ieron',
+   examples:[{es:'Ayer comí sushi.',en:'Yesterday I ate sushi.'},{es:'Ella llegó tarde a la reunión.',en:'She arrived late to the meeting.'},{es:'Fui al aeropuerto a las seis.',en:'I went to the airport at six.'}],
+   nuance:'Key irregulars: ser/ir → fui/fuiste/fue; tener → tuve; hacer → hice/hiciste/hizo; estar → estuve; poder → pude; decir → dije.'},
+  {id:12,level:'a2',name:'Imperfect Tense',es:'Pretérito Imperfecto',
+   desc:'Used for ongoing or habitual past actions, background descriptions, and states of mind in the past.',
+   formula:'-AR: aba/abas/aba/ábamos/abais/aban\n-ER/-IR: ía/ías/ía/íamos/íais/ían',
+   examples:[{es:'Cuando era joven, vivía en Madrid.',en:'When I was young, I lived in Madrid.'},{es:'Todos los días tomaba café por la mañana.',en:'Every day I used to have coffee in the morning.'},{es:'Llovía cuando salimos.',en:'It was raining when we left.'}],
+   nuance:'Preterite vs Imperfect: Preterite = completed action with endpoint. Imperfect = ongoing/habitual or background context. Only 3 irregular verbs: ser (era), ir (iba), ver (veía).'},
+  {id:13,level:'a2',name:'Direct & Indirect Object Pronouns',es:'Pronombres de Complemento',
+   desc:'Replace nouns that are the direct object (what) or indirect object (to whom) of a verb.',
+   formula:'DO: me/te/lo,la/nos/os/los,las\nIO: me/te/le/nos/os/les',
+   examples:[{es:'Lo veo todos los días.',en:'I see him every day. (lo = direct object)'},{es:'Le doy el libro a María.',en:'I give the book to María. (le = indirect object)'},{es:'Se lo digo mañana.',en:'I\'ll tell it to him/her tomorrow. (le → se before lo)'}],
+   nuance:'When IO "le/les" precedes DO "lo/la/los/las", le/les change to "se": "Le lo doy" → "Se lo doy". Pronouns precede conjugated verbs; with infinitives they can attach or precede.'},
+  {id:14,level:'a2',name:'Gustar & Similar Verbs',es:'Gustar y Verbos Similares',
+   desc:'"Gustar" (to like) works backwards from English — the thing liked is the subject, and the person who likes it is the indirect object.',
+   formula:'(IO pronoun) + gusta/gustan + subject\nme/te/le/nos/os/les + gusta (singular) / gustan (plural)',
+   examples:[{es:'Me gusta el café.',en:'I like coffee. (lit: Coffee pleases me)'},{es:'Te gustan las películas de acción.',en:'You like action movies.'},{es:'Le encanta viajar.',en:'He/She loves to travel.'},{es:'Nos molesta el ruido.',en:'The noise bothers us.'}],
+   nuance:'Similar verbs: encantar (to love), molestar (to bother), interesar (to interest), doler (to hurt), fascinar (to fascinate), parecer (to seem), faltar (to lack/miss).'},
+  {id:15,level:'a2',name:'Reflexive Verbs',es:'Verbos Reflexivos',
+   desc:'Verbs where the subject acts on itself. Marked with -se in the infinitive.',
+   formula:'Reflexive pronouns: me/te/se/nos/os/se\nPlaced before conjugated verb or attached to infinitive/gerund',
+   examples:[{es:'Me levanto a las seis.',en:'I get up at six.'},{es:'Ella se peina antes de salir.',en:'She combs her hair before going out.'},{es:'Voy a ducharme ahora.',en:'I\'m going to shower now.'}],
+   nuance:'Many verbs change meaning when reflexive: ir → irse (to leave/go away); poner → ponerse (to put on clothing); ir → irse (to leave). Reciprocal use: "Nos queremos" = We love each other.'},
+  {id:16,level:'a2',name:'Present Progressive',es:'Presente Continuo (Estar + Gerundio)',
+   desc:'Used for actions happening right now. Formed with estar + gerund (-ando/-iendo).',
+   formula:'-AR verbs: -ando | -ER/-IR verbs: -iendo\nIrregulars: decir→diciendo, leer→leyendo, pedir→pidiendo, dormir→durmiendo',
+   examples:[{es:'Estoy estudiando español.',en:'I am studying Spanish.'},{es:'¿Qué estás haciendo?',en:'What are you doing?'},{es:'Están comiendo en el restaurante.',en:'They are eating at the restaurant.'}],
+   nuance:'Unlike English, Spanish doesn\'t use present progressive for future plans. "Mañana trabajo" not "mañana estoy trabajando". Also used with ir, andar, seguir, llevar + gerund.'},
+  {id:17,level:'a2',name:'Immediate Future (ir a + infinitive)',es:'Futuro Próximo (ir a + infinitivo)',
+   desc:'The most common way to express future plans or intentions in everyday Spanish.',
+   formula:'ir (conjugated) + a + infinitive',
+   examples:[{es:'Voy a llamarte esta noche.',en:'I\'m going to call you tonight.'},{es:'¿Qué vas a hacer el fin de semana?',en:'What are you going to do this weekend?'},{es:'Ellos van a llegar tarde.',en:'They are going to arrive late.'}],
+   nuance:'More certain than the simple future tense. The simple future ("llamaré") sounds more formal or expresses more distant events or probability.'},
+  {id:18,level:'a2',name:'Demonstrative Adjectives & Pronouns',es:'Demostrativos',
+   desc:'Point to things in relation to distance from the speaker.',
+   formula:'NEAR: este/esta/estos/estas (this/these)\nMID: ese/esa/esos/esas (that/those)\nFAR: aquel/aquella/aquellos/aquellas (that over there)',
+   examples:[{es:'Este libro es mío.',en:'This book is mine.'},{es:'Esa silla está ocupada.',en:'That chair is taken.'},{es:'Aquellos edificios son históricos.',en:'Those buildings over there are historic.'}],
+   nuance:'"Esto/eso/aquello" (neuter forms) refer to unknown or unidentified things: "¿Qué es esto?" = What is this?'},
+  {id:19,level:'a2',name:'Possessive Adjectives & Pronouns',es:'Posesivos',
+   desc:'Show ownership. Short forms precede nouns; long forms follow or stand alone.',
+   formula:'Short (before noun): mi/tu/su/nuestro/vuestro/su\nLong (after noun / standalone): mío/tuyo/suyo/nuestro/vuestro/suyo',
+   examples:[{es:'Mi coche es nuevo. El tuyo también.',en:'My car is new. Yours too.'},{es:'Esta es la maleta mía.',en:'This is my suitcase. (emphatic long form)'},{es:'¿Es suyo este pasaporte?',en:'Is this passport yours/his/hers?'}],
+   nuance:'"Su/suyo" is ambiguous (his/her/your/their). Clarify with "de él/ella/usted/ellos": "el coche de él" = his car.'},
+  {id:20,level:'a2',name:'Present Perfect Tense',es:'Pretérito Perfecto Compuesto',
+   desc:'Used in Spain for recent past actions that are relevant to the present. In Latin America, the preterite is often used instead.',
+   formula:'haber (conjugated) + past participle\nhe/has/ha/hemos/habéis/han + -ado/-ido\nIrregulars: hecho, dicho, visto, puesto, vuelto, roto, escrito, abierto',
+   examples:[{es:'He comido demasiado hoy.',en:'I have eaten too much today.'},{es:'¿Has estado en España?',en:'Have you been to Spain?'},{es:'Ella ha escrito tres novelas.',en:'She has written three novels.'}],
+   nuance:'Spain: uses present perfect for today or recent past with relevance now. Latin America: preterite used instead. "Esta mañana comí" (LatAm) vs "Esta mañana he comido" (Spain).'},
+  // ── B1 ──
+  {id:21,level:'b1',name:'Present Subjunctive',es:'Presente de Subjuntivo',
+   desc:'Used to express doubt, desire, emotion, necessity, or hypothetical situations.',
+   formula:'Take yo present, drop -o, add opposite vowel endings:\n-AR → e/es/e/emos/éis/en\n-ER/-IR → a/as/a/amos/áis/an',
+   examples:[{es:'Quiero que vengas.',en:'I want you to come.'},{es:'Es importante que estudies.',en:'It\'s important that you study.'},{es:'Dudo que sea verdad.',en:'I doubt that it\'s true.'},{es:'Cuando llegues, llámame.',en:'When you arrive, call me.'}],
+   nuance:'WEIRDO triggers: Wish/Want, Emotion, Impersonal expressions, Recommendations, Doubt/Denial, Ojalá. Subjunctive after "cuando" only in future/uncertain situations.'},
+  {id:22,level:'b1',name:'Por vs Para',es:'Por y Para',
+   desc:'Both translate as "for" but have distinct uses.',
+   formula:'POR: cause, duration, exchange, on behalf of, movement through, means\nPARA: purpose, destination, deadline, recipient, opinion, employment',
+   examples:[{es:'Te llamo por teléfono.',en:'I\'ll call you by phone. (means → por)'},{es:'Estudia para ser piloto.',en:'He studies to be a pilot. (purpose → para)'},{es:'Lo hice por ti.',en:'I did it because of you. (cause → por)'},{es:'El informe es para el lunes.',en:'The report is due Monday. (deadline → para)'}],
+   nuance:'Memory aid — POR: DEEMS (Duration, Exchange, Emotions/motives, Movement, Substitution). PARA: PDDEO (Purpose, Destination, Deadline, Employment, Opinion).'},
+  {id:23,level:'b1',name:'Future Tense',es:'Futuro Simple',
+   desc:'Expresses future actions, predictions, or probability in the present.',
+   formula:'Infinitive + é/ás/á/emos/éis/án\nIrregular stems: tener→tendr, hacer→har, poder→podr, decir→dir, salir→saldr, poner→pondr, venir→vendr',
+   examples:[{es:'Mañana iré al aeropuerto.',en:'Tomorrow I will go to the airport.'},{es:'¿Dónde estará él ahora?',en:'I wonder where he is now. (probability)'},{es:'Haré el informe esta tarde.',en:'I will write the report this afternoon.'}],
+   nuance:'Future of probability: "¿Qué hora será?" = What time might it be? Used to speculate about the present. "Tendrá unos 40 años" = He\'s probably around 40.'},
+  {id:24,level:'b1',name:'Preterite vs Imperfect',es:'Indefinido vs Imperfecto',
+   desc:'The key contrast in Spanish past tenses. Both translate to English simple past but serve different functions.',
+   formula:'PRETERITE: completed action, specific time, sequence of events, interrupting action\nIMPERFECT: habitual past, ongoing state/description, background, interrupted action',
+   examples:[{es:'Vivía en Madrid cuando conocí a mi mujer.',en:'I was living in Madrid when I met my wife. (imperfect background + preterite event)'},{es:'De niño, jugaba al fútbol todos los días.',en:'As a child, I used to play football every day. (habitual → imperfect)'},{es:'Comí, pagué y salí.',en:'I ate, paid, and left. (sequence of completed events → preterite)'}],
+   nuance:'Time markers help: ayer/el año pasado/una vez → preterite. Siempre/todos los días/de niño/antes → imperfect.'},
+  {id:25,level:'b1',name:'Relative Pronouns',es:'Pronombres Relativos',
+   desc:'Connect clauses by referring back to an antecedent noun.',
+   formula:'que = that/which/who (most common)\nel que/la que/los que/las que = the one(s) who/that\nlo que = what / that which\ncuyo/cuya = whose',
+   examples:[{es:'El hombre que habla es mi jefe.',en:'The man who is speaking is my boss.'},{es:'La ciudad en la que vivo es Singapur.',en:'The city in which I live is Singapore.'},{es:'Lo que me dices es muy interesante.',en:'What you\'re telling me is very interesting.'},{es:'El piloto cuyo avión aterrizó antes.',en:'The pilot whose plane landed first.'}],
+   nuance:'"Quien/quienes" replaces "que" for people after prepositions: "La persona con quien hablo" = The person with whom I speak.'},
+  {id:26,level:'b1',name:'Infinitive Constructions',es:'Construcciones con Infinitivo',
+   desc:'Many Spanish verbs and expressions connect to a second verb via an infinitive, sometimes with a preposition.',
+   formula:'Verb + infinitive (direct): querer, poder, deber, saber, soler\nVerb + a + inf: ir a, aprender a, empezar a, volver a\nVerb + de + inf: acabar de, dejar de, tratar de\nVerb + en + inf: quedar en, insistir en',
+   examples:[{es:'Acabo de llegar del aeropuerto.',en:'I have just arrived from the airport. (acabar de + inf)'},{es:'Empezó a llover a las tres.',en:'It started to rain at three.'},{es:'Suelo tomar café por las mañanas.',en:'I usually have coffee in the mornings. (soler = to usually do)'}],
+   nuance:'"Deber + inf" = must (obligation). "Deber de + inf" = must (probability/deduction): "Debe de ser tarde" = It must be late.'},
+  {id:27,level:'b1',name:'Adverbial Clauses',es:'Oraciones Adverbiales',
+   desc:'Clauses that function as adverbs, expressing time, cause, purpose, condition, or concession.',
+   formula:'Time: cuando, mientras, antes de que, después de que, hasta que\nCause: porque, ya que, puesto que, dado que\nPurpose: para que + subj\nConcession: aunque, a pesar de que',
+   examples:[{es:'Mientras estudias, yo preparo la cena.',en:'While you study, I\'ll prepare dinner.'},{es:'Te lo explico para que lo entiendas.',en:'I\'ll explain it so that you understand. (purpose → subjunctive)'},{es:'Aunque es difícil, vale la pena.',en:'Even though it\'s hard, it\'s worth it. (though + indicative = fact)'},{es:'Aunque sea difícil, lo intentaré.',en:'Even if it\'s hard, I will try. (concession + subjunctive = hypothetical)'}],
+   nuance:'"Aunque" + indicative = conceding a fact. "Aunque" + subjunctive = hypothetical concession.'},
+  {id:28,level:'b1',name:'Expressions with Haber',es:'Expresiones con Haber',
+   desc:'"Haber" is used as an auxiliary for compound tenses and in impersonal expressions.',
+   formula:'hay (present) / había (imperfect) / hubo (preterite) / habrá (future)\nhaber que + inf = one must / it is necessary to',
+   examples:[{es:'Hay que respetar las normas.',en:'One must respect the rules.'},{es:'Había mucho tráfico ayer.',en:'There was a lot of traffic yesterday.'},{es:'Ha habido un accidente.',en:'There has been an accident.'},{es:'Habrá vuelos disponibles.',en:'There will be flights available.'}],
+   nuance:'"Hay" vs "Estar": hay = existence (there is/are), estar = location of a specific thing. "¿Hay un hospital?" vs "¿Dónde está el hospital?"'},
+  {id:29,level:'b1',name:'Comparatives & Superlatives',es:'Comparativos y Superlativos',
+   desc:'Used to compare qualities, quantities, and actions.',
+   formula:'Comparative: más/menos + adj/adv + que\nEquality: tan + adj + como | tanto/a/os/as + noun + como\nSuperlative: el/la/los/las + más/menos + adj',
+   examples:[{es:'El avión es más rápido que el tren.',en:'The plane is faster than the train.'},{es:'No es tan caro como pensaba.',en:'It\'s not as expensive as I thought.'},{es:'Es el mejor restaurante de la ciudad.',en:'It\'s the best restaurant in the city.'}],
+   nuance:'Irregular comparatives: bueno→mejor, malo→peor, grande→mayor, pequeño→menor. Absolute superlative: muy + adj OR adj + ísimo/a: "muy rico" = "riquísimo" (very/extremely delicious).'},
+  {id:30,level:'b1',name:'Ser vs Estar with Adjectives',es:'Ser vs Estar con Adjetivos',
+   desc:'Many adjectives can use either ser or estar, but with a change in meaning.',
+   formula:'SER + adj = inherent characteristic / general truth\nESTAR + adj = current state / condition / change from norm',
+   examples:[{es:'Es muy listo. / Está muy listo.',en:'He\'s very clever (personality). / He\'s very ready (prepared).'},{es:'Es malo. / Está malo.',en:'He\'s bad/evil. / He\'s sick.'},{es:'La manzana es verde. / La manzana está verde.',en:'The apple is green (color). / The apple is unripe (state).'}],
+   nuance:'Adjectives that shift meaning: vivo (lively/alive), seguro (safe/sure), rico (rich/delicious), loco (crazy by nature/acting crazy), bueno (good person/good tasting/feeling well).'},
+  // ── B2 ──
+  {id:31,level:'b2',name:'Imperfect Subjunctive',es:'Pretérito Imperfecto de Subjuntivo',
+   desc:'Used in hypothetical si-clauses, polite requests, and when the main verb is in a past tense.',
+   formula:'Ellos preterite → drop -ron → add: ra/ras/ra/ramos/rais/ran\n(Alternative -se endings also exist but -ra is more common)',
+   examples:[{es:'Si tuviera más tiempo, viajaría.',en:'If I had more time, I would travel.'},{es:'Quería que lo hicieras tú.',en:'I wanted you to do it.'},{es:'Quisiera un café, por favor.',en:'I would like a coffee, please. (polite)'}],
+   nuance:'Si-clause patterns: Si + imperfect subj + conditional = hypothetical present/future. Si + pluperfect subj + conditional perfect = hypothetical past (regret).'},
+  {id:32,level:'b2',name:'Conditional Tense',es:'Condicional Simple',
+   desc:'Expresses what would happen under certain conditions. Also for polite requests and reported speech.',
+   formula:'Infinitive + ía/ías/ía/íamos/íais/ían\nSame irregular stems as future: tendr, har, podr, dir, saldr, pondr, vendr',
+   examples:[{es:'Yo viajaría más si pudiera.',en:'I would travel more if I could.'},{es:'¿Podrías ayudarme?',en:'Could you help me? (polite)'},{es:'Dijo que vendría mañana.',en:'He said he would come tomorrow. (reported speech)'}],
+   nuance:'Conditional of probability: speculates about past: "Serían las diez cuando llamó" = It was probably ten when he called.'},
+  {id:33,level:'b2',name:'Passive Voice',es:'Voz Pasiva',
+   desc:'Spanish has two passive constructions: the true passive (ser + participle) and the reflexive passive (se + verb).',
+   formula:'True: ser + past participle (agrees with subject) + por + agent\nReflexive: se + 3rd person verb',
+   examples:[{es:'El libro fue escrito por Cervantes.',en:'The book was written by Cervantes.'},{es:'Se habla español aquí.',en:'Spanish is spoken here.'},{es:'Se vendieron todos los billetes.',en:'All the tickets were sold.'}],
+   nuance:'The reflexive passive (se) is far more common in everyday speech. "Se construyó en 1900" = It was built in 1900. Use true passive when the agent (by whom) is specified.'},
+  {id:34,level:'b2',name:'Compound Tenses',es:'Tiempos Compuestos',
+   desc:'Formed with haber + past participle. Cover the full range of perfect aspects.',
+   formula:'Present perfect: he/has/ha... + participio\nPluperfect: había/habías/había... + participio\nFuture perfect: habré/habrás/habrá... + participio\nConditional perfect: habría... + participio',
+   examples:[{es:'Ya he comido.',en:'I have already eaten. (present perfect)'},{es:'Cuando llegué, ella ya había salido.',en:'When I arrived, she had already left. (pluperfect)'},{es:'Para el lunes, habré terminado el informe.',en:'By Monday, I will have finished the report. (future perfect)'}],
+   nuance:'Participle is invariable in compound tenses. Only agrees in gender/number when used as an adjective: "La tarea está hecha" (done as adj) vs "He hecho la tarea" (compound — no agreement).'},
+  {id:35,level:'b2',name:'Subjunctive in Adjective Clauses',es:'Subjuntivo en Oraciones de Relativo',
+   desc:'Subjunctive is used in relative clauses when the antecedent is unknown, hypothetical, or non-existent.',
+   formula:'Known/specific antecedent → indicative\nUnknown/non-existent antecedent → subjunctive',
+   examples:[{es:'Busco al empleado que habla chino. (indicative)',en:'I\'m looking for the employee who speaks Chinese. (specific person exists)'},{es:'Busco un empleado que hable chino. (subjunctive)',en:'I\'m looking for an employee who speaks Chinese. (any, not yet found)'},{es:'No hay nadie que sepa la respuesta.',en:'There is nobody who knows the answer. (non-existent)'}],
+   nuance:'The article change is key: "el empleado que..." (specific, exists) vs "un empleado que..." (generic, hypothetical).'},
+  {id:36,level:'b2',name:'Sequence of Tenses with Subjunctive',es:'Concordancia de Tiempos del Subjuntivo',
+   desc:'The tense of the subjunctive in a subordinate clause depends on the tense of the main clause.',
+   formula:'Main clause present/future → subordinate: present or perfect subjunctive\nMain clause past/conditional → subordinate: imperfect or pluperfect subjunctive',
+   examples:[{es:'Quiero que vengas. / Querré que vengas.',en:'I want you to come. (present → present subj)'},{es:'Quería que vinieras.',en:'I wanted you to come. (past → imperfect subj)'},{es:'Es una lástima que no hayas venido.',en:'It\'s a shame you didn\'t come. (present → perfect subj)'}],
+   nuance:'Think of it as keeping the time frame consistent: present trigger = present subj; past trigger = past subj.'},
+  {id:37,level:'b2',name:'Stative vs Dynamic Uses of Ser/Estar',es:'Usos Estativo vs Dinámico de Ser/Estar',
+   desc:'A deeper understanding of ser/estar beyond the permanent/temporary distinction.',
+   formula:'SER: classification, definition, identity, inherent nature, events (time/place)\nESTAR: resultant state, geographical location, approximation, progressive, experience',
+   examples:[{es:'La sopa está caliente. (not es)',en:'The soup is hot. (current temperature state — estar)'},{es:'El examen es el lunes.',en:'The exam is on Monday. (scheduled event — ser)'},{es:'Estamos a diez de mayo.',en:'It\'s the tenth of May. (date — always estar)'},{es:'Está muerto. / Es un muerto.',en:'He is dead (state) / He is a dead person (identity)'}],
+   nuance:'Location: ser for events, estar for people/things. "La fiesta es en mi casa" (event) vs "Mi casa está en el centro" (location of a thing).'},
+  {id:38,level:'b2',name:'Nominalization',es:'Nominalización',
+   desc:'Converting other parts of speech into nouns, very common in formal and written Spanish.',
+   formula:'Article + adjective/participle (without noun)\nArticle + de + infinitive\nlo + adjective = abstract concept',
+   examples:[{es:'Lo importante es el resultado.',en:'What\'s important is the result. (lo + adj)'},{es:'Los heridos fueron trasladados al hospital.',en:'The wounded (people) were taken to hospital. (article + participle)'},{es:'El llegar tarde es una falta de respeto.',en:'Arriving late is disrespectful. (article + infinitive)'}],
+   nuance:'"Lo" + adjective/adverb creates abstract nouns: lo bueno = the good thing, lo difícil = what is difficult, lo antes posible = as soon as possible.'},
+  {id:39,level:'b2',name:'Prepositional Verbs',es:'Verbos con Preposición',
+   desc:'Many Spanish verbs require a specific preposition before an infinitive or noun. These must be memorized.',
+   formula:'Verb + a + inf: aprender, empezar, ir, volver, ayudar, enseñar, invitar\nVerb + de + inf: acabar, tratar, dejar, olvidarse, arrepentirse\nVerb + en + inf: quedar, insistir, tardar\nVerb + con + noun: contar, soñar, casarse',
+   examples:[{es:'Insisto en pagar la cuenta.',en:'I insist on paying the bill.'},{es:'Se olvidó de llamarme.',en:'He forgot to call me.'},{es:'Tardó dos horas en llegar.',en:'It took him two hours to arrive.'},{es:'Cuenta conmigo.',en:'Count on me.'}],
+   nuance:'After prepositions, use infinitive (not gerund): "Antes de salir" (not saliendo). Exception: "en" can precede gerund in some expressions.'},
+  {id:40,level:'b2',name:'Discourse Markers',es:'Marcadores del Discurso',
+   desc:'Connectors that organize ideas, show contrast, add information, or indicate cause/effect in formal speech and writing.',
+   formula:'Addition: además, asimismo, incluso, por otro lado\nContrast: sin embargo, no obstante, aunque, a pesar de\nCause: ya que, puesto que, dado que, debido a\nConsequence: por lo tanto, por consiguiente, de ahí que\nOrdering: en primer lugar, a continuación, por último',
+   examples:[{es:'Sin embargo, los resultados fueron positivos.',en:'However, the results were positive.'},{es:'Dado que el vuelo se retrasó, perdimos la conexión.',en:'Given that the flight was delayed, we missed the connection.'},{es:'Por consiguiente, se tomarán medidas adicionales.',en:'Consequently, additional measures will be taken.'}],
+   nuance:'"Sin embargo" and "no obstante" are interchangeable but "no obstante" is slightly more formal. "De ahí que" requires subjunctive: "De ahí que sea necesario actuar".'},
+  // ── C1 ──
+  {id:41,level:'c1',name:'Pluperfect & Perfect Subjunctive',es:'Subjuntivo Compuesto',
+   desc:'Used to express doubt, emotion, or hypothetical situations about past events.',
+   formula:'Present perfect subj: haya/hayas/haya/hayamos/hayáis/hayan + participio\nPluperfect subj: hubiera/hubieras/hubiera... + participio',
+   examples:[{es:'No creo que haya llegado todavía.',en:'I don\'t think he has arrived yet.'},{es:'Si hubiera estudiado más, habría aprobado.',en:'If I had studied more, I would have passed.'},{es:'Es una lástima que no hayas venido.',en:'It\'s a shame you didn\'t come.'}],
+   nuance:'The pluperfect subjunctive in si-clauses always pairs with conditional perfect: Si hubiera + [past participle] → habría + [past participle].'},
+  {id:42,level:'c1',name:'Verb Periphrases',es:'Perífrasis Verbales',
+   desc:'Multi-word verb structures that express aspect, modality, or progression beyond simple tenses.',
+   formula:'Inchoative (beginning): empezar a, ponerse a, echarse a, romper a\nProgressive: seguir/continuar + gerund, llevar + time + gerund\nCompletive: dejar de, acabar de, terminar de\nObligative: tener que, haber de, haber que, deber',
+   examples:[{es:'Llevo tres horas esperando.',en:'I\'ve been waiting for three hours. (duration → llevar + gerund)'},{es:'Se echó a llorar de repente.',en:'She suddenly burst into tears. (romper/echarse a = sudden start)'},{es:'Sigue lloviendo desde ayer.',en:'It\'s still raining since yesterday. (seguir + gerund = continuation)'}],
+   nuance:'"Llevar + time + gerund" is a key C1 construction: "Llevo dos años viviendo aquí" = I\'ve been living here for two years (and still am). Compare with "Hace dos años que vivo aquí" (same meaning).'},
+  {id:43,level:'c1',name:'Subjunctive in Concessive Clauses',es:'Subjuntivo en Oraciones Concesivas',
+   desc:'Concessive clauses (expressing "even though/if") use indicative or subjunctive depending on whether the concession is a fact or hypothetical.',
+   formula:'aunque + indicative = conceding a known fact\naunque + subjunctive = conceding a possibility\npor más que / por mucho que + subjunctive = no matter how much',
+   examples:[{es:'Aunque está cansado, trabaja bien.',en:'Even though he is tired, he works well. (fact)'},{es:'Aunque esté cansado, terminará el trabajo.',en:'Even if he is tired, he will finish the work. (hypothetical)'},{es:'Por más que estudie, no aprueba.',en:'No matter how much he studies, he doesn\'t pass.'}],
+   nuance:'"Por más/mucho que" always takes subjunctive and expresses futility or persistence despite effort.'},
+  {id:44,level:'c1',name:'Impersonal Constructions',es:'Construcciones Impersonales',
+   desc:'Structures that express actions without a specific subject. Common in formal, academic, and journalistic Spanish.',
+   formula:'Se + 3rd person singular verb (reflexive impersonal)\nHaber que + infinitive\nSer + adjective + infinitive (no subject)\nSe dice/afirma/considera que + clause',
+   examples:[{es:'Se considera que la economía mejorará.',en:'It is considered that the economy will improve.'},{es:'No se puede fumar aquí.',en:'One cannot smoke here.'},{es:'Es necesario revisar los datos.',en:'It is necessary to review the data.'},{es:'Está prohibido aparcar en este lugar.',en:'Parking is forbidden in this location.'}],
+   nuance:'Academic register favours impersonal constructions to avoid first-person claims: "Se ha demostrado que..." = "It has been demonstrated that..." More credible than "Yo demostraré que..."'},
+  {id:45,level:'c1',name:'Lexical False Friends',es:'Falsos Amigos Léxicos',
+   desc:'Spanish-English false cognates that look similar but have different meanings — a common source of C1-level errors.',
+   formula:'Word looks like English equivalent → but means something different',
+   examples:[{es:'embarazada ≠ embarrassed',en:'embarazada = pregnant | embarrassed = avergonzado/a'},{es:'sensible ≠ sensible',en:'sensible (ES) = sensitive | sensible (EN) = sensato'},{es:'actual ≠ actual',en:'actual (ES) = current/present | actual (EN) = real/de hecho'},{es:'largo ≠ large',en:'largo (ES) = long | large (EN) = grande'}],
+   nuance:'More false friends: éxito (success, not exit), realizar (to carry out, not to realize), recordar (to remember, not to record), fábrica (factory, not fabric), asistir (to attend, not to assist).'},
+  {id:46,level:'c1',name:'Subjunctive in Nominal Clauses',es:'Subjuntivo en Oraciones Sustantivas',
+   desc:'Subjunctive in noun clauses — the subordinate clause functions as the object of the main verb.',
+   formula:'Triggers: verbs of will, desire, emotion, doubt, negated cognition, impersonal expressions\nStructure: main verb + que + subjunctive',
+   examples:[{es:'Recomiendo que llegues con antelación.',en:'I recommend you arrive early.'},{es:'No creo que haya suficiente tiempo.',en:'I don\'t think there is enough time.'},{es:'Es fundamental que se respeten las normas.',en:'It is fundamental that the rules be respected.'}],
+   nuance:'Negated verbs of thinking/saying trigger subjunctive: "No creo que sea verdad" (subj). But affirmative: "Creo que es verdad" (indicative). The negation shifts certainty to doubt.'},
+  {id:47,level:'c1',name:'Register & Lexical Variation',es:'Registro y Variación Léxica',
+   desc:'Advanced speakers switch between formal, informal, colloquial, and written registers appropriately.',
+   formula:'Formal: subjunctive, complex clauses, impersonal, latinate vocabulary\nColloquial: reduced forms, ellipsis, diminutives, filler words\nWritten: discourse markers, nominalization, passive voice',
+   examples:[{es:'Tío, ¿qué pasó? → ¿Qué ocurrió exactamente?',en:'Dude, what happened? (colloquial) → What exactly occurred? (formal)'},{es:'un momentito → un instante / un breve momento',en:'just a sec (diminutive) → a moment (formal)'},{es:'o sea, es que... → en otras palabras / dicho de otro modo',en:'I mean, it\'s just that... → in other words (formal)'}],
+   nuance:'Diminutives (-ito/-ita, -cito/-cita) soften requests and express affection in colloquial Spanish: "¿Me traes un cafecito?" Overuse in formal contexts sounds childish.'},
+  {id:48,level:'c1',name:'Complex Relative Clauses',es:'Oraciones de Relativo Complejas',
+   desc:'Advanced relative structures using cuyo, lo cual, el cual, and relative clauses with prepositions.',
+   formula:'cuyo/cuya/cuyos/cuyas = whose (adj, agrees with possessed noun)\nel cual/la cual = which (formal, after prepositions)\nlo cual / lo que = which (refers to clause, not noun)',
+   examples:[{es:'El informe cuyos datos son incorrectos debe revisarse.',en:'The report whose data are incorrect must be reviewed.'},{es:'La empresa para la cual trabajo es multinacional.',en:'The company for which I work is multinational.'},{es:'No asistió a la reunión, lo cual fue muy llamativo.',en:'He didn\'t attend the meeting, which was very striking. (lo cual refers to the whole clause)'}],
+   nuance:'"Cuyo" is an adjective and must agree with the noun it precedes, not the possessor: "el autor cuyas obras..." (cuyas agrees with obras, not autor).'},
+  {id:49,level:'c1',name:'Advanced Si Clauses',es:'Oraciones Condicionales Avanzadas',
+   desc:'Beyond basic si-clauses: mixed conditionals, alternatives to si, and literary conditionals.',
+   formula:'Real: si + present ind + future/imperative\nHypothetical: si + imperfect subj + conditional\nCounterfactual past: si + pluperfect subj + conditional perfect\nMixed: si + pluperfect subj + conditional (present result)',
+   examples:[{es:'Si no hubiera estudiado, no tendría este trabajo.',en:'If I hadn\'t studied, I wouldn\'t have this job. (past condition → present result — mixed)'},{es:'De haberlo sabido, te habría avisado.',en:'Had I known, I would have warned you. (de + inf replaces si in literary style)'},{es:'Como llegues tarde otra vez, te despido.',en:'If you arrive late again, I\'ll fire you. (como + subj = threatening condition)'}],
+   nuance:'"De + infinitive" replaces "si + pluperfect subjunctive" in literary/formal style. "Como + subjunctive" expresses a warning or threat.'},
+  {id:50,level:'c1',name:'Aspect in Spanish',es:'El Aspecto Verbal en Español',
+   desc:'Aspect (how an action unfolds in time) underlies the entire Spanish tense system and is the key to mastering ser/estar, ser/haber, and tense choice.',
+   formula:'Perfective aspect (completed, bounded): preterite, compound tenses\nImperfective aspect (ongoing, unbounded): imperfect, present progressive\nInceptive (beginning): empezar a, ponerse a\nTerminative (ending): dejar de, acabar de',
+   examples:[{es:'Vivió en Madrid. / Vivía en Madrid.',en:'He lived in Madrid (and left). / He was living in Madrid (ongoing).'},{es:'Fue médico. / Era médico.',en:'He was a doctor (but isn\'t now). / He was a doctor (describing him then).'},{es:'Estuvo enfermo tres días. / Estaba enfermo.',en:'He was sick for three days (and recovered). / He was sick (at that moment).'}],
+   nuance:'This explains the "permanent/temporary" rule\'s failure: "Fue bueno" = He was good (but not anymore). "Era bueno" = He was good (general description at the time). Aspect, not permanence, is the real principle.'},
 ];
 
 let activeFilter = 'all';
 
 function renderGrammar(data) {
   const container = document.getElementById('grammarList');
+  document.getElementById('countInfo').textContent = `Showing ${data.length} of ${GRAMMAR.length} rules`;
   if (!data.length) { container.innerHTML = '<p style="color:var(--text2);padding:2rem 0">No rules found.</p>'; return; }
   container.innerHTML = data.map(r => `
     <div class="rule-card" data-level="${r.level}">
@@ -312,19 +391,19 @@ function renderGrammar(data) {
       </div>
       <div class="rule-body" id="body-${r.id}">
         <p class="rule-desc">${r.desc}</p>
-        <div class="rule-formula">${r.formula.replace(/\n/g, '<br>')}</div>
+        <div class="rule-formula">${r.formula.replace(/\n/g,'<br>')}</div>
         <div class="examples">
-          ${r.examples.map(e => `<div class="example"><div class="example-es">${e.es}</div><div class="example-en">${e.en}</div></div>`).join('')}
+          ${r.examples.map(e=>`<div class="example"><div class="example-es">${e.es}</div><div class="example-en">${e.en}</div></div>`).join('')}
         </div>
-        ${r.nuance ? `<div class="nuance-box"><div class="nuance-title">⚠ Nuance Note</div>${r.nuance}</div>` : ''}
+        ${r.nuance?`<div class="nuance-box"><div class="nuance-title">⚠ Nuance Note</div>${r.nuance}</div>`:''}
       </div>
     </div>
   `).join('');
 }
 
 function toggleRule(id) {
-  const body = document.getElementById('body-' + id);
-  const tog = document.getElementById('tog-' + id);
+  const body = document.getElementById('body-'+id);
+  const tog = document.getElementById('tog-'+id);
   const open = body.classList.toggle('open');
   tog.textContent = open ? '▼' : '▶';
 }
@@ -350,18 +429,13 @@ function setFilter(level, btn) {
 
 renderGrammar(GRAMMAR);
 
-// Shared controls
 const theme = localStorage.getItem('es_theme') || 'dark';
 if (theme === 'light') document.body.classList.add('light');
 document.querySelectorAll('.themeBtn').forEach(b => b.textContent = theme === 'light' ? '🌙' : '☀️');
 const fs = parseInt(localStorage.getItem('es_fontsize') || '18');
 document.body.style.fontSize = fs + 'px';
-function toggleTheme() {
-  const isLight = document.body.classList.toggle('light');
-  localStorage.setItem('es_theme', isLight ? 'light' : 'dark');
-  document.querySelectorAll('.themeBtn').forEach(b => b.textContent = isLight ? '🌙' : '☀️');
-}
-function toggleFont(d) { let f = parseInt(document.body.style.fontSize||'18'); f=Math.min(24,Math.max(14,f+d)); document.body.style.fontSize=f+'px'; localStorage.setItem('es_fontsize',f); }
+function toggleTheme() { const l = document.body.classList.toggle('light'); localStorage.setItem('es_theme', l?'light':'dark'); document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️'); }
+function toggleFont(d) { let f=parseInt(document.body.style.fontSize||'18'); f=Math.min(24,Math.max(14,f+d)); document.body.style.fontSize=f+'px'; localStorage.setItem('es_fontsize',f); }
 function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
 function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 </script>
