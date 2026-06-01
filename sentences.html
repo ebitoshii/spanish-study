@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentence Builder — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(192,57,43,.08) 0%,transparent 100%);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.tabs{display:flex;border-bottom:2px solid var(--border);background:var(--bg2);overflow-x:auto;}
+.tab{background:none;border:none;color:var(--text2);padding:.7rem 1.3rem;cursor:pointer;font-family:'Crimson Pro',serif;font-size:.95rem;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab:hover{color:var(--accent3);}
+.tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
+.content{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── SENTENCE BUILDER ── */
+.builder-zone{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;min-height:80px;}
+.builder-zone-label{font-size:.75rem;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem;}
+.word-slots{display:flex;flex-wrap:wrap;gap:.5rem;min-height:44px;align-items:center;}
+.placed-word{background:var(--accent);color:#fff;padding:.3rem .8rem;border-radius:20px;font-size:.95rem;cursor:pointer;user-select:none;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+.placed-word:hover{background:var(--red);text-decoration:line-through;}
+.placed-word .pos-badge{font-size:.65rem;opacity:.75;background:rgba(255,255,255,.2);padding:.05rem .3rem;border-radius:8px;}
+.drop-hint{color:var(--text2);font-style:italic;font-size:.9rem;}
+
+.word-bank{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem;}
+.bank-word{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.3rem .8rem;border-radius:20px;font-size:.95rem;cursor:pointer;user-select:none;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+.bank-word:hover{border-color:var(--accent2);color:var(--accent3);}
+.bank-word.used{opacity:.35;cursor:default;pointer-events:none;}
+.bank-word .pos-badge{font-size:.65rem;color:var(--text2);background:var(--bg3);padding:.05rem .3rem;border-radius:8px;}
+
+.builder-controls{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.ctrl-btn{background:var(--accent);color:#fff;border:none;padding:.55rem 1.1rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:.95rem;cursor:pointer;transition:background .2s;}
+.ctrl-btn:hover{background:var(--accent2);}
+.ctrl-btn.secondary{background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
+.ctrl-btn.secondary:hover{border-color:var(--accent);color:var(--accent3);}
+
+.sentence-feedback{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.2rem;margin-bottom:1rem;display:none;}
+.sf-row{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:.6rem;}
+.sf-icon{font-size:1.3rem;flex-shrink:0;}
+.sf-label{font-size:.75rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem;}
+.sf-text{color:var(--text);}
+.sf-en{color:var(--text2);font-style:italic;font-size:.9rem;}
+
+.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.8rem;margin-bottom:1.5rem;}
+.template-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.9rem 1rem;cursor:pointer;transition:all .2s;}
+.template-card:hover{border-color:var(--accent2);transform:translateY(-1px);}
+.tmpl-structure{font-family:monospace;font-size:.85rem;color:var(--accent2);margin-bottom:.3rem;}
+.tmpl-example{font-size:.9rem;color:var(--text2);font-style:italic;}
+.tmpl-level{font-size:.7rem;color:var(--text2);margin-top:.3rem;}
+
+/* ── RANDOM GENERATOR ── */
+.gen-output{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;margin-bottom:1.5rem;}
+.gen-sentence{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--accent3);line-height:1.4;margin-bottom:.5rem;}
+.gen-translation{color:var(--text2);font-style:italic;font-size:1rem;}
+.gen-tags{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-top:.8rem;}
+.gen-tag{font-size:.72rem;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:.1rem .5rem;border-radius:10px;}
+.gen-controls{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;}
+.gen-btn{background:var(--accent);color:#fff;border:none;padding:.65rem 1.4rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1rem;cursor:pointer;transition:background .2s;}
+.gen-btn:hover{background:var(--accent2);}
+.gen-btn.outline{background:none;border:1px solid var(--border);color:var(--text2);}
+.gen-btn.outline:hover{border-color:var(--accent);color:var(--accent3);}
+.gen-filters{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;}
+.gen-filter{background:none;border:1px solid var(--border);color:var(--text2);padding:.25rem .7rem;border-radius:20px;cursor:pointer;font-family:'Crimson Pro',serif;font-size:.85rem;transition:all .2s;}
+.gen-filter.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.saved-list{display:flex;flex-direction:column;gap:.6rem;}
+.saved-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;display:flex;align-items:center;gap:.8rem;}
+.saved-item .si-text{flex:1;font-style:italic;color:var(--text2);}
+.saved-item .si-es{color:var(--text);font-size:1rem;display:block;}
+.si-del{background:none;border:none;color:var(--text2);cursor:pointer;font-size:1rem;padding:.2rem;}
+.si-del:hover{color:var(--red);}
+.si-play{background:none;border:1px solid var(--border);color:var(--accent2);cursor:pointer;padding:.2rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.si-play:hover{background:var(--accent2);color:#fff;}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.content{padding:1rem;}.template-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a>
+    <a href="sentences.html" class="active">Sentences</a>
+    <a href="speaking.html">Speaking</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a>
+    <a href="schedule.html">Schedule</a><a href="export.html">Export</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a>
+  <a href="sentences.html">🧩 Sentences</a>
+  <a href="speaking.html">🎙 Speaking</a>
+  <a href="progress.html">📊 Progress</a>
+</div>
+<div class="page-header">
+  <div class="page-title">🧩 Sentence Builder & Generator</div>
+  <div class="page-sub">Drag-and-drop word order practice and random sentence generation</div>
+</div>
+<div class="tabs">
+  <button class="tab active" onclick="showTab('builder',this)">Builder</button>
+  <button class="tab" onclick="showTab('generator',this)">Generator</button>
+  <button class="tab" onclick="showTab('saved',this)">Saved</button>
+</div>
+
+<div class="content">
+
+<!-- ── BUILDER TAB ── -->
+<div class="tab-panel active" id="tab-builder">
+  <div style="margin-bottom:1rem">
+    <div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em">Choose a sentence template:</div>
+    <div class="template-grid" id="templateGrid"></div>
+  </div>
+  <div class="builder-zone">
+    <div class="builder-zone-label">Your sentence — click words to remove them</div>
+    <div class="word-slots" id="wordSlots"><span class="drop-hint">Tap words below to build your sentence →</span></div>
+  </div>
+  <div class="word-bank" id="wordBank"></div>
+  <div class="builder-controls">
+    <button class="ctrl-btn" onclick="checkSentence()">✓ Check</button>
+    <button class="ctrl-btn secondary" onclick="speakBuilt()">🔊 Listen</button>
+    <button class="ctrl-btn secondary" onclick="clearBuilder()">✕ Clear</button>
+    <button class="ctrl-btn secondary" onclick="saveBuilt()">🔖 Save</button>
+    <button class="ctrl-btn secondary" onclick="shuffleBank()">🔀 New words</button>
+  </div>
+  <div class="sentence-feedback" id="sentenceFeedback"></div>
+</div>
+
+<!-- ── GENERATOR TAB ── -->
+<div class="tab-panel" id="tab-generator">
+  <div class="gen-filters">
+    <button class="gen-filter active" onclick="setGenLevel('all',this)">All</button>
+    <button class="gen-filter" onclick="setGenLevel('a1',this)">A1</button>
+    <button class="gen-filter" onclick="setGenLevel('a2',this)">A2</button>
+    <button class="gen-filter" onclick="setGenLevel('b1',this)">B1</button>
+    <button class="gen-filter" onclick="setGenLevel('b2',this)">B2</button>
+    <button class="gen-filter" onclick="setGenLevel('c1',this)">C1</button>
+  </div>
+  <div class="gen-output" id="genOutput">
+    <div class="gen-sentence" id="genSentence">—</div>
+    <div class="gen-translation" id="genTranslation"></div>
+    <div class="gen-tags" id="genTags"></div>
+  </div>
+  <div class="gen-controls">
+    <button class="gen-btn" onclick="generateSentence()">🎲 Generate</button>
+    <button class="gen-btn outline" onclick="speakGenerated()">🔊 Listen</button>
+    <button class="gen-btn outline" onclick="saveGenerated()">🔖 Save</button>
+  </div>
+  <div style="font-size:.85rem;color:var(--text2);text-align:center;margin-bottom:1rem">Press G to generate · Space to listen</div>
+  <div style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent3);margin-bottom:.8rem">Grammar focus in this sentence:</div>
+  <div id="genGrammarNote" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem;font-size:.9rem;color:var(--text2)">Generate a sentence to see grammar notes.</div>
+</div>
+
+<!-- ── SAVED TAB ── -->
+<div class="tab-panel" id="tab-saved">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <div style="color:var(--text2);font-size:.9rem" id="savedCount">0 saved sentences</div>
+    <button class="ctrl-btn secondary" onclick="clearSaved()">Clear all</button>
+  </div>
+  <div class="saved-list" id="savedList"></div>
+</div>
+
+</div>
+
+<script>
+// ── SENTENCE TEMPLATES ──
+const TEMPLATES = [
+  {id:1, level:'A1', structure:'Subject + Verb', words:[
+    {text:'Yo',pos:'pron'},{text:'hablo',pos:'verb'},{text:'ella',pos:'pron'},{text:'habla',pos:'verb'},
+    {text:'español',pos:'noun'},{text:'inglés',pos:'noun'},{text:'bien',pos:'adv'},{text:'mucho',pos:'adv'},
+  ], solutions:['Yo hablo español','Ella habla inglés','Yo hablo bien','Ella habla mucho'],
+   hint:'The simplest Spanish sentence: subject + verb (+ object/adverb)', example:'Yo hablo español.'},
+  {id:2, level:'A1', structure:'Subject + Ser + Adjective', words:[
+    {text:'Él',pos:'pron'},{text:'es',pos:'verb'},{text:'ella',pos:'pron'},{text:'soy',pos:'verb'},
+    {text:'piloto',pos:'noun'},{text:'médico',pos:'noun'},{text:'inteligente',pos:'adj'},{text:'simpático',pos:'adj'},{text:'yo',pos:'pron'},
+  ], solutions:['Él es piloto','Ella es médico','Yo soy inteligente','Él es simpático'],
+   hint:'Ser + profession or adjective (permanent characteristic)', example:'Él es piloto.'},
+  {id:3, level:'A1', structure:'Tener + Noun', words:[
+    {text:'Tengo',pos:'verb'},{text:'tienes',pos:'verb'},{text:'tiene',pos:'verb'},
+    {text:'hambre',pos:'noun'},{text:'frío',pos:'noun'},{text:'sed',pos:'noun'},{text:'razón',pos:'noun'},
+    {text:'mucho',pos:'adv'},{text:'mucha',pos:'adv'},
+  ], solutions:['Tengo hambre','Tienes razón','Tiene frío','Tengo mucha sed'],
+   hint:'Tener + noun for states: hunger, thirst, cold, right etc.', example:'Tengo hambre.'},
+  {id:4, level:'A2', structure:'Gustar + Infinitive', words:[
+    {text:'Me',pos:'pron'},{text:'te',pos:'pron'},{text:'le',pos:'pron'},
+    {text:'gusta',pos:'verb'},{text:'gustan',pos:'verb'},{text:'encanta',pos:'verb'},
+    {text:'viajar',pos:'verb'},{text:'comer',pos:'verb'},{text:'los libros',pos:'noun'},{text:'el café',pos:'noun'},
+  ], solutions:['Me gusta viajar','Te gusta comer','Me encanta el café','Le gustan los libros'],
+   hint:'Indirect object pronoun + gustar/encantar + infinitive or noun', example:'Me gusta viajar.'},
+  {id:5, level:'A2', structure:'Ir a + Infinitive', words:[
+    {text:'Voy',pos:'verb'},{text:'vas',pos:'verb'},{text:'van',pos:'verb'},
+    {text:'a',pos:'prep'},{text:'estudiar',pos:'verb'},{text:'comer',pos:'verb'},{text:'viajar',pos:'verb'},
+    {text:'mañana',pos:'adv'},{text:'hoy',pos:'adv'},{text:'pronto',pos:'adv'},
+  ], solutions:['Voy a estudiar mañana','Vas a comer hoy','Van a viajar pronto'],
+   hint:'Ir a + infinitive = near future', example:'Voy a estudiar mañana.'},
+  {id:6, level:'B1', structure:'Querer que + Subjunctive', words:[
+    {text:'Quiero',pos:'verb'},{text:'necesito',pos:'verb'},{text:'espero',pos:'verb'},
+    {text:'que',pos:'conj'},{text:'vengas',pos:'verb'},{text:'estudies',pos:'verb'},{text:'llegues',pos:'verb'},
+    {text:'pronto',pos:'adv'},{text:'temprano',pos:'adv'},{text:'conmigo',pos:'pron'},
+  ], solutions:['Quiero que vengas pronto','Necesito que estudies','Espero que llegues temprano'],
+   hint:'Verb of desire + que + present subjunctive (different subjects)', example:'Quiero que vengas pronto.'},
+  {id:7, level:'B1', structure:'Si + Present + Future', words:[
+    {text:'Si',pos:'conj'},{text:'tienes',pos:'verb'},{text:'estudias',pos:'verb'},{text:'llueve',pos:'verb'},
+    {text:'tiempo',pos:'noun'},{text:'más',pos:'adv'},{text:'mucho',pos:'adv'},
+    {text:'llamarás',pos:'verb'},{text:'aprobarás',pos:'verb'},{text:'nos quedamos',pos:'verb'},
+  ], solutions:['Si tienes tiempo llamarás','Si estudias más aprobarás','Si llueve nos quedamos'],
+   hint:'Real conditional: Si + present indicative + future', example:'Si estudias más, aprobarás.'},
+  {id:8, level:'B2', structure:'Si + Imperfect Subj + Conditional', words:[
+    {text:'Si',pos:'conj'},{text:'tuviera',pos:'verb'},{text:'pudiera',pos:'verb'},{text:'supiera',pos:'verb'},
+    {text:'tiempo',pos:'noun'},{text:'dinero',pos:'noun'},{text:'más',pos:'adv'},
+    {text:'viajaría',pos:'verb'},{text:'compraría',pos:'verb'},{text:'estudiaría',pos:'verb'},
+  ], solutions:['Si tuviera tiempo viajaría','Si pudiera compraría','Si supiera más estudiaría'],
+   hint:'Hypothetical conditional: Si + imperfect subjunctive + conditional', example:'Si tuviera tiempo, viajaría.'},
+];
+
+// ── RANDOM SENTENCE POOL ──
+const SENTENCES = [
+  // A1
+  {es:'Soy piloto y vivo en Singapur.',en:'I am a pilot and I live in Singapore.',level:'a1',tense:'presente',tags:['ser','vivir','professions']},
+  {es:'¿Qué hora es? Son las tres y media.',en:'What time is it? It\'s half past three.',level:'a1',tense:'presente',tags:['time','questions']},
+  {es:'Me llamo Zack y soy de Singapur.',en:'My name is Zack and I am from Singapore.',level:'a1',tense:'presente',tags:['ser','introductions']},
+  {es:'Tengo hambre. ¿Dónde está el restaurante?',en:'I\'m hungry. Where is the restaurant?',level:'a1',tense:'presente',tags:['tener','hay','questions']},
+  {es:'El libro está encima de la mesa.',en:'The book is on the table.',level:'a1',tense:'presente',tags:['estar','prepositions']},
+  {es:'¿Hablas español? — Sí, un poco.',en:'Do you speak Spanish? — Yes, a little.',level:'a1',tense:'presente',tags:['hablar','questions']},
+  {es:'Mi madre cocina muy bien.',en:'My mother cooks very well.',level:'a1',tense:'presente',tags:['family','adverbs']},
+  {es:'Hoy hace mucho calor.',en:'It\'s very hot today.',level:'a1',tense:'presente',tags:['weather','hacer']},
+  {es:'El vuelo sale a las diez de la mañana.',en:'The flight leaves at ten in the morning.',level:'a1',tense:'presente',tags:['travel','time']},
+  {es:'Necesito un café. Estoy muy cansado.',en:'I need a coffee. I\'m very tired.',level:'a1',tense:'presente',tags:['estar','estar vs ser']},
+  // A2
+  {es:'Ayer comí paella por primera vez.',en:'Yesterday I ate paella for the first time.',level:'a2',tense:'preterito',tags:['preterite','food']},
+  {es:'Cuando era niño, vivía en Madrid.',en:'When I was a child, I used to live in Madrid.',level:'a2',tense:'imperfecto',tags:['imperfect','childhood']},
+  {es:'¿Has estado alguna vez en España?',en:'Have you ever been to Spain?',level:'a2',tense:'perfecto',tags:['present perfect','travel']},
+  {es:'El vuelo se retrasó dos horas por el mal tiempo.',en:'The flight was delayed two hours because of bad weather.',level:'a2',tense:'preterito',tags:['preterite','travel','weather']},
+  {es:'Mañana voy a estudiar español durante tres horas.',en:'Tomorrow I\'m going to study Spanish for three hours.',level:'a2',tense:'futuro_proximo',tags:['ir a + inf','future plans']},
+  {es:'Me gustan mucho las películas en español.',en:'I really like films in Spanish.',level:'a2',tense:'presente',tags:['gustar','likes']},
+  {es:'El año pasado fui a Colombia por trabajo.',en:'Last year I went to Colombia for work.',level:'a2',tense:'preterito',tags:['preterite','travel','work']},
+  {es:'Todos los días me despertaba a las seis.',en:'Every day I used to wake up at six.',level:'a2',tense:'imperfecto',tags:['imperfect','routine']},
+  {es:'Reservé una mesa para dos personas a las ocho.',en:'I booked a table for two people at eight.',level:'a2',tense:'preterito',tags:['preterite','restaurant']},
+  {es:'¿Puedes hablar más despacio, por favor?',en:'Can you speak more slowly, please?',level:'a2',tense:'presente',tags:['poder','requests','polite']},
+  // B1
+  {es:'Llevo tres años trabajando como piloto en SIA.',en:'I have been working as a pilot at SIA for three years.',level:'b1',tense:'presente',tags:['llevar + gerund','duration','work']},
+  {es:'Es importante que estudies todos los días.',en:'It\'s important that you study every day.',level:'b1',tense:'subjuntivo',tags:['subjunctive','impersonal expressions']},
+  {es:'Aunque llueva mañana, iremos a la playa.',en:'Even if it rains tomorrow, we\'ll go to the beach.',level:'b1',tense:'subjuntivo',tags:['aunque + subjunctive','concession']},
+  {es:'Cuando llegues al aeropuerto, mándame un mensaje.',en:'When you arrive at the airport, send me a message.',level:'b1',tense:'subjuntivo',tags:['cuando + subjunctive','future time clause']},
+  {es:'Sin duda, es el mejor restaurante de la ciudad.',en:'Without a doubt, it\'s the best restaurant in the city.',level:'b1',tense:'presente',tags:['superlatives','discourse markers']},
+  {es:'A pesar del retraso, llegamos a tiempo.',en:'Despite the delay, we arrived on time.',level:'b1',tense:'preterito',tags:['a pesar de','prepositions']},
+  {es:'Dudo que haya vuelos disponibles a esa hora.',en:'I doubt there are flights available at that time.',level:'b1',tense:'subjuntivo',tags:['doubt + subjunctive','travel']},
+  {es:'Me alegra que hayas aprendido tanto este año.',en:'I\'m glad you\'ve learned so much this year.',level:'b1',tense:'subjuntivo',tags:['emotion + subjunctive','present perfect subj']},
+  {es:'Por mucho que lo intente, no logro pronunciarlo bien.',en:'No matter how hard I try, I can\'t manage to pronounce it correctly.',level:'b1',tense:'subjuntivo',tags:['por mucho que + subjunctive','concessive']},
+  {es:'No conozco a nadie que hable cinco idiomas.',en:'I don\'t know anyone who speaks five languages.',level:'b1',tense:'subjuntivo',tags:['subjunctive in relative clauses','negation']},
+  // B2
+  {es:'Si tuviera más tiempo libre, aprendería a tocar el piano.',en:'If I had more free time, I would learn to play the piano.',level:'b2',tense:'condicional',tags:['hypothetical conditional','imperfect subjunctive']},
+  {es:'Se rumorea que la empresa va a ser adquirida.',en:'It is rumoured that the company is going to be acquired.',level:'b2',tense:'presente',tags:['passive se','rumour','business']},
+  {es:'Cabe destacar que los resultados superaron las expectativas.',en:'It is worth noting that the results exceeded expectations.',level:'b2',tense:'preterito',tags:['cabe + infinitive','formal discourse']},
+  {es:'La inversión en educación es clave para el desarrollo sostenible.',en:'Investment in education is key to sustainable development.',level:'b2',tense:'presente',tags:['formal vocabulary','society']},
+  {es:'No obstante, los datos apuntan en otra dirección.',en:'Nevertheless, the data points in a different direction.',level:'b2',tense:'presente',tags:['discourse markers','contrast']},
+  {es:'El mercado ha reaccionado negativamente ante la incertidumbre.',en:'The market has reacted negatively to the uncertainty.',level:'b2',tense:'perfecto',tags:['present perfect','finance','economy']},
+  {es:'A medida que aumenta la demanda, suben los precios.',en:'As demand increases, prices rise.',level:'b2',tense:'presente',tags:['a medida que','cause and effect']},
+  {es:'Fue él quien tomó la decisión sin consultar al equipo.',en:'It was he who made the decision without consulting the team.',level:'b2',tense:'preterito',tags:['cleft sentences','emphasis']},
+  {es:'Habría llegado antes si no hubiera habido tanto tráfico.',en:'I would have arrived earlier if there hadn\'t been so much traffic.',level:'b2',tense:'condicional_perfecto',tags:['conditional perfect','pluperfect subjunctive']},
+  {es:'Se han adoptado medidas para reducir el impacto medioambiental.',en:'Measures have been adopted to reduce the environmental impact.',level:'b2',tense:'perfecto',tags:['passive se','environment','formal']},
+  // C1
+  {es:'Es palmario que la estrategia adoptada no ha dado los resultados esperados.',en:'It is evident that the adopted strategy has not produced the expected results.',level:'c1',tense:'perfecto',tags:['C1 vocabulary','assessment','business']},
+  {es:'La irrupción de la IA en el mercado laboral suscita debates de gran calado.',en:'The emergence of AI in the labour market provokes profound debates.',level:'c1',tense:'presente',tags:['C1 vocabulary','AI','society']},
+  {es:'Sea como sea, tendremos que afrontar las consecuencias de esta decisión.',en:'Whatever happens, we will have to face the consequences of this decision.',level:'c1',tense:'subjuntivo',tags:['sea como sea','resignation','fixed expressions']},
+  {es:'No es que sea imposible, sino que requiere un enfoque completamente distinto.',en:'It\'s not that it\'s impossible, but that it requires a completely different approach.',level:'c1',tense:'subjuntivo',tags:['no es que + subj','nuanced disagreement']},
+  {es:'En aras de la transparencia, conviene divulgar todos los datos relevantes.',en:'For the sake of transparency, it is advisable to disclose all relevant data.',level:'c1',tense:'presente',tags:['en aras de','formal','governance']},
+  {es:'El paradigma dominante está siendo cuestionado por evidencias cada vez más sólidas.',en:'The dominant paradigm is being questioned by increasingly solid evidence.',level:'c1',tense:'presente',tags:['C1 vocabulary','academic','paradigm']},
+  {es:'A pesar de sus detractores, la propuesta cuenta con amplio respaldo institucional.',en:'Despite its detractors, the proposal enjoys broad institutional support.',level:'c1',tense:'presente',tags:['a pesar de','formal discourse','nuance']},
+  {es:'Hubiera sido preferible abordar el conflicto antes de que se agravara.',en:'It would have been preferable to address the conflict before it worsened.',level:'c1',tense:'subjuntivo',tags:['pluperfect subjunctive','regret','conditional']},
+  {es:'La resiliencia del sistema financiero ha sido puesta a prueba en repetidas ocasiones.',en:'The resilience of the financial system has been put to the test on repeated occasions.',level:'c1',tense:'perfecto',tags:['C1 vocabulary','finance','passive']},
+  {es:'Dilucidar las causas subyacentes del fenómeno resulta imprescindible para proponer soluciones eficaces.',en:'Elucidating the underlying causes of the phenomenon is essential to propose effective solutions.',level:'c1',tense:'presente',tags:['C1 vocabulary','academic register','nominalisation']},
+];
+
+const GRAMMAR_NOTES = {
+  presente: 'Present tense: describes current states, habits, and general truths. Regular -ar/-er/-ir endings.',
+  preterito: 'Preterite (Indefinido): completed past action at a specific time. Key irregulars: ser/ir→fui, tener→tuve.',
+  imperfecto: 'Imperfect: habitual or ongoing past, background descriptions, states of mind. Only 3 irregulars: ser, ir, ver.',
+  perfecto: 'Present perfect (haber + participio): recent past or past with present relevance. Common in Spain; Latin America uses preterite.',
+  futuro_proximo: 'Near future (ir a + infinitivo): planned or immediate future actions. More colloquial than simple future.',
+  subjuntivo: 'Subjunctive mood: doubt, desire, emotion, hypothetical. Triggered by WEIRDO: Wish, Emotion, Impersonal, Recommendations, Doubt, Ojalá.',
+  condicional: 'Conditional: "would" — used in hypothetical si-clauses, polite requests, and reported speech.',
+  condicional_perfecto: 'Conditional perfect (habría + participio): "would have" — pairs with pluperfect subjunctive in past hypotheticals.',
+};
+
+// ── BUILDER LOGIC ──
+let currentTemplate = null;
+let placedWords = [];
+let bankWords = [];
+
+function loadTemplate(t) {
+  currentTemplate = t;
+  placedWords = [];
+  bankWords = t.words.map((w,i) => ({...w, id:i, used:false}));
+  // shuffle
+  bankWords = bankWords.sort(() => Math.random() - 0.5);
+  renderBuilder();
+  document.getElementById('sentenceFeedback').style.display = 'none';
+}
+
+function renderBuilder() {
+  const slots = document.getElementById('wordSlots');
+  const bank = document.getElementById('wordBank');
+  if (placedWords.length === 0) {
+    slots.innerHTML = '<span class="drop-hint">Tap words below to build your sentence →</span>';
+  } else {
+    slots.innerHTML = placedWords.map((w,i) =>
+      `<span class="placed-word" onclick="removeWord(${i})">${w.text}<span class="pos-badge">${w.pos}</span></span>`
+    ).join('');
+  }
+  bank.innerHTML = bankWords.map(w =>
+    `<span class="bank-word ${w.used?'used':''}" onclick="addWord(${w.id})">${w.text}<span class="pos-badge">${w.pos}</span></span>`
+  ).join('');
+}
+
+function addWord(id) {
+  const w = bankWords.find(b => b.id === id);
+  if (!w || w.used) return;
+  w.used = true;
+  placedWords.push(w);
+  renderBuilder();
+  document.getElementById('sentenceFeedback').style.display = 'none';
+}
+
+function removeWord(idx) {
+  const w = placedWords[idx];
+  w.used = false;
+  placedWords.splice(idx, 1);
+  renderBuilder();
+  document.getElementById('sentenceFeedback').style.display = 'none';
+}
+
+function clearBuilder() {
+  if (currentTemplate) loadTemplate(currentTemplate);
+  else { placedWords = []; renderBuilder(); }
+}
+
+function shuffleBank() {
+  if (!currentTemplate) return;
+  loadTemplate(currentTemplate);
+}
+
+function checkSentence() {
+  if (!placedWords.length) return;
+  const built = placedWords.map(w => w.text).join(' ');
+  const fb = document.getElementById('sentenceFeedback');
+  fb.style.display = 'block';
+  if (!currentTemplate) {
+    fb.innerHTML = `<div class="sf-row"><div class="sf-icon">💬</div><div><div class="sf-label">Your sentence</div><div class="sf-text">${built}</div></div></div><div style="color:var(--text2);font-size:.85rem;margin-top:.5rem">Select a template for auto-checking, or use free-build mode.</div>`;
+    return;
+  }
+  // Flexible check: any order that includes key words counts
+  const solutions = currentTemplate.solutions;
+  const builtLower = built.toLowerCase();
+  const exact = solutions.some(s => s.toLowerCase() === builtLower);
+  const close = solutions.some(s => {
+    const words = s.toLowerCase().split(' ');
+    return words.every(w => builtLower.includes(w));
+  });
+  if (exact) {
+    fb.innerHTML = `<div class="sf-row"><div class="sf-icon">✅</div><div><div class="sf-label">Correct!</div><div class="sf-text">${built}</div></div></div><div style="color:var(--text2);font-size:.85rem;margin-top:.5rem">${currentTemplate.hint}</div>`;
+    awardXP(3);
+  } else if (close) {
+    fb.innerHTML = `<div class="sf-row"><div class="sf-icon">🟡</div><div><div class="sf-label">Close — check word order</div><div class="sf-text">${built}</div></div></div><div class="sf-row"><div class="sf-icon">💡</div><div><div class="sf-label">Sample correct sentence</div><div class="sf-text">${solutions[0]}</div></div></div>`;
+  } else {
+    fb.innerHTML = `<div class="sf-row"><div class="sf-icon">❌</div><div><div class="sf-label">Not quite</div><div class="sf-text">${built}</div></div></div><div class="sf-row"><div class="sf-icon">💡</div><div><div class="sf-label">Try this</div><div class="sf-text">${solutions[0]}</div></div></div><div style="color:var(--text2);font-size:.85rem;margin-top:.5rem">${currentTemplate.hint}</div>`;
+  }
+}
+
+function speakBuilt() {
+  const built = placedWords.map(w => w.text).join(' ');
+  if (!built.trim()) return;
+  speak(built);
+}
+
+function saveBuilt() {
+  const built = placedWords.map(w => w.text).join(' ');
+  if (!built.trim()) return;
+  saveSentence(built, '');
+}
+
+// ── GENERATOR LOGIC ──
+let genLevel = 'all';
+let currentGenSentence = null;
+
+function setGenLevel(lv, btn) {
+  genLevel = lv;
+  document.querySelectorAll('.gen-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function generateSentence() {
+  const pool = genLevel === 'all' ? SENTENCES : SENTENCES.filter(s => s.level === genLevel);
+  if (!pool.length) return;
+  currentGenSentence = pool[Math.floor(Math.random() * pool.length)];
+  const s = currentGenSentence;
+  document.getElementById('genSentence').textContent = s.es;
+  document.getElementById('genTranslation').textContent = s.en;
+  document.getElementById('genTags').innerHTML = [s.level.toUpperCase(), s.tense, ...s.tags].map(t =>
+    `<span class="gen-tag">${t}</span>`
+  ).join('');
+  document.getElementById('genGrammarNote').textContent = GRAMMAR_NOTES[s.tense] || 'See grammar page for details on this tense/structure.';
+  speak(s.es);
+}
+
+function speakGenerated() {
+  if (currentGenSentence) speak(currentGenSentence.es);
+}
+
+function saveGenerated() {
+  if (!currentGenSentence) return;
+  saveSentence(currentGenSentence.es, currentGenSentence.en);
+}
+
+// ── SAVED SENTENCES ──
+function getSaved() { try { return JSON.parse(localStorage.getItem('es_savedSentences')||'[]'); } catch { return []; } }
+function saveSentence(es, en) {
+  const saved = getSaved();
+  if (saved.some(s => s.es === es)) { showToast('Already saved'); return; }
+  saved.unshift({es, en, date: new Date().toISOString()});
+  if (saved.length > 100) saved.splice(100);
+  localStorage.setItem('es_savedSentences', JSON.stringify(saved));
+  showToast('✓ Saved!');
+  renderSaved();
+}
+function deleteSaved(idx) {
+  const saved = getSaved();
+  saved.splice(idx, 1);
+  localStorage.setItem('es_savedSentences', JSON.stringify(saved));
+  renderSaved();
+}
+function clearSaved() {
+  if (!confirm('Delete all saved sentences?')) return;
+  localStorage.removeItem('es_savedSentences');
+  renderSaved();
+}
+function renderSaved() {
+  const saved = getSaved();
+  document.getElementById('savedCount').textContent = `${saved.length} saved sentence${saved.length!==1?'s':''}`;
+  const list = document.getElementById('savedList');
+  if (!saved.length) { list.innerHTML = '<div style="color:var(--text2);font-style:italic;padding:1rem">No saved sentences yet.</div>'; return; }
+  list.innerHTML = saved.map((s,i) => `
+    <div class="saved-item">
+      <div class="si-text"><span class="si-es">${s.es}</span>${s.en ? s.en : ''}</div>
+      <button class="si-play" onclick="speak('${s.es.replace(/'/g,"\\'")}')">🔊</button>
+      <button class="si-del" onclick="deleteSaved(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+// ── TEMPLATE GRID ──
+document.getElementById('templateGrid').innerHTML = TEMPLATES.map(t => `
+  <div class="template-card" onclick="loadTemplate(${JSON.stringify(t).replace(/"/g,'&quot;')})">
+    <div class="tmpl-structure">${t.structure}</div>
+    <div class="tmpl-example">${t.example}</div>
+    <div class="tmpl-level">${t.level}</div>
+  </div>
+`).join('');
+
+// ── UTILITIES ──
+function speak(text) {
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'es-ES'; u.rate = 0.9;
+  window.speechSynthesis.speak(u);
+}
+function awardXP(n) {
+  const xp = parseInt(localStorage.getItem('es_xp')||'0') + n;
+  localStorage.setItem('es_xp', xp);
+}
+function showToast(msg) {
+  let t = document.getElementById('_toast');
+  if (!t) { t = document.createElement('div'); t.id='_toast'; t.style.cssText='position:fixed;bottom:1.5rem;right:1.5rem;background:var(--green);color:#fff;padding:.7rem 1.2rem;border-radius:8px;font-size:.9rem;opacity:0;transition:opacity .3s;z-index:1000;pointer-events:none;'; document.body.appendChild(t); }
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 2000);
+}
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'saved') renderSaved();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'g' || e.key === 'G') generateSentence();
+  if (e.key === ' ') { e.preventDefault(); speakGenerated(); }
+});
+
+// init
+generateSentence();
+renderSaved();
+
+const th=localStorage.getItem('es_theme')||'dark';if(th==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

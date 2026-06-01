@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Export — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(192,57,43,.08) 0%,transparent 100%);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.container{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);margin-bottom:1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);}
+
+/* XP Dashboard */
+.xp-hero{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;}
+.xp-stat{text-align:center;}
+.xp-num{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);line-height:1;}
+.xp-label{font-size:.75rem;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-top:.2rem;}
+.level-badge-big{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:8px;padding:.5rem 1rem;text-align:center;}
+.level-name{font-family:'Playfair Display',serif;font-size:1.1rem;}
+.level-sub{font-size:.75rem;opacity:.85;}
+.xp-bar-wrap{margin-top:1rem;}
+.xp-bar-label{display:flex;justify-content:space-between;font-size:.8rem;color:var(--text2);margin-bottom:.3rem;}
+.xp-bar{background:var(--bg3);border-radius:20px;height:12px;overflow:hidden;}
+.xp-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width .6s ease;}
+
+/* Mastery summary */
+.mastery-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;margin-bottom:1.5rem;}
+.mastery-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem .5rem;text-align:center;}
+.mastery-box .num{font-size:1.4rem;font-weight:700;font-family:'Playfair Display',serif;}
+.mastery-box .lbl{font-size:.7rem;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;}
+
+/* Data cards */
+.data-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
+.data-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;}
+.data-title{font-weight:600;color:var(--accent2);margin-bottom:.3rem;}
+.data-size{font-size:.8rem;color:var(--text2);margin-bottom:.8rem;}
+.data-btn{background:var(--accent);color:#fff;border:none;padding:.5rem 1rem;border-radius:6px;font-family:'Crimson Pro',serif;font-size:.9rem;cursor:pointer;transition:background .2s;width:100%;}
+.data-btn:hover{background:var(--accent2);}
+.data-btn.secondary{background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
+.data-btn.secondary:hover{border-color:var(--accent);color:var(--accent3);}
+.data-btn.danger{background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3);}
+.data-btn.danger:hover{background:var(--red);color:#fff;}
+
+/* Import */
+.import-zone{border:2px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;margin-bottom:1rem;transition:border-color .2s;}
+.import-zone:hover{border-color:var(--accent2);}
+.import-zone input{display:none;}
+.import-label{cursor:pointer;color:var(--text2);}
+.import-label:hover{color:var(--accent3);}
+
+/* XP Log */
+.xp-log{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;max-height:300px;overflow-y:auto;}
+.xp-row{display:flex;justify-content:space-between;align-items:center;padding:.3rem 0;border-bottom:1px solid rgba(90,56,37,.2);font-size:.85rem;}
+.xp-row:last-child{border:none;}
+.xp-row .xp-date{color:var(--text2);}
+.xp-row .xp-amount{color:var(--accent3);font-weight:600;}
+.xp-row .xp-src{color:var(--text2);font-size:.75rem;background:var(--bg3);padding:.1rem .4rem;border-radius:8px;}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--green);color:#fff;padding:.7rem 1.2rem;border-radius:8px;font-size:.9rem;opacity:0;transition:opacity .3s;z-index:1000;pointer-events:none;}
+.toast.show{opacity:1;}
+
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.data-grid{grid-template-columns:1fr;}.mastery-grid{grid-template-columns:repeat(3,1fr);}.container{padding:1rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a>
+    <a href="schedule.html">Schedule</a><a href="export.html" class="active">Export</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="vocabulary.html">📝 Vocab</a>
+  <a href="progress.html">📊 Progress</a><a href="export.html">💾 Export</a>
+</div>
+<div class="page-header">
+  <div class="page-title">💾 Data & XP</div>
+  <div class="page-sub">Your learning stats, XP level, mastery breakdown, and data backup</div>
+</div>
+
+<div class="container">
+
+  <!-- XP HERO -->
+  <div class="section-title">⚡ XP & Level</div>
+  <div class="xp-hero" id="xpHero"></div>
+  <div class="xp-bar-wrap" id="xpBarWrap" style="margin-bottom:2rem"></div>
+
+  <!-- MASTERY SUMMARY -->
+  <div class="section-title">🎯 Vocabulary Mastery</div>
+  <div class="mastery-grid" id="masteryGrid"></div>
+
+  <!-- DATA EXPORT/IMPORT -->
+  <div class="section-title">💾 Backup & Restore</div>
+  <div class="data-grid" id="dataGrid"></div>
+
+  <!-- RESET SECTION -->
+  <div class="section-title">⚠️ Reset Data</div>
+  <div style="background:var(--card);border:1px solid rgba(231,76,60,.3);border-radius:10px;padding:1.2rem;margin-bottom:2rem;">
+    <div style="color:var(--text2);font-size:.9rem;margin-bottom:1rem">Permanently delete specific data. This cannot be undone. Export a backup first.</div>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;">
+      <button class="data-btn danger" style="width:auto;padding:.4rem .9rem" onclick="resetKey('es_mastery','word mastery')">Reset Mastery</button>
+      <button class="data-btn danger" style="width:auto;padding:.4rem .9rem" onclick="resetKey('es_xp','XP')">Reset XP</button>
+      <button class="data-btn danger" style="width:auto;padding:.4rem .9rem" onclick="resetKey('es_scores','quiz scores')">Reset Scores</button>
+      <button class="data-btn danger" style="width:auto;padding:.4rem .9rem" onclick="resetKey('es_mistakeLog','mistake log')">Reset Mistakes</button>
+      <button class="data-btn danger" style="width:auto;padding:.4rem .9rem;background:rgba(231,76,60,.4)" onclick="resetAll()">⚠️ Reset ALL</button>
+    </div>
+  </div>
+
+  <!-- XP LOG -->
+  <div class="section-title">📋 Recent XP Activity</div>
+  <div class="xp-log" id="xpLog"></div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const XP_LEVELS = [
+  {name:'Principiante',min:0,max:100},
+  {name:'Estudiante',min:100,max:300},
+  {name:'Aprendiz',min:300,max:600},
+  {name:'Intermedio',min:600,max:1000},
+  {name:'Avanzado',min:1000,max:2000},
+  {name:'Experto',min:2000,max:5000},
+  {name:'Maestro',min:5000,max:Infinity},
+];
+const MASTERY_COLORS = ['#888','#e67e22','#f39c12','#2980b9','#27ae60','#9b59b6'];
+const MASTERY_LABELS = ['New','Learning','Familiar','Good','Strong','Mastered'];
+
+function getLS(key, def='{}') { try { return JSON.parse(localStorage.getItem(key)||def); } catch { return JSON.parse(def); } }
+function getXP() { return parseInt(localStorage.getItem('es_xp')||'0'); }
+function getCurrentLevel(xp) { return XP_LEVELS.slice().reverse().find(l=>xp>=l.min) || XP_LEVELS[0]; }
+
+function toast(msg, dur=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), dur);
+}
+
+function renderXP() {
+  const xp = getXP();
+  const level = getCurrentLevel(xp);
+  const nextLevel = XP_LEVELS[XP_LEVELS.indexOf(level)+1];
+  const pct = nextLevel ? Math.round((xp-level.min)/(nextLevel.min-level.min)*100) : 100;
+  const scores = getLS('es_scores','[]');
+  const log = getLS('es_xpLog','[]');
+  const todayXP = log.filter(e=>e.date?.slice(0,10)===new Date().toISOString().slice(0,10)).reduce((a,e)=>a+e.amount,0);
+  const studyDays = new Set(getLS('es_studyDays','[]')).size;
+
+  document.getElementById('xpHero').innerHTML = `
+    <div class="xp-stat"><div class="xp-num">${xp.toLocaleString()}</div><div class="xp-label">Total XP</div></div>
+    <div class="xp-stat"><div class="xp-num">+${todayXP}</div><div class="xp-label">XP Today</div></div>
+    <div class="xp-stat"><div class="xp-num">${scores.length}</div><div class="xp-label">Quiz Sessions</div></div>
+    <div class="xp-stat"><div class="xp-num">${studyDays}</div><div class="xp-label">Days Studied</div></div>
+    <div class="level-badge-big">
+      <div class="level-name">${level.name}</div>
+      <div class="level-sub">Level ${XP_LEVELS.indexOf(level)+1} of ${XP_LEVELS.length}</div>
+    </div>
+  `;
+  document.getElementById('xpBarWrap').innerHTML = `
+    <div class="xp-bar-label">
+      <span style="color:var(--accent3)">${level.name}</span>
+      <span style="color:var(--text2)">${nextLevel ? xp+' / '+nextLevel.min+' XP to '+nextLevel.name : 'Max level reached!'}</span>
+    </div>
+    <div class="xp-bar"><div class="xp-fill" style="width:${pct}%"></div></div>
+  `;
+}
+
+function renderMastery() {
+  const mastery = getLS('es_mastery','{}');
+  const counts = [0,0,0,0,0,0];
+  Object.values(mastery).forEach(m => { if (m.level >= 0 && m.level <= 5) counts[m.level]++; });
+  const total = Object.keys(mastery).length;
+  document.getElementById('masteryGrid').innerHTML = MASTERY_LABELS.map((lbl,i) => `
+    <div class="mastery-box">
+      <div class="num" style="color:${MASTERY_COLORS[i]}">${counts[i]}</div>
+      <div class="lbl">${lbl}</div>
+    </div>
+  `).join('') + `<div class="mastery-box" style="grid-column:1/-1;background:var(--bg2)">
+    <div class="num" style="color:var(--accent3)">${total}</div>
+    <div class="lbl">Words Tracked</div>
+  </div>`;
+}
+
+function sizeOf(key) {
+  const val = localStorage.getItem(key)||'';
+  const bytes = new Blob([val]).size;
+  if (bytes < 1024) return bytes+'B';
+  return (bytes/1024).toFixed(1)+'KB';
+}
+
+function renderDataCards() {
+  const keys = [
+    {key:'es_mastery',label:'Word Mastery',icon:'🎯',desc:'SRS levels for all vocabulary words'},
+    {key:'es_xp',label:'XP & Progress',icon:'⚡',desc:'Total XP earned'},
+    {key:'es_xpLog',label:'XP Log',icon:'📋',desc:'Full activity log'},
+    {key:'es_scores',label:'Quiz Scores',icon:'📊',desc:'All quiz session results'},
+    {key:'es_mistakeLog',label:'Mistake Log',icon:'❌',desc:'Wrong answers from quizzes'},
+    {key:'es_studyDays',label:'Study Streak',icon:'🔥',desc:'Days you studied'},
+  ];
+  document.getElementById('dataGrid').innerHTML = keys.map(d => `
+    <div class="data-card">
+      <div class="data-title">${d.icon} ${d.label}</div>
+      <div class="data-size">${d.desc} · ${sizeOf(d.key)}</div>
+      <button class="data-btn" onclick="exportKey('${d.key}','${d.label}')">⬇ Export</button>
+    </div>
+  `).join('') + `
+    <div class="data-card" style="border-color:var(--accent2)">
+      <div class="data-title">📦 Export Everything</div>
+      <div class="data-size">All data in one JSON file</div>
+      <button class="data-btn" style="background:var(--accent2)" onclick="exportAll()">⬇ Export All</button>
+    </div>
+    <div class="data-card" style="border-color:var(--green)">
+      <div class="data-title">📂 Import Backup</div>
+      <div class="data-size">Restore from a previous export</div>
+      <label class="data-btn" style="display:block;text-align:center;background:rgba(39,174,96,.2);color:var(--green);border:1px solid var(--green);border-radius:6px;padding:.5rem;cursor:pointer">
+        ⬆ Choose File
+        <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+      </label>
+    </div>
+  `;
+}
+
+function exportKey(key, label) {
+  const data = {key, label, exported: new Date().toISOString(), value: localStorage.getItem(key)};
+  download(`espanol_${key}_${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(data, null, 2));
+  toast(`✓ Exported ${label}`);
+}
+
+function exportAll() {
+  const allKeys = Object.keys(localStorage).filter(k => k.startsWith('es_'));
+  const data = {exported: new Date().toISOString(), version: 1, keys: {}};
+  allKeys.forEach(k => { data.keys[k] = localStorage.getItem(k); });
+  download(`espanol_backup_${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(data, null, 2));
+  toast(`✓ Exported ${allKeys.length} data keys`);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.keys) {
+        // Full backup
+        Object.entries(data.keys).forEach(([k,v]) => localStorage.setItem(k, v));
+        toast(`✓ Restored ${Object.keys(data.keys).length} keys`);
+      } else if (data.key && data.value) {
+        // Single key
+        localStorage.setItem(data.key, data.value);
+        toast(`✓ Restored ${data.label}`);
+      } else {
+        toast('⚠ Unrecognised format');
+        return;
+      }
+      render();
+    } catch { toast('⚠ Invalid JSON file'); }
+  };
+  reader.readAsText(file);
+}
+
+function download(filename, text) {
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(text);
+  a.download = filename;
+  a.click();
+}
+
+function resetKey(key, label) {
+  if (!confirm(`Delete ${label}? This cannot be undone.`)) return;
+  localStorage.removeItem(key);
+  toast(`✓ Reset ${label}`);
+  render();
+}
+
+function resetAll() {
+  if (!confirm('Delete ALL Español Study data? This cannot be undone.\n\nExport a backup first!')) return;
+  if (!confirm('Are you absolutely sure? This deletes all XP, mastery, scores, and streaks.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('es_')).forEach(k=>localStorage.removeItem(k));
+  toast('✓ All data cleared');
+  render();
+}
+
+function renderXPLog() {
+  const log = getLS('es_xpLog','[]');
+  const recent = [...log].reverse().slice(0,50);
+  if (!recent.length) {
+    document.getElementById('xpLog').innerHTML = '<div style="color:var(--text2);padding:.5rem;font-style:italic">No XP activity yet — complete quizzes and mark vocabulary to earn XP.</div>';
+    return;
+  }
+  document.getElementById('xpLog').innerHTML = recent.map(e => {
+    const d = e.date ? new Date(e.date).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+    return `<div class="xp-row"><span class="xp-date">${d}</span><span class="xp-src">${e.source||'general'}</span><span class="xp-amount">+${e.amount} XP</span></div>`;
+  }).join('');
+}
+
+function render() { renderXP(); renderMastery(); renderDataCards(); renderXPLog(); }
+render();
+
+const th=localStorage.getItem('es_theme')||'dark';if(th==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

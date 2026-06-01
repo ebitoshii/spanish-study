@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numbers & Dates — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);background:var(--bg2);overflow-x:auto;}
+.tab{background:none;border:none;color:var(--text2);padding:.7rem 1.2rem;cursor:pointer;font-family:'Crimson Pro',serif;font-size:.9rem;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab:hover{color:var(--accent3);}
+.tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
+.content{max-width:900px;margin:0 auto;padding:2rem;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);margin-bottom:1rem;}
+/* Number reference table */
+.num-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;margin-bottom:2rem;}
+.num-cell{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.5rem .8rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .2s;}
+.num-cell:hover{border-color:var(--accent2);}
+.num-digit{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent3);}
+.num-word{color:var(--text2);font-size:.88rem;}
+/* Drill */
+.drill-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;text-align:center;margin-bottom:1.5rem;}
+.drill-prompt{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--accent3);margin-bottom:.5rem;}
+.drill-type{font-size:.9rem;color:var(--text2);margin-bottom:1.2rem;}
+.drill-input{width:100%;max-width:400px;background:var(--bg2);border:2px solid var(--border);color:var(--text);padding:.7rem 1rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1.1rem;outline:none;text-align:center;transition:border-color .2s;}
+.drill-input:focus{border-color:var(--accent);}
+.drill-input.correct{border-color:var(--green);background:rgba(39,174,96,.08);}
+.drill-input.wrong{border-color:var(--red);background:rgba(231,76,60,.08);}
+.drill-btns{display:flex;gap:.8rem;justify-content:center;margin-top:1rem;}
+.drill-btn{background:var(--accent);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:.95rem;cursor:pointer;transition:background .2s;}
+.drill-btn:hover{background:var(--accent2);}
+.drill-btn.secondary{background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
+.drill-btn.secondary:hover{border-color:var(--accent);color:var(--accent3);}
+.feedback-line{min-height:1.8rem;font-size:1rem;margin-top:.5rem;}
+.score-bar{display:flex;gap:1rem;justify-content:center;margin-bottom:1.5rem;font-size:.88rem;color:var(--text2);}
+.score-pill{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.25rem .8rem;}
+.score-pill span{color:var(--accent3);font-weight:700;}
+/* Time reference */
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+.time-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;}
+.time-title{font-weight:600;color:var(--accent2);margin-bottom:.5rem;font-size:.9rem;}
+.time-list{list-style:none;}
+.time-list li{display:flex;justify-content:space-between;padding:.2rem 0;border-bottom:1px solid rgba(90,56,37,.2);font-size:.9rem;}
+.time-list li:last-child{border:none;}
+.time-es{color:var(--accent3);}
+.time-en{color:var(--text2);}
+/* Clock */
+.clock-display{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;margin-bottom:1.5rem;}
+.clock-time{font-family:'Playfair Display',serif;font-size:3rem;color:var(--accent3);}
+.clock-es{font-size:1.1rem;color:var(--text);margin-top:.5rem;}
+.clock-note{font-size:.85rem;color:var(--text2);font-style:italic;margin-top:.3rem;}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.content{padding:1rem;}.time-grid{grid-template-columns:1fr;}.num-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html" class="active">Numbers</a><a href="dictionary.html">Dictionary</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="idioms.html">💬 Idioms</a><a href="verbdrill.html">⚡ Verb Drill</a>
+  <a href="numbers.html">🔢 Numbers</a><a href="dictionary.html">📖 Dictionary</a>
+</div>
+<div class="page-header">
+  <div class="page-title">🔢 Numbers & Dates</div>
+  <div class="page-sub">Reference tables and drills for numbers, dates, and telling the time</div>
+</div>
+<div class="tabs">
+  <button class="tab active" onclick="showTab('reference',this)">Reference</button>
+  <button class="tab" onclick="showTab('drill',this)">Number Drill</button>
+  <button class="tab" onclick="showTab('time',this)">Telling Time</button>
+  <button class="tab" onclick="showTab('dates',this)">Dates & Calendar</button>
+</div>
+<div class="content">
+
+<!-- REFERENCE -->
+<div class="tab-panel active" id="tab-reference">
+  <div class="section-title">Cardinal Numbers</div>
+  <div class="num-grid" id="numGrid"></div>
+  <div class="section-title">Ordinal Numbers</div>
+  <div class="num-grid" id="ordGrid"></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-top:1rem;">
+    <div style="font-weight:600;color:var(--accent2);margin-bottom:.5rem">Key rules</div>
+    <div style="font-size:.9rem;color:var(--text2);line-height:2">
+      • <strong style="color:var(--text)">uno → un/una</strong> before nouns: <em>un libro, una casa, veintiún años</em><br>
+      • <strong style="color:var(--text)">100</strong> = cien (standalone), ciento (before another number): <em>cien personas, ciento veinte</em><br>
+      • <strong style="color:var(--text)">200–900</strong> agree in gender: <em>doscientos libros, doscientas páginas</em><br>
+      • <strong style="color:var(--text)">Billions</strong>: un billón (10¹²) ≠ English billion (10⁹) = mil millones<br>
+      • <strong style="color:var(--text)">Ordinals</strong>: agree in gender/number: <em>el primer piso, la primera vez, los primeros días</em><br>
+      • <strong style="color:var(--text)">primero/tercero</strong> shorten before masc. singular nouns: <em>el primer/tercer vuelo</em>
+    </div>
+  </div>
+</div>
+
+<!-- DRILL -->
+<div class="tab-panel" id="tab-drill">
+  <div class="score-bar">
+    <div class="score-pill">✓ <span id="dCorrect">0</span></div>
+    <div class="score-pill">✗ <span id="dWrong">0</span></div>
+    <div class="score-pill">Q <span id="dQ">0</span></div>
+  </div>
+  <div class="drill-card">
+    <div class="drill-prompt" id="drillPrompt">—</div>
+    <div class="drill-type" id="drillType">—</div>
+    <input type="text" class="drill-input" id="drillInput" placeholder="Write in Spanish..." autocomplete="off" autocorrect="off" spellcheck="false">
+    <div class="feedback-line" id="drillFeedback"></div>
+    <div class="drill-btns">
+      <button class="drill-btn" onclick="checkDrill()">Check</button>
+      <button class="drill-btn secondary" onclick="skipDrill()">Skip →</button>
+      <button class="drill-btn secondary" onclick="speakDrill()">🔊</button>
+    </div>
+  </div>
+  <div style="font-size:.82rem;color:var(--text2);text-align:center">Press Enter to check · answers accept common spelling variants</div>
+</div>
+
+<!-- TIME -->
+<div class="tab-panel" id="tab-time">
+  <div class="clock-display">
+    <div class="clock-time" id="clockTime">—</div>
+    <div class="clock-es" id="clockEs">—</div>
+    <div class="clock-note" id="clockNote">—</div>
+  </div>
+  <div class="section-title">How to Tell the Time</div>
+  <div class="time-grid">
+    <div class="time-card">
+      <div class="time-title">On the hour</div>
+      <ul class="time-list">
+        <li><span class="time-es">Es la una.</span><span class="time-en">It's 1 o'clock.</span></li>
+        <li><span class="time-es">Son las dos.</span><span class="time-en">It's 2 o'clock.</span></li>
+        <li><span class="time-es">Son las doce.</span><span class="time-en">It's 12 o'clock.</span></li>
+        <li><span class="time-es">Es medianoche.</span><span class="time-en">It's midnight.</span></li>
+        <li><span class="time-es">Es mediodía.</span><span class="time-en">It's midday/noon.</span></li>
+      </ul>
+    </div>
+    <div class="time-card">
+      <div class="time-title">Minutes past / to</div>
+      <ul class="time-list">
+        <li><span class="time-es">Son las tres y cuarto.</span><span class="time-en">3:15</span></li>
+        <li><span class="time-es">Son las tres y media.</span><span class="time-en">3:30</span></li>
+        <li><span class="time-es">Son las cuatro menos cuarto.</span><span class="time-en">3:45</span></li>
+        <li><span class="time-es">Son las cinco y diez.</span><span class="time-en">5:10</span></li>
+        <li><span class="time-es">Son las seis menos veinte.</span><span class="time-en">5:40</span></li>
+      </ul>
+    </div>
+    <div class="time-card">
+      <div class="time-title">AM / PM</div>
+      <ul class="time-list">
+        <li><span class="time-es">de la mañana</span><span class="time-en">in the morning (AM)</span></li>
+        <li><span class="time-es">de la tarde</span><span class="time-en">in the afternoon/evening (PM)</span></li>
+        <li><span class="time-es">de la noche</span><span class="time-en">at night (late PM)</span></li>
+        <li><span class="time-es">a las 14:30</span><span class="time-en">at 14:30 (24hr format)</span></li>
+      </ul>
+    </div>
+    <div class="time-card">
+      <div class="time-title">Asking & answering</div>
+      <ul class="time-list">
+        <li><span class="time-es">¿Qué hora es?</span><span class="time-en">What time is it?</span></li>
+        <li><span class="time-es">¿A qué hora...?</span><span class="time-en">At what time...?</span></li>
+        <li><span class="time-es">A eso de las tres.</span><span class="time-en">At around three.</span></li>
+        <li><span class="time-es">Sobre las diez.</span><span class="time-en">Around ten.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- DATES -->
+<div class="tab-panel" id="tab-dates">
+  <div class="section-title">Days, Months & Dates</div>
+  <div class="time-grid">
+    <div class="time-card">
+      <div class="time-title">Days of the week</div>
+      <ul class="time-list">
+        <li><span class="time-es">lunes</span><span class="time-en">Monday</span></li>
+        <li><span class="time-es">martes</span><span class="time-en">Tuesday</span></li>
+        <li><span class="time-es">miércoles</span><span class="time-en">Wednesday</span></li>
+        <li><span class="time-es">jueves</span><span class="time-en">Thursday</span></li>
+        <li><span class="time-es">viernes</span><span class="time-en">Friday</span></li>
+        <li><span class="time-es">sábado</span><span class="time-en">Saturday</span></li>
+        <li><span class="time-es">domingo</span><span class="time-en">Sunday</span></li>
+      </ul>
+    </div>
+    <div class="time-card">
+      <div class="time-title">Months</div>
+      <ul class="time-list">
+        <li><span class="time-es">enero</span><span class="time-en">January</span></li>
+        <li><span class="time-es">febrero</span><span class="time-en">February</span></li>
+        <li><span class="time-es">marzo</span><span class="time-en">March</span></li>
+        <li><span class="time-es">abril</span><span class="time-en">April</span></li>
+        <li><span class="time-es">mayo</span><span class="time-en">May</span></li>
+        <li><span class="time-es">junio</span><span class="time-en">June</span></li>
+        <li><span class="time-es">julio</span><span class="time-en">July</span></li>
+        <li><span class="time-es">agosto</span><span class="time-en">August</span></li>
+        <li><span class="time-es">septiembre</span><span class="time-en">September</span></li>
+        <li><span class="time-es">octubre</span><span class="time-en">October</span></li>
+        <li><span class="time-es">noviembre</span><span class="time-en">November</span></li>
+        <li><span class="time-es">diciembre</span><span class="time-en">December</span></li>
+      </ul>
+    </div>
+    <div class="time-card" style="grid-column:1/-1">
+      <div class="time-title">Date expressions</div>
+      <ul class="time-list">
+        <li><span class="time-es">¿Qué fecha es hoy?</span><span class="time-en">What's today's date?</span></li>
+        <li><span class="time-es">Hoy es el quince de junio.</span><span class="time-en">Today is the 15th of June.</span></li>
+        <li><span class="time-es">Estamos a lunes.</span><span class="time-en">It's Monday today.</span></li>
+        <li><span class="time-es">el primero de enero</span><span class="time-en">the 1st of January (primero, not uno)</span></li>
+        <li><span class="time-es">en enero / en 2025</span><span class="time-en">in January / in 2025</span></li>
+        <li><span class="time-es">el lunes (próximo)</span><span class="time-en">next Monday</span></li>
+        <li><span class="time-es">los lunes</span><span class="time-en">on Mondays (habitual)</span></li>
+        <li><span class="time-es">a principios / mediados / finales de mes</span><span class="time-en">at the beginning / middle / end of the month</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const CARDINALS = [
+  [0,'cero'],[1,'uno'],[2,'dos'],[3,'tres'],[4,'cuatro'],[5,'cinco'],
+  [6,'seis'],[7,'siete'],[8,'ocho'],[9,'nueve'],[10,'diez'],
+  [11,'once'],[12,'doce'],[13,'trece'],[14,'catorce'],[15,'quince'],
+  [16,'dieciséis'],[17,'diecisiete'],[18,'dieciocho'],[19,'diecinueve'],[20,'veinte'],
+  [21,'veintiuno'],[22,'veintidós'],[23,'veintitrés'],[24,'veinticuatro'],[25,'veinticinco'],
+  [26,'veintiséis'],[27,'veintisiete'],[28,'veintiocho'],[29,'veintinueve'],[30,'treinta'],
+  [40,'cuarenta'],[50,'cincuenta'],[60,'sesenta'],[70,'setenta'],[80,'ochenta'],[90,'noventa'],
+  [100,'cien'],[101,'ciento uno'],[200,'doscientos'],[300,'trescientos'],[400,'cuatrocientos'],
+  [500,'quinientos'],[600,'seiscientos'],[700,'setecientos'],[800,'ochocientos'],[900,'novecientos'],
+  [1000,'mil'],[1001,'mil uno'],[2000,'dos mil'],[1000000,'un millón'],[1000000000,'mil millones'],
+];
+const ORDINALS = [
+  [1,'primero / primer'],[2,'segundo'],[3,'tercero / tercer'],[4,'cuarto'],[5,'quinto'],
+  [6,'sexto'],[7,'séptimo'],[8,'octavo'],[9,'noveno'],[10,'décimo'],
+  [11,'undécimo'],[12,'duodécimo'],[20,'vigésimo'],[100,'centésimo'],
+];
+
+document.getElementById('numGrid').innerHTML = CARDINALS.map(([n,w])=>
+  `<div class="num-cell" onclick="speak('${w}')"><span class="num-digit">${n.toLocaleString()}</span><span class="num-word">${w}</span></div>`
+).join('');
+document.getElementById('ordGrid').innerHTML = ORDINALS.map(([n,w])=>
+  `<div class="num-cell" onclick="speak('${w.split(' /')[0]}')"><span class="num-digit">${n}º</span><span class="num-word">${w}</span></div>`
+).join('');
+
+// Drill
+let dCorrect = 0, dWrong = 0, dQ = 0, drillChecked = false, currentDrill = null;
+
+function randomDrill() {
+  const types = ['number_to_word','word_to_number','ordinal'];
+  const type = types[Math.floor(Math.random()*types.length)];
+  if (type === 'ordinal') {
+    const ord = ORDINALS[Math.floor(Math.random()*ORDINALS.length)];
+    return {type:'ordinal',prompt:ord[0]+'º',answer:ord[1].split(' / ')[0],hint:'Write the ordinal number in Spanish'};
+  } else {
+    const pool = CARDINALS.filter(([n])=>n<=1000);
+    const item = pool[Math.floor(Math.random()*pool.length)];
+    if (type === 'number_to_word') {
+      return {type:'n2w',prompt:item[0].toLocaleString(),answer:item[1],hint:'Write this number in Spanish words'};
+    } else {
+      return {type:'w2n',prompt:item[1],answer:String(item[0]),hint:'Write this as a numeral'};
+    }
+  }
+}
+
+function loadDrill() {
+  drillChecked = false;
+  currentDrill = randomDrill();
+  document.getElementById('drillPrompt').textContent = currentDrill.prompt;
+  document.getElementById('drillType').textContent = currentDrill.hint;
+  document.getElementById('drillInput').value = '';
+  document.getElementById('drillInput').className = 'drill-input';
+  document.getElementById('drillFeedback').innerHTML = '';
+  document.getElementById('drillInput').focus();
+}
+
+function checkDrill() {
+  if (drillChecked) { loadDrill(); return; }
+  drillChecked = true;
+  const userAns = document.getElementById('drillInput').value.trim().toLowerCase().replace(/\s+/g,' ');
+  const correct = currentDrill.answer.toLowerCase();
+  // Accept variants: cien/ciento, with/without accents simplified
+  const normalize = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const isCorrect = normalize(userAns) === normalize(correct) || userAns === correct;
+  dQ++;
+  if (isCorrect) {
+    dCorrect++;
+    document.getElementById('drillInput').classList.add('correct');
+    document.getElementById('drillFeedback').innerHTML = `<span style="color:var(--green)">✓ Correcto</span>`;
+  } else {
+    dWrong++;
+    document.getElementById('drillInput').classList.add('wrong');
+    document.getElementById('drillFeedback').innerHTML = `<span style="color:var(--red)">✗ Correcto: <strong>${currentDrill.answer}</strong></span>`;
+  }
+  document.getElementById('dCorrect').textContent = dCorrect;
+  document.getElementById('dWrong').textContent = dWrong;
+  document.getElementById('dQ').textContent = dQ;
+}
+
+function skipDrill() { loadDrill(); }
+function speakDrill() {
+  if (!currentDrill) return;
+  speak(currentDrill.type === 'w2n' ? currentDrill.prompt : currentDrill.answer);
+}
+
+document.getElementById('drillInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { if (drillChecked) loadDrill(); else checkDrill(); }
+});
+
+// Clock
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('clockTime').textContent = `${pad(h)}:${pad(m)}`;
+  const hours = ['una','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce'];
+  const h12 = h % 12 || 12;
+  const hWord = hours[h12-1];
+  const nextH = (h12 % 12) + 1 > 12 ? 1 : (h12 % 12) + 1;
+  const nextWord = hours[nextH-1];
+  let timeStr, note = '';
+  if (m === 0) { timeStr = h12 === 1 ? `Es la ${hWord}.` : `Son las ${hWord}.`; }
+  else if (m === 15) { timeStr = h12 === 1 ? `Es la ${hWord} y cuarto.` : `Son las ${hWord} y cuarto.`; }
+  else if (m === 30) { timeStr = h12 === 1 ? `Es la ${hWord} y media.` : `Son las ${hWord} y media.`; }
+  else if (m === 45) { timeStr = nextH === 1 ? `Es la ${nextWord} menos cuarto.` : `Son las ${nextWord} menos cuarto.`; note = '(quarter to)'; }
+  else if (m < 30) { timeStr = h12 === 1 ? `Es la ${hWord} y ${m}.` : `Son las ${hWord} y ${m}.`; }
+  else { timeStr = nextH === 1 ? `Es la ${nextWord} menos ${60-m}.` : `Son las ${nextWord} menos ${60-m}.`; note = '(minutes to)'; }
+  const period = h < 12 ? 'de la mañana' : h < 20 ? 'de la tarde' : 'de la noche';
+  document.getElementById('clockEs').textContent = timeStr;
+  document.getElementById('clockNote').textContent = `${period}${note?' · '+note:''}`;
+}
+updateClock(); setInterval(updateClock, 10000);
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'drill' && !currentDrill) loadDrill();
+}
+
+function speak(text) {
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'es-ES'; u.rate = 0.85;
+  window.speechSynthesis.speak(u);
+}
+
+const th=localStorage.getItem('es_theme')||'dark';if(th==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

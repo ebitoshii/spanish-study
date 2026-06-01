@@ -178,7 +178,10 @@
     const avgPct = total ? Math.round(scores.reduce((a,s)=>a+(s.correct/s.total*100),0)/total) : 0;
     const bestPct = total ? Math.round(Math.max(...scores.map(s=>s.correct/s.total*100))) : 0;
     const totalQ = scores.reduce((a,s)=>a+s.total,0);
-    const totalRight = scores.reduce((a,s)=>a+s.correct,0);
+    const xp = parseInt(localStorage.getItem('es_xp')||'0');
+    const mastery = (() => { try { return JSON.parse(localStorage.getItem('es_mastery')||'{}'); } catch { return {}; } })();
+    const masteredCount = Object.values(mastery).filter(m=>m.level===5).length;
+    const trackedCount = Object.keys(mastery).length;
     document.getElementById('statsGrid').innerHTML = `
       <div class="stat-card"><div class="num">${total}</div><div class="lbl">Sessions</div></div>
       <div class="stat-card"><div class="num">${avgPct}%</div><div class="lbl">Avg Accuracy</div></div>
@@ -186,6 +189,9 @@
       <div class="stat-card"><div class="num">${totalQ}</div><div class="lbl">Questions Done</div></div>
       <div class="stat-card"><div class="num">${mistakes.length}</div><div class="lbl">Mistakes Logged</div></div>
       <div class="stat-card"><div class="num">${studyDays.length}</div><div class="lbl">Days Studied</div></div>
+      <div class="stat-card"><div class="num" style="color:var(--accent3)">⚡ ${xp.toLocaleString()}</div><div class="lbl">Total XP</div></div>
+      <div class="stat-card"><div class="num">${masteredCount}</div><div class="lbl">Words Mastered</div></div>
+      <div class="stat-card"><div class="num">${trackedCount}</div><div class="lbl">Words Tracked</div></div>
     `;
   }
 

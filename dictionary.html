@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dictionary — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.search-hero{padding:2rem;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(192,57,43,.08) 0%,transparent 100%);}
+.search-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);margin-bottom:.5rem;}
+.search-sub{color:var(--text2);font-style:italic;font-size:.95rem;margin-bottom:1.2rem;}
+.search-wrap{display:flex;gap:.5rem;max-width:600px;margin:0 auto;}
+.search-box{flex:1;background:var(--bg2);border:2px solid var(--border);color:var(--text);padding:.8rem 1.2rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1.1rem;outline:none;transition:border-color .2s;}
+.search-box:focus{border-color:var(--accent);}
+.search-box::placeholder{color:var(--text2);}
+.search-btn{background:var(--accent);color:#fff;border:none;padding:.8rem 1.4rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1rem;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.search-btn:hover{background:var(--accent2);}
+.lang-toggle{display:flex;gap:.5rem;justify-content:center;margin-top:.8rem;}
+.lang-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.25rem .8rem;border-radius:20px;cursor:pointer;font-family:'Crimson Pro',serif;font-size:.85rem;transition:all .2s;}
+.lang-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.content{max-width:800px;margin:0 auto;padding:2rem;}
+/* Entry */
+.entry{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;margin-bottom:1rem;}
+.entry-word{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--accent3);display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;}
+.entry-type{font-size:.8rem;color:var(--text2);background:var(--bg3);padding:.2rem .6rem;border-radius:10px;font-style:italic;font-family:'Crimson Pro',serif;}
+.entry-level{font-size:.72rem;font-weight:600;padding:.15rem .5rem;border-radius:10px;background:rgba(192,57,43,.15);color:var(--accent);border:1px solid rgba(192,57,43,.3);}
+.play-btn{background:none;border:1px solid var(--border);color:var(--accent2);cursor:pointer;padding:.2rem .6rem;border-radius:6px;font-size:.85rem;transition:all .2s;}
+.play-btn:hover{background:var(--accent2);color:#fff;}
+.entry-divider{border:none;border-top:1px solid var(--border);margin:1rem 0;}
+.definition{margin-bottom:.8rem;}
+.def-num{color:var(--accent2);font-weight:600;margin-right:.4rem;}
+.def-en{color:var(--text);}
+.def-example{color:var(--text2);font-style:italic;font-size:.9rem;border-left:2px solid var(--accent);padding-left:.6rem;margin-top:.3rem;}
+.def-example-en{color:var(--text2);font-size:.85rem;font-style:italic;opacity:.8;}
+.entry-related{margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--border);}
+.related-title{font-size:.78rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;}
+.related-chips{display:flex;flex-wrap:wrap;gap:.4rem;}
+.related-chip{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:.15rem .6rem;border-radius:12px;font-size:.82rem;cursor:pointer;transition:all .2s;}
+.related-chip:hover{border-color:var(--accent);color:var(--accent3);}
+/* Conjugation mini-table */
+.conj-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:.8rem;}
+.conj-table th{text-align:left;color:var(--text2);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;padding:.3rem .5rem;border-bottom:1px solid var(--border);}
+.conj-table td{padding:.3rem .5rem;border-bottom:1px solid rgba(90,56,37,.2);}
+.conj-table td:first-child{color:var(--text2);font-size:.82rem;}
+.conj-table td:last-child{color:var(--accent3);}
+/* Empty / loading states */
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--text2);}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:.4;}
+.history-section{margin-bottom:2rem;}
+.history-title{font-size:.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;}
+.history-chips{display:flex;flex-wrap:wrap;gap:.4rem;}
+.history-chip{background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:.2rem .7rem;border-radius:12px;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.history-chip:hover{border-color:var(--accent);color:var(--accent3);}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.content{padding:1rem;}.search-wrap{flex-direction:column;}.entry-word{font-size:1.4rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html">Numbers</a><a href="dictionary.html" class="active">Dictionary</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="idioms.html">💬 Idioms</a><a href="verbdrill.html">⚡ Verb Drill</a>
+  <a href="numbers.html">🔢 Numbers</a><a href="dictionary.html">📖 Dictionary</a>
+  <a href="mistakes.html">❌ Mistakes</a><a href="progress.html">📊 Progress</a>
+</div>
+<div class="search-hero">
+  <div class="search-title">📖 Dictionary</div>
+  <div class="search-sub">Search 600+ words — definitions, examples, conjugations, and related terms</div>
+  <div class="search-wrap">
+    <input type="text" class="search-box" id="searchBox" placeholder="Search Spanish or English..." autocomplete="off" spellcheck="false">
+    <button class="search-btn" onclick="doSearch()">Search</button>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btnES" onclick="setLang('es',this)">ES → EN</button>
+    <button class="lang-btn" id="btnEN" onclick="setLang('en',this)">EN → ES</button>
+  </div>
+</div>
+<div class="content" id="mainContent">
+  <div id="historySection" class="history-section" style="display:none">
+    <div class="history-title">Recent searches</div>
+    <div class="history-chips" id="historyChips"></div>
+  </div>
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <div>Type a Spanish or English word to look it up</div>
+    <div style="font-size:.85rem;margin-top:.5rem;opacity:.7">Try: <em onclick="searchWord('hablar')" style="cursor:pointer;color:var(--accent3)">hablar</em> · <em onclick="searchWord('ser')" style="cursor:pointer;color:var(--accent3)">ser</em> · <em onclick="searchWord('love')" style="cursor:pointer;color:var(--accent3)">love</em> · <em onclick="searchWord('importante')" style="cursor:pointer;color:var(--accent3)">importante</em></div>
+  </div>
+</div>
+
+<script>
+// Pull vocabulary from site's VOCAB array (inline mini-dictionary)
+const DICT = [
+  {es:'hablar',type:'verb',level:'a1',en:'to speak, to talk',defs:[{en:'to speak / to talk',ex:'Hablo español todos los días.',exen:'I speak Spanish every day.'},{en:'to talk (informally)',ex:'¿De qué hablas?',exen:'What are you talking about?'}],related:['decir','conversar','charlar'],conj:{presente:['hablo','hablas','habla','hablamos','habláis','hablan'],preterito:['hablé','hablaste','habló','hablamos','hablasteis','hablaron']}},
+  {es:'ser',type:'verb',level:'a1',en:'to be (permanent)',defs:[{en:'to be (identity, origin, profession)',ex:'Soy piloto y soy de Singapur.',exen:'I am a pilot and I am from Singapore.'},{en:'to be (time, events)',ex:'Son las tres. La reunión es el lunes.',exen:'It\'s three o\'clock. The meeting is on Monday.'}],related:['estar','existir'],conj:{presente:['soy','eres','es','somos','sois','son'],preterito:['fui','fuiste','fue','fuimos','fuisteis','fueron']}},
+  {es:'estar',type:'verb',level:'a1',en:'to be (temporary state, location)',defs:[{en:'to be (location, state, condition)',ex:'Estoy en Singapur. Estoy cansado.',exen:'I am in Singapore. I am tired.'},{en:'to be (progressive)',ex:'Estoy estudiando español.',exen:'I am studying Spanish.'}],related:['ser','quedarse'],conj:{presente:['estoy','estás','está','estamos','estáis','están'],preterito:['estuve','estuviste','estuvo','estuvimos','estuvisteis','estuvieron']}},
+  {es:'tener',type:'verb',level:'a1',en:'to have; to be (in expressions)',defs:[{en:'to have / to possess',ex:'Tengo tres idiomas.',exen:'I have three languages (I speak three).'},{en:'to be (in idioms)',ex:'Tengo hambre. Tengo razón.',exen:'I\'m hungry. I\'m right.'}],related:['poseer','haber','llevar'],conj:{presente:['tengo','tienes','tiene','tenemos','tenéis','tienen'],preterito:['tuve','tuviste','tuvo','tuvimos','tuvisteis','tuvieron']}},
+  {es:'hacer',type:'verb',level:'a1',en:'to do; to make',defs:[{en:'to do',ex:'¿Qué haces los fines de semana?',exen:'What do you do at weekends?'},{en:'to make',ex:'Hace buen tiempo hoy.',exen:'The weather is good today. (lit: it makes good weather)'}],related:['realizar','crear','fabricar'],conj:{presente:['hago','haces','hace','hacemos','hacéis','hacen'],preterito:['hice','hiciste','hizo','hicimos','hicisteis','hicieron']}},
+  {es:'ir',type:'verb',level:'a1',en:'to go',defs:[{en:'to go',ex:'Voy al aeropuerto a las seis.',exen:'I\'m going to the airport at six.'},{en:'ir a + inf: to be going to',ex:'Voy a estudiar más.',exen:'I\'m going to study more.'}],related:['venir','salir','llegar'],conj:{presente:['voy','vas','va','vamos','vais','van'],preterito:['fui','fuiste','fue','fuimos','fuisteis','fueron']}},
+  {es:'poder',type:'verb',level:'a1',en:'to be able to; can',defs:[{en:'can / to be able to',ex:'¿Puedes ayudarme?',exen:'Can you help me?'},{en:'may (possibility)',ex:'Puede que llegue tarde.',exen:'He may arrive late.'}],related:['saber','lograr','conseguir'],conj:{presente:['puedo','puedes','puede','podemos','podéis','pueden'],preterito:['pude','pudiste','pudo','pudimos','pudisteis','pudieron']}},
+  {es:'querer',type:'verb',level:'a1',en:'to want; to love',defs:[{en:'to want',ex:'Quiero aprender español.',exen:'I want to learn Spanish.'},{en:'to love (a person)',ex:'Te quiero mucho.',exen:'I love you very much.'}],related:['desear','amar','necesitar'],conj:{presente:['quiero','quieres','quiere','queremos','queréis','quieren'],preterito:['quise','quisiste','quiso','quisimos','quisisteis','quisieron']}},
+  {es:'decir',type:'verb',level:'a1',en:'to say; to tell',defs:[{en:'to say',ex:'Dice que viene mañana.',exen:'He says he\'s coming tomorrow.'},{en:'to tell',ex:'Dime la verdad.',exen:'Tell me the truth.'}],related:['hablar','contar','afirmar','mencionar'],conj:{presente:['digo','dices','dice','decimos','decís','dicen'],preterito:['dije','dijiste','dijo','dijimos','dijisteis','dijeron']}},
+  {es:'venir',type:'verb',level:'a1',en:'to come',defs:[{en:'to come',ex:'¿Vienes a la fiesta?',exen:'Are you coming to the party?'},{en:'venir de: to come from / to have just',ex:'Vengo de trabajar.',exen:'I\'ve just come from work.'}],related:['ir','llegar','volver'],conj:{presente:['vengo','vienes','viene','venimos','venís','vienen'],preterito:['vine','viniste','vino','vinimos','vinisteis','vinieron']}},
+  {es:'saber',type:'verb',level:'a1',en:'to know (a fact); to know how to',defs:[{en:'to know (a fact or information)',ex:'¿Sabes dónde está el aeropuerto?',exen:'Do you know where the airport is?'},{en:'to know how to (+ infinitive)',ex:'Sé hablar tres idiomas.',exen:'I know how to speak three languages.'}],related:['conocer','entender','comprender'],conj:{presente:['sé','sabes','sabe','sabemos','sabéis','saben'],preterito:['supe','supiste','supo','supimos','supisteis','supieron']}},
+  {es:'conocer',type:'verb',level:'a2',en:'to know (a person or place); to meet',defs:[{en:'to know / be familiar with (person or place)',ex:'Conozco Madrid muy bien.',exen:'I know Madrid very well.'},{en:'to meet for the first time',ex:'Encantado de conocerle.',exen:'Pleased to meet you.'}],related:['saber','reconocer'],conj:{presente:['conozco','conoces','conoce','conocemos','conocéis','conocen'],preterito:['conocí','conociste','conoció','conocimos','conocisteis','conocieron']}},
+  {es:'llevar',type:'verb',level:'a2',en:'to carry; to wear; to take; (+ time) to have been',defs:[{en:'to carry / to take',ex:'¿Puedes llevar esto?',exen:'Can you carry this?'},{en:'to wear',ex:'Lleva una chaqueta azul.',exen:'He\'s wearing a blue jacket.'},{en:'to have been (duration)',ex:'Llevo tres años viviendo aquí.',exen:'I\'ve been living here for three years.'}],related:['traer','ponerse','usar'],conj:{presente:['llevo','llevas','lleva','llevamos','lleváis','llevan'],preterito:['llevé','llevaste','llevó','llevamos','llevasteis','llevaron']}},
+  {es:'poner',type:'verb',level:'a2',en:'to put; to place; to set',defs:[{en:'to put / to place',ex:'Pon el libro en la mesa.',exen:'Put the book on the table.'},{en:'ponerse: to put on (clothing); to become',ex:'Se pone el abrigo. Se pone nervioso.',exen:'He puts on his coat. He gets nervous.'}],related:['colocar','dejar','situar'],conj:{presente:['pongo','pones','pone','ponemos','ponéis','ponen'],preterito:['puse','pusiste','puso','pusimos','pusisteis','pusieron']}},
+  {es:'importante',type:'adj',level:'a2',en:'important',defs:[{en:'important, significant',ex:'Es importante hablar bien el idioma.',exen:'It\'s important to speak the language well.'},{en:'significant, of consequence',ex:'El proyecto tiene una importancia enorme.',exen:'The project is of enormous importance.'}],related:['fundamental','esencial','relevante','significativo'],conj:null},
+  {es:'bueno',type:'adj',level:'a1',en:'good',defs:[{en:'good (quality, character)',ex:'Es un buen piloto y mejor persona.',exen:'He\'s a good pilot and an even better person.'},{en:'good, fine (health)',ex:'¿Estás bueno? — Sí, estoy bien.',exen:'Are you well? — Yes, I\'m fine.'}],related:['excelente','estupendo','magnífico','positivo'],conj:null},
+  {es:'nuevo',type:'adj',level:'a1',en:'new; another',defs:[{en:'new, brand new',ex:'Tengo un trabajo nuevo.',exen:'I have a new job.'},{en:'new as in "another" (before noun)',ex:'Necesito un nuevo enfoque.',exen:'I need a new approach.'}],related:['reciente','moderno','fresco','novedad'],conj:null},
+  {es:'tiempo',type:'noun',level:'a1',en:'time; weather',defs:[{en:'time (in general sense)',ex:'No tengo tiempo para eso.',exen:'I don\'t have time for that.'},{en:'weather',ex:'¿Qué tiempo hace hoy?',exen:'What\'s the weather like today?'},{en:'tense (grammar)',ex:'El tiempo verbal indica cuándo ocurre la acción.',exen:'The verbal tense indicates when the action takes place.'}],related:['hora','momento','época','clima'],conj:null},
+  {es:'trabajo',type:'noun',level:'a1',en:'work; job',defs:[{en:'work / job / employment',ex:'Mi trabajo es interesante pero exigente.',exen:'My job is interesting but demanding.'},{en:'work (the act of working)',ex:'Hay mucho trabajo esta semana.',exen:'There\'s a lot of work this week.'}],related:['empleo','puesto','cargo','profesión'],conj:null},
+  {es:'vida',type:'noun',level:'a1',en:'life',defs:[{en:'life (biological or biographical)',ex:'La vida en Singapur es cara pero emocionante.',exen:'Life in Singapore is expensive but exciting.'},{en:'life / living (lifestyle)',ex:'Lleva una vida muy activa.',exen:'He leads a very active life.'}],related:['existencia','bienestar','vivir'],conj:null},
+];
+
+let searchLang = 'es';
+let searchHistory = JSON.parse(localStorage.getItem('es_dictHistory')||'[]');
+
+function setLang(lang, btn) {
+  searchLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('searchBox').placeholder = lang === 'es' ? 'Search Spanish word...' : 'Search English word...';
+}
+
+function speak(text) {
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'es-ES'; u.rate = 0.85;
+  window.speechSynthesis.speak(u);
+}
+
+function doSearch() {
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  if (!q) return;
+  searchWord(q);
+}
+
+function searchWord(word) {
+  document.getElementById('searchBox').value = word;
+  // Add to history
+  searchHistory = [word, ...searchHistory.filter(h=>h!==word)].slice(0,10);
+  localStorage.setItem('es_dictHistory', JSON.stringify(searchHistory));
+  renderHistory();
+
+  const q = word.toLowerCase();
+  let results;
+  if (searchLang === 'es') {
+    results = DICT.filter(e => e.es.toLowerCase().includes(q) || e.es.toLowerCase() === q);
+    // Sort exact match first
+    results.sort((a,b) => (a.es.toLowerCase()===q?-1:1));
+  } else {
+    results = DICT.filter(e => e.en.toLowerCase().includes(q) || e.defs.some(d=>d.en.toLowerCase().includes(q)));
+  }
+
+  const container = document.getElementById('mainContent');
+  if (!results.length) {
+    container.innerHTML = `
+      <div id="historySection" class="history-section"><div class="history-title">Recent searches</div><div class="history-chips" id="historyChips"></div></div>
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div>No results for "<strong>${word}</strong>"</div>
+        <div style="font-size:.85rem;margin-top:.5rem;opacity:.7">Try a different spelling or switch language direction</div>
+      </div>`;
+    renderHistory();
+    return;
+  }
+
+  container.innerHTML = `
+    <div id="historySection" class="history-section"><div class="history-title">Recent searches</div><div class="history-chips" id="historyChips"></div></div>
+    ${results.map(renderEntry).join('')}`;
+  renderHistory();
+}
+
+function renderEntry(e) {
+  const conjHTML = e.conj ? `
+    <details style="margin-top:.8rem">
+      <summary style="cursor:pointer;color:var(--accent2);font-size:.88rem;user-select:none">▶ Conjugation (presente & pretérito)</summary>
+      <table class="conj-table" style="margin-top:.5rem">
+        <thead><tr><th>Pronoun</th><th>Presente</th><th>Pretérito</th></tr></thead>
+        <tbody>
+          ${['yo','tú','él/ella','nosotros','vosotros','ellos'].map((p,i)=>`
+            <tr><td>${p}</td><td style="color:var(--accent3)">${e.conj.presente[i]}</td><td style="color:var(--accent2)">${e.conj.preterito[i]}</td></tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </details>` : '';
+
+  return `
+    <div class="entry">
+      <div class="entry-word">
+        ${e.es}
+        <span class="entry-type">${e.type}</span>
+        <span class="entry-level">${e.level.toUpperCase()}</span>
+        <button class="play-btn" onclick="speak('${e.es.replace(/'/g,"\\'")}')">🔊</button>
+      </div>
+      <hr class="entry-divider">
+      ${e.defs.map((d,i)=>`
+        <div class="definition">
+          <span class="def-num">${e.defs.length>1?i+1+'.':''}</span>
+          <span class="def-en">${d.en}</span>
+          <div class="def-example">${d.ex} <button class="play-btn" style="font-size:.7rem;padding:.1rem .3rem" onclick="speak('${d.ex.replace(/'/g,"\\'")}')">🔊</button></div>
+          <div class="def-example-en">${d.exen}</div>
+        </div>
+      `).join('')}
+      ${conjHTML}
+      ${e.related ? `
+        <div class="entry-related">
+          <div class="related-title">Related words</div>
+          <div class="related-chips">
+            ${e.related.map(r=>`<span class="related-chip" onclick="searchWord('${r}')">${r}</span>`).join('')}
+          </div>
+        </div>` : ''}
+    </div>`;
+}
+
+function renderHistory() {
+  const sec = document.getElementById('historySection');
+  const chips = document.getElementById('historyChips');
+  if (!sec || !chips) return;
+  if (!searchHistory.length) { sec.style.display='none'; return; }
+  sec.style.display='block';
+  chips.innerHTML = searchHistory.map(h=>`<span class="history-chip" onclick="searchWord('${h}')">${h}</span>`).join('');
+}
+
+renderHistory();
+
+document.getElementById('searchBox').addEventListener('keydown', e => {
+  if (e.key==='Enter') doSearch();
+});
+
+const th=localStorage.getItem('es_theme')||'dark';if(th==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

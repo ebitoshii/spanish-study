@@ -46,6 +46,9 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .script-body{display:none;padding:1.2rem;border-top:1px solid var(--border);}
 .script-body.open{display:block;}
 .script-text{line-height:1.9;color:var(--text);margin-bottom:.8rem;}
+.script-line{display:flex;gap:.6rem;margin-bottom:.3rem;align-items:baseline;}
+.speaker-label{font-size:.78rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.05em;min-width:90px;flex-shrink:0;padding-top:.15rem;}
+.speaker-text{flex:1;}
 .trans-toggle{background:none;border:1px solid var(--border);color:var(--text2);padding:.25rem .7rem;border-radius:6px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
 .trans-toggle:hover{border-color:var(--accent);color:var(--accent);}
 .translation{display:none;background:var(--bg3);border-radius:6px;padding:.8rem 1rem;margin-top:.5rem;color:var(--text2);font-style:italic;font-size:.9rem;}
@@ -78,7 +81,7 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 </div>
 <div class="page-header">
   <div class="page-title">Listening — Escucha</div>
-  <div class="page-sub">Native-speed dialogues and monologues with transcripts</div>
+  <div class="page-sub">30 dialogues and monologues from A2 to C1, with transcripts and translations</div>
 </div>
 <div class="controls">
   <button class="filter-btn active" onclick="setLevel('all',this)">All</button>
@@ -135,6 +138,120 @@ const SCRIPTS = [
     text:'Wittgenstein sostenía que los límites de mi lenguaje son los límites de mi mundo. Esta idea sugiere que la forma en que hablamos sobre la realidad no es meramente descriptiva, sino constitutiva: el lenguaje no solo refleja nuestra experiencia, sino que la moldea. Esta perspectiva tiene implicaciones profundas para cómo entendemos la traducción entre lenguas, la cognición intercultural y, en última instancia, la posibilidad misma de la comunicación auténtica entre seres humanos con trasfondos culturales distintos.',
     translation:'Wittgenstein maintained that the limits of my language are the limits of my world. This idea suggests that the way we speak about reality is not merely descriptive, but constitutive: language not only reflects our experience, but shapes it. This perspective has profound implications for how we understand translation between languages, cross-cultural cognition, and ultimately, the very possibility of authentic communication between human beings with different cultural backgrounds.'
   },
+  // ── New A2 scripts ──
+  {
+    id:9, level:'a2', title:'En la farmacia', topic:'At the pharmacy',
+    text:'Farmacéutico: Buenos días. ¿En qué le puedo ayudar?\nCliente: Hola. Me duele mucho la cabeza y tengo un poco de fiebre desde ayer.\nFarmacéutico: ¿Tiene otros síntomas? ¿Tos, dolor de garganta?\nCliente: Un poco de dolor de garganta, sí.\nFarmacéutico: Le recomiendo este jarabe y estas pastillas para la fiebre. Tome una cada ocho horas con las comidas. Si en dos días no mejora, consulte a un médico.\nCliente: ¿Y puedo tomarlo si soy alérgico a la aspirina?\nFarmacéutico: Este medicamento no contiene aspirina, no hay problema. Son doce euros con cincuenta.',
+    translation:'Pharmacist: Good morning. How can I help you?\nCustomer: Hi. I have a bad headache and a slight fever since yesterday.\nPharmacist: Do you have any other symptoms? Cough, sore throat?\nCustomer: A little sore throat, yes.\nPharmacist: I recommend this syrup and these tablets for the fever. Take one every eight hours with meals. If you don\'t improve in two days, see a doctor.\nCustomer: Can I take it if I\'m allergic to aspirin?\nPharmacist: This medicine contains no aspirin, no problem. That\'s twelve euros fifty.'
+  },
+  {
+    id:10, level:'a2', title:'Comprando ropa', topic:'Shopping for clothes',
+    text:'Dependienta: ¡Hola! ¿La puedo ayudar?\nCliente: Sí, estoy buscando una chaqueta para el trabajo. Algo formal pero cómodo.\nDependienta: Tenemos esta colección nueva. ¿Cuál es su talla?\nCliente: La cuarenta y dos normalmente, pero depende de la marca.\nDependienta: Pruébese esta. El probador está al fondo a la derecha.\nCliente: ¿Tienen el mismo modelo en azul marino?\nDependienta: Déjeme ver... Sí, tenemos la talla cuarenta y la cuarenta y cuatro.\nCliente: Perfecto, me llevo la azul. ¿Aceptan tarjeta de crédito?',
+    translation:'Shop assistant: Hello! Can I help you?\nCustomer: Yes, I\'m looking for a jacket for work. Something formal but comfortable.\nAssistant: We have this new collection. What\'s your size?\nCustomer: Usually a 42, but it depends on the brand.\nAssistant: Try this one on. The fitting room is at the back on the right.\nCustomer: Do you have the same model in navy blue?\nAssistant: Let me see... Yes, we have size 40 and 44.\nCustomer: Perfect, I\'ll take the blue one. Do you accept credit cards?'
+  },
+  {
+    id:11, level:'a2', title:'Alquilando un coche', topic:'Car rental',
+    text:'Agente: Bienvenido a AutoRent. ¿Tiene reserva?\nCliente: Sí, a nombre de Tan Wei. Reservé un coche compacto para cinco días.\nAgente: Perfecto. Le voy a necesitar el carnet de conducir y una tarjeta de crédito.\nCliente: Aquí los tiene. ¿Está incluido el seguro?\nAgente: El seguro básico está incluido. Por diez euros más al día puede añadir cobertura total.\nCliente: ¿Y la gasolina?\nAgente: El coche sale con el depósito lleno y debe devolverlo lleno también. Le doy el mapa del área y la oficina de devolución está en el aeropuerto.',
+    translation:'Agent: Welcome to AutoRent. Do you have a reservation?\nCustomer: Yes, under the name Tan Wei. I booked a compact car for five days.\nAgent: Perfect. I\'ll need your driving licence and a credit card.\nCustomer: Here they are. Is insurance included?\nAgent: Basic insurance is included. For ten euros more per day you can add full coverage.\nCustomer: And petrol?\nAgent: The car leaves with a full tank and you must return it full too. I\'ll give you a map of the area, and the return office is at the airport.'
+  },
+  {
+    id:12, level:'a2', title:'Pidiendo indicaciones', topic:'Asking for directions',
+    text:'Turista: Perdone, ¿sabe cómo llegar al Museo del Prado?\nLocal: Claro. Siga todo recto por esta calle hasta llegar al semáforo. Gire a la derecha y verá el Parque del Retiro. Cruce el parque o rodéelo por la izquierda. El museo está justo enfrente.\nTurista: ¿Está lejos? ¿Puedo ir andando?\nLocal: A pie son unos veinte minutos desde aquí. También puede coger el metro: la línea dos, dirección Cuatro Caminos, y baja en Banco de España.\nTurista: Muchas gracias, es usted muy amable.\nLocal: De nada, ¡que lo disfrute!',
+    translation:'Tourist: Excuse me, do you know how to get to the Prado Museum?\nLocal: Of course. Go straight along this street until you reach the traffic lights. Turn right and you\'ll see Retiro Park. Cross the park or go round it on the left. The museum is right opposite.\nTourist: Is it far? Can I walk?\nLocal: On foot it\'s about twenty minutes from here. You can also take the metro: line two, towards Cuatro Caminos, and get off at Banco de España.\nTourist: Thank you very much, you\'re very kind.\nLocal: You\'re welcome, enjoy your visit!'
+  },
+  {
+    id:13, level:'a2', title:'Una llamada telefónica', topic:'Phone call',
+    text:'Recepcionista: Hotel Palacio, buenos días. ¿En qué le puedo ayudar?\nLlamante: Buenos días. Quisiera reservar una habitación para el fin de semana del quince de junio.\nRecepcionista: ¿Para cuántas personas?\nLlamante: Para dos adultos. ¿Tienen habitaciones disponibles?\nRecepcionista: Sí, tenemos habitaciones dobles desde noventa euros la noche con desayuno incluido.\nLlamante: ¿Hay aparcamiento en el hotel?\nRecepcionista: Sí, tenemos parking privado por quince euros al día.\nLlamante: Perfecto. Hago la reserva. ¿Necesita mis datos de tarjeta?',
+    translation:'Receptionist: Hotel Palacio, good morning. How can I help you?\nCaller: Good morning. I\'d like to book a room for the weekend of the fifteenth of June.\nReceptionist: For how many people?\nCaller: For two adults. Do you have rooms available?\nReceptionist: Yes, we have double rooms from ninety euros per night with breakfast included.\nCaller: Is there parking at the hotel?\nReceptionist: Yes, we have private parking for fifteen euros per day.\nCaller: Perfect. I\'ll make the reservation. Do you need my card details?'
+  },
+  // ── New B1 scripts ──
+  {
+    id:14, level:'b1', title:'Hablando de viajes', topic:'Travel conversation',
+    text:'Amiga 1: El verano pasado estuve en Colombia por primera vez y me enamoré del país.\nAmiga 2: ¿Ah sí? ¿Qué ciudades visitaste?\nAmiga 1: Empecé por Cartagena, que es absolutamente preciosa con todo el casco histórico. Luego fui a Medellín, que me sorprendió muchísimo porque tiene una transformación urbana increíble. Y terminé en el Eje Cafetero.\nAmiga 2: ¿Y qué es lo que más te gustó?\nAmiga 1: La gente, sin duda. Son increíblemente cálidos y hospitalarios. Y la comida también es espectacular. ¿Tú has viajado por América Latina?\nAmiga 2: Sí, estuve en Argentina hace dos años. Buenos Aires me pareció una ciudad fascinante.',
+    translation:'Friend 1: Last summer I went to Colombia for the first time and fell in love with the country.\nFriend 2: Really? Which cities did you visit?\nFriend 1: I started with Cartagena, which is absolutely beautiful with all the historic old town. Then I went to Medellín, which surprised me enormously because it has an incredible urban transformation. And I finished in the Coffee Region.\nFriend 2: And what did you like most?\nFriend 1: The people, without a doubt. They\'re incredibly warm and hospitable. And the food is spectacular too. Have you travelled around Latin America?\nFriend 2: Yes, I was in Argentina two years ago. Buenos Aires struck me as a fascinating city.'
+  },
+  {
+    id:15, level:'b1', title:'Un podcast de salud', topic:'Health podcast',
+    text:'Hoy hablamos sobre la importancia del sueño para la salud mental y física. Muchas personas subestiman el impacto que tiene no dormir bien. Los expertos recomiendan entre siete y nueve horas de sueño para adultos, pero la realidad es que más de un tercio de la población duerme menos de lo que necesita. La falta de sueño se asocia con un mayor riesgo de diabetes, enfermedades cardiovasculares y problemas de salud mental como la ansiedad y la depresión. Algunos consejos básicos: mantener un horario regular, evitar las pantallas una hora antes de dormir y crear un ambiente oscuro y fresco en el dormitorio.',
+    translation:'Today we talk about the importance of sleep for mental and physical health. Many people underestimate the impact of not sleeping well. Experts recommend between seven and nine hours of sleep for adults, but the reality is that more than a third of the population sleeps less than they need. Lack of sleep is associated with a higher risk of diabetes, cardiovascular disease, and mental health problems such as anxiety and depression. Some basic tips: maintain a regular schedule, avoid screens an hour before bed, and create a dark and cool environment in the bedroom.'
+  },
+  {
+    id:16, level:'b1', title:'Comprando una casa', topic:'Real estate conversation',
+    text:'Agente: Esta propiedad tiene ciento veinte metros cuadrados, tres dormitorios y dos baños. La cocina fue reformada el año pasado.\nCompradora: ¿Y la comunidad de vecinos? ¿Hay gastos mensuales?\nAgente: Sí, son doscientos euros al mes, que incluyen el mantenimiento del ascensor y las zonas comunes. También hay piscina en verano.\nCompradora: ¿Cuánto tiempo lleva en el mercado?\nAgente: Tres meses. El propietario tiene cierta flexibilidad en el precio si el comprador puede cerrar la operación antes de fin de año.\nCompradora: Está bien ubicado, eso es lo importante. ¿Podría visitar el piso de nuevo con mi marido este fin de semana?',
+    translation:'Agent: This property has one hundred and twenty square metres, three bedrooms and two bathrooms. The kitchen was renovated last year.\nBuyer: And the residents\' community? Are there monthly fees?\nAgent: Yes, two hundred euros per month, which includes lift maintenance and common areas. There\'s also a swimming pool in summer.\nBuyer: How long has it been on the market?\nAgent: Three months. The owner has some flexibility on price if the buyer can close the deal before the end of the year.\nBuyer: It\'s well located, that\'s the important thing. Could I visit the flat again with my husband this weekend?'
+  },
+  {
+    id:17, level:'b1', title:'Noticias del día', topic:'News broadcast',
+    text:'Y en otras noticias de hoy: el gobierno ha anunciado un paquete de medidas para hacer frente al aumento del coste de la vida. Entre las medidas destacan la rebaja del IVA en productos de primera necesidad y una bonificación en el transporte público. Los sindicatos han valorado positivamente las medidas, aunque han pedido que se vayan más allá y se fije un tope en los alquileres. Por otro lado, el Banco Central Europeo ha mantenido los tipos de interés sin cambios en su reunión de hoy, a pesar de las presiones inflacionistas que persisten en varios países de la eurozona.',
+    translation:'And in other news today: the government has announced a package of measures to address the rising cost of living. The measures include a reduction in VAT on essential products and a subsidy on public transport. Trade unions have welcomed the measures positively, though they have called for them to go further and set a cap on rents. Meanwhile, the European Central Bank has kept interest rates unchanged at today\'s meeting, despite inflationary pressures that persist in several eurozone countries.'
+  },
+  {
+    id:18, level:'b1', title:'Planificando una boda', topic:'Planning a wedding',
+    text:'Novio: ¿Has hablado ya con el catering?\nNovia: Sí, estuve reunida con tres empresas esta semana. La que más me gustó puede servir para ciento cincuenta personas, tiene una carta muy variada y su precio es razonable.\nNovio: ¿Y el local?\nNovia: El jardín de la finca está disponible para el veintidós de septiembre. Pero tenemos que confirmar antes del viernes o lo pierden.\nNovio: ¿Y si llueve?\nNovia: Tienen una carpa enorme que se puede montar en caso de lluvia. No hay problema.\nNovio: Suena perfecto. ¿Cuánto cuesta todo junto?\nNovia: Con el alquiler de la finca y el catering, estamos hablando de unos veinticinco mil euros.',
+    translation:'Groom: Have you spoken to the catering company yet?\nBride: Yes, I had meetings with three companies this week. The one I liked most can serve one hundred and fifty people, has a very varied menu and its price is reasonable.\nGroom: And the venue?\nBride: The garden at the country estate is available for the twenty-second of September. But we have to confirm by Friday or they lose it.\nGroom: What if it rains?\nBride: They have a huge marquee that can be put up in case of rain. No problem.\nGroom: Sounds perfect. How much does it all cost together?\nBride: With the venue hire and catering, we\'re talking around twenty-five thousand euros.'
+  },
+  {
+    id:19, level:'b1', title:'En el banco', topic:'Banking',
+    text:'Empleada: Buenos días. ¿Qué desea?\nCliente: Quería abrir una cuenta corriente y una cuenta de ahorro.\nEmpleada: Por supuesto. ¿Tiene usted ya algún producto con nosotros?\nCliente: No, soy nuevo cliente. Acabo de mudarme a España.\nEmpleada: Necesitaré su pasaporte, un justificante de domicilio y su contrato de trabajo o declaración de ingresos. ¿Los tiene consigo?\nCliente: Tengo el pasaporte y el contrato, pero el justificante de domicilio lo tengo que pedir en el ayuntamiento.\nEmpleada: No hay problema. Puede empezar el proceso hoy y traer el empadronamiento en los próximos diez días hábiles.',
+    translation:'Employee: Good morning. How can I help you?\nCustomer: I wanted to open a current account and a savings account.\nEmployee: Of course. Do you already have any products with us?\nCustomer: No, I\'m a new customer. I just moved to Spain.\nEmployee: I\'ll need your passport, proof of address and your employment contract or income declaration. Do you have them with you?\nCustomer: I have the passport and the contract, but I need to get the proof of address from the town hall.\nEmployee: No problem. You can start the process today and bring the registration certificate within the next ten working days.'
+  },
+  // ── New B2 scripts ──
+  {
+    id:20, level:'b2', title:'La inteligencia artificial y el trabajo', topic:'AI and employment',
+    text:'La irrupción de la inteligencia artificial en el mercado laboral genera tanto entusiasmo como inquietud. Por un lado, la automatización promete eliminar tareas repetitivas y peligrosas, liberando a los trabajadores para actividades más creativas y de mayor valor añadido. Por otro, estudios recientes apuntan a que hasta un cuarenta por ciento de los empleos actuales podrían verse afectados significativamente en los próximos diez años. Lo que está claro es que la formación continua no es ya una opción sino una necesidad estructural. Las empresas que inviertan en el reciclaje profesional de sus trabajadores tendrán una ventaja competitiva considerable.',
+    translation:'The emergence of artificial intelligence in the labour market generates both enthusiasm and concern. On one hand, automation promises to eliminate repetitive and dangerous tasks, freeing workers for more creative and higher-value activities. On the other, recent studies suggest that up to forty percent of current jobs could be significantly affected in the next ten years. What is clear is that continuous training is no longer an option but a structural necessity. Companies that invest in the professional retraining of their workers will have a considerable competitive advantage.'
+  },
+  {
+    id:21, level:'b2', title:'Sistema de salud — debate', topic:'Healthcare debate',
+    text:'El debate sobre la sanidad pública versus la privada es recurrente en muchas democracias occidentales. Los defensores de un sistema público universal argumentan que la salud es un derecho fundamental que no debe estar condicionado por la capacidad económica del paciente. Quienes abogan por un mayor papel del sector privado señalan su mayor eficiencia y la libertad de elección que ofrece al ciudadano. En la práctica, la mayoría de los sistemas sanitarios exitosos combinan ambos modelos: un sólido pilar público que garantiza cobertura universal y un sector privado que complementa y compite en calidad.',
+    translation:'The debate about public versus private healthcare is recurrent in many Western democracies. Advocates of a universal public system argue that health is a fundamental right that should not be conditional on the patient\'s economic capacity. Those who advocate for a greater role for the private sector point to its greater efficiency and the freedom of choice it offers citizens. In practice, most successful healthcare systems combine both models: a solid public pillar that guarantees universal coverage and a private sector that complements and competes on quality.'
+  },
+  {
+    id:22, level:'b2', title:'Inversión sostenible', topic:'Sustainable investment',
+    text:'La inversión socialmente responsable ha dejado de ser una tendencia marginal para convertirse en una corriente principal del mercado financiero. Los inversores institucionales, y cada vez más los particulares, consideran factores ambientales, sociales y de gobernanza — los llamados criterios ESG — a la hora de tomar decisiones de inversión. Los datos son contundentes: los fondos que integran criterios ESG han superado en rentabilidad a los fondos tradicionales en la última década, desmontando el argumento de que la sostenibilidad implica renunciar a la rentabilidad. La pregunta ya no es si incorporar estos criterios, sino cómo hacerlo de manera rigurosa y evitar el greenwashing.',
+    translation:'Socially responsible investment has gone from being a marginal trend to becoming a mainstream current in the financial market. Institutional investors, and increasingly individuals, consider environmental, social and governance factors — the so-called ESG criteria — when making investment decisions. The data is compelling: funds that integrate ESG criteria have outperformed traditional funds in the last decade, dismantling the argument that sustainability means sacrificing returns. The question is no longer whether to incorporate these criteria, but how to do so rigorously and avoid greenwashing.'
+  },
+  {
+    id:23, level:'b2', title:'Urbanismo y movilidad', topic:'Urban planning',
+    text:'Las ciudades del futuro tendrán que replantearse profundamente su relación con el automóvil. La congestión del tráfico genera pérdidas económicas billonarias a nivel mundial, además de un coste medioambiental y de salud pública enorme. Ciudades como Ámsterdam, Oslo o Bogotá están mostrando que es posible reducir drásticamente el uso del coche privado mediante una combinación de transporte público eficiente, infraestructura ciclista y políticas de disuasión del tráfico. El reto no es solo técnico sino también cultural: cambiar hábitos arraigados de movilidad requiere tiempo, comunicación y, sobre todo, alternativas reales y atractivas.',
+    translation:'The cities of the future will have to profoundly rethink their relationship with the car. Traffic congestion generates trillion-dollar economic losses worldwide, in addition to an enormous environmental and public health cost. Cities like Amsterdam, Oslo and Bogotá are showing that it is possible to drastically reduce the use of private cars through a combination of efficient public transport, cycling infrastructure and traffic deterrence policies. The challenge is not only technical but also cultural: changing entrenched mobility habits requires time, communication and, above all, real and attractive alternatives.'
+  },
+  {
+    id:24, level:'b2', title:'Entrevista — emprendimiento', topic:'Entrepreneurship interview',
+    text:'Periodista: Usted fundó su empresa con apenas veinticinco años y sin financiación externa. ¿Cómo lo hizo?\nEmprendedora: Fue una combinación de ignorancia y obstinación. No sabía lo difícil que iba a ser, lo cual paradójicamente me ayudó a empezar. Los primeros años fueron durísimos: trabajaba dieciséis horas al día, dormía poco y vivía de los ahorros. Pero tenía la convicción de que el producto que estábamos desarrollando resolvía un problema real.\nPeriodista: ¿Cuál fue el momento en que supo que iba a funcionar?\nEmprendedora: Cuando el primer cliente que no conocíamos nos pagó sin que nadie le hubiera recomendado. Eso me demostró que el producto se sostenía por sí solo.',
+    translation:'Journalist: You founded your company at barely twenty-five and without external funding. How did you do it?\nEntrepreneur: It was a combination of ignorance and stubbornness. I didn\'t know how difficult it was going to be, which paradoxically helped me get started. The first years were extremely hard: I worked sixteen hours a day, slept little and lived off savings. But I had the conviction that the product we were developing solved a real problem.\nJournalist: What was the moment when you knew it was going to work?\nEntrepreneur: When the first customer we didn\'t know paid us without anyone having recommended us. That showed me the product stood on its own.'
+  },
+  // ── New C1 scripts ──
+  {
+    id:25, level:'c1', title:'Identidad cultural y globalización', topic:'Culture & globalisation',
+    text:'La globalización plantea una paradoja fascinante en materia de identidad cultural. Por un lado, la homogeneización de culturas que conlleva puede interpretarse como una amenaza a la diversidad: las lenguas minoritarias se extinguen, las tradiciones locales se diluyen y los productos culturales globales —básicamente anglosajones— dominan el consumo. Por otro lado, la misma globalización ha permitido a culturas hasta entonces marginadas alcanzar audiencias globales que antes les eran inaccesibles. El kpop, el cine iraní, la literatura latinoamericana: todos son ejemplos de cómo la globalización también puede amplificar, no solo homogeneizar.',
+    translation:'Globalisation poses a fascinating paradox regarding cultural identity. On one hand, the cultural homogenisation it entails can be interpreted as a threat to diversity: minority languages go extinct, local traditions fade and global cultural products — basically Anglo-Saxon — dominate consumption. On the other hand, that same globalisation has allowed cultures that were previously marginalised to reach global audiences that were previously inaccessible to them. K-pop, Iranian cinema, Latin American literature: all are examples of how globalisation can also amplify, not just homogenise.'
+  },
+  {
+    id:26, level:'c1', title:'Ética de la inteligencia artificial', topic:'AI ethics',
+    text:'El desarrollo acelerado de sistemas de inteligencia artificial nos enfrenta a dilemas éticos para los que no tenemos todavía respuestas satisfactorias. ¿Quién es responsable cuando un sistema autónomo toma una decisión que causa daño? ¿Cómo garantizamos que los algoritmos no perpetúen o amplifiquen sesgos preexistentes en los datos con que fueron entrenados? La opacidad de muchos modelos de aprendizaje automático —lo que se conoce como el problema de la caja negra— dificulta enormemente la auditoría y la rendición de cuentas. Necesitamos marcos regulatorios robustos que permitan la innovación sin sacrificar la protección de los derechos fundamentales.',
+    translation:'The accelerated development of artificial intelligence systems confronts us with ethical dilemmas for which we do not yet have satisfactory answers. Who is responsible when an autonomous system makes a decision that causes harm? How do we ensure that algorithms do not perpetuate or amplify pre-existing biases in the data on which they were trained? The opacity of many machine learning models — what is known as the black-box problem — makes auditing and accountability enormously difficult. We need robust regulatory frameworks that allow innovation without sacrificing the protection of fundamental rights.'
+  },
+  {
+    id:27, level:'c1', title:'La memoria histórica', topic:'Historical memory',
+    text:'La cuestión de cómo las sociedades gestionan su pasado traumático es uno de los debates más delicados de la política contemporánea. España, con la herencia de la guerra civil y el franquismo, ha tardado décadas en iniciar un proceso serio de memoria democrática. Alemania, en cambio, construyó desde muy pronto un relato de autocrítica colectiva que se institucionalizó en el sistema educativo y la cultura pública. No existe un modelo único: cada sociedad debe encontrar su propio equilibrio entre la necesidad de verdad, justicia y reparación, y la exigencia de convivencia y futuro compartido.',
+    translation:'The question of how societies manage their traumatic past is one of the most delicate debates in contemporary politics. Spain, with the legacy of the Civil War and Francoism, took decades to begin a serious process of democratic memory. Germany, on the other hand, built from very early on a narrative of collective self-criticism that was institutionalised in the education system and public culture. There is no single model: each society must find its own balance between the need for truth, justice and reparation, and the requirement for coexistence and a shared future.'
+  },
+  {
+    id:28, level:'c1', title:'Filosofía política — justicia distributiva', topic:'Political philosophy',
+    text:'John Rawls propuso en su obra "Teoría de la Justicia" un experimento mental que se ha convertido en uno de los más influyentes de la filosofía política contemporánea: el velo de la ignorancia. La idea es sencilla en su formulación pero profunda en sus implicaciones: imagina que debes diseñar los principios de una sociedad justa sin saber cuál será tu posición en ella: tu riqueza, tu género, tu origen étnico, tus capacidades. Rawls argumenta que bajo ese velo de ignorancia, cualquier agente racional optaría por una sociedad que minimizara las desventajas de quienes se encuentran en peor situación.',
+    translation:'John Rawls proposed in his work "A Theory of Justice" a thought experiment that has become one of the most influential in contemporary political philosophy: the veil of ignorance. The idea is simple in its formulation but profound in its implications: imagine that you must design the principles of a just society without knowing what your position in it will be — your wealth, your gender, your ethnic origin, your capabilities. Rawls argues that behind that veil of ignorance, any rational agent would opt for a society that minimises the disadvantages of those in the worst position.'
+  },
+  {
+    id:29, level:'c1', title:'Neurociencia y libre albedrío', topic:'Neuroscience & free will',
+    text:'Los experimentos de Benjamin Libet en los años ochenta sacudieron los fundamentos de nuestra comprensión del libre albedrío. Libet demostró que la actividad cerebral asociada a un movimiento voluntario precede en varios cientos de milisegundos a la conciencia de haber decidido moverse. En otras palabras, el cerebro parece iniciar la acción antes de que seamos conscientes de haberla decidido. Esto ha alimentado un intenso debate filosófico: ¿somos realmente los autores de nuestras acciones o simplemente los narradores post hoc de procesos que ocurren sin nuestra participación consciente? Las implicaciones para el derecho penal y la noción de responsabilidad moral son, cuanto menos, perturbadoras.',
+    translation:'Benjamin Libet\'s experiments in the 1980s shook the foundations of our understanding of free will. Libet demonstrated that brain activity associated with a voluntary movement precedes awareness of having decided to move by several hundred milliseconds. In other words, the brain appears to initiate the action before we are conscious of having decided it. This has fuelled an intense philosophical debate: are we really the authors of our actions, or merely the post-hoc narrators of processes that occur without our conscious participation? The implications for criminal law and the notion of moral responsibility are, to say the least, disturbing.'
+  },
+  {
+    id:30, level:'c1', title:'La crisis de la democracia liberal', topic:'Democratic theory',
+    text:'El politólogo Steven Levitsky y su colega Daniel Ziblatt argumentan en "Cómo mueren las democracias" que el mayor peligro para los sistemas democráticos contemporáneos no proviene de golpes de Estado militares, sino de la erosión gradual desde dentro. Los autores identifican un patrón repetido: líderes elegidos democráticamente que, una vez en el poder, debilitan progresivamente las instituciones de control, capturan el poder judicial, hostigan a la prensa independiente y redefinen las reglas del juego para perpetuarse en el poder. Esta forma de retroceso democrático es más difícil de detectar y combatir precisamente porque mantiene las formas externas de la democracia mientras vacía su contenido.',
+    translation:'Political scientists Steven Levitsky and his colleague Daniel Ziblatt argue in "How Democracies Die" that the greatest danger to contemporary democratic systems does not come from military coups, but from gradual erosion from within. The authors identify a repeated pattern: democratically elected leaders who, once in power, progressively weaken oversight institutions, capture the judiciary, harass the independent press and redefine the rules of the game to perpetuate themselves in power. This form of democratic backsliding is harder to detect and combat precisely because it maintains the external forms of democracy while hollowing out its content.'
+  },
 ];
 
 let activeLevel = 'all', listenSpeed = 1.0;
@@ -151,11 +268,25 @@ function setSpeed(s, btn) {
   btn.classList.add('active');
 }
 
+function formatScript(text) {
+  return text.split('\n').map(line => {
+    const match = line.match(/^([^:]{1,30}):\s*(.*)/);
+    if (match) {
+      return `<div class="script-line"><span class="speaker-label">${match[1]}</span><span class="speaker-text">${match[2]}</span></div>`;
+    }
+    return `<div class="script-line"><span class="speaker-text">${line}</span></div>`;
+  }).join('');
+}
+
+function stripLabels(text) {
+  // Strip "SpeakerName: " prefix from each line before TTS
+  return text.split('\n').map(line => line.replace(/^[^:]{1,30}:\s*/, '')).join(' ');
+}
+
 function speak(text, id) {
   if (!window.speechSynthesis) return alert('Speech synthesis not supported in this browser.');
   window.speechSynthesis.cancel();
-  const lines = text.replace(/\n/g, ' ');
-  const u = new SpeechSynthesisUtterance(lines);
+  const u = new SpeechSynthesisUtterance(stripLabels(text));
   u.lang = 'es-ES'; u.rate = listenSpeed;
   window.speechSynthesis.speak(u);
   const btn = document.getElementById('play-' + id);
@@ -182,7 +313,7 @@ function render() {
         <button id="play-${s.id}" class="play-btn" onclick="event.stopPropagation();speak(\`${s.text.replace(/`/g,'\\`')}\`,${s.id})">▶ Play</button>
       </div>
       <div class="script-body" id="body-${s.id}">
-        <div class="script-text">${s.text.replace(/\n/g,'<br>')}</div>
+        <div class="script-text">${formatScript(s.text)}</div>
         <button class="trans-toggle" onclick="toggleTrans(${s.id})">Show Translation</button>
         <div class="translation" id="trans-${s.id}">${s.translation.replace(/\n/g,'<br>')}</div>
       </div>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idioms — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.controls{display:flex;gap:.5rem;padding:.8rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+.controls input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.4rem .8rem;border-radius:6px;font-family:inherit;font-size:.88rem;outline:none;flex:1;min-width:180px;max-width:320px;}
+.controls input:focus{border-color:var(--accent);}
+.controls input::placeholder{color:var(--text2);}
+.filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .7rem;border-radius:20px;cursor:pointer;font-size:.82rem;font-family:inherit;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.controls select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.35rem .6rem;border-radius:6px;font-family:inherit;font-size:.85rem;outline:none;}
+.count-info{color:var(--text2);font-size:.85rem;padding:.5rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
+.idiom-list{max-width:900px;margin:0 auto;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:1rem;}
+.idiom-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.idiom-header{display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.2rem;cursor:pointer;}
+.idiom-header:hover{background:var(--bg3);}
+.idiom-es{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent3);flex:1;}
+.idiom-en{font-size:.9rem;color:var(--text2);font-style:italic;flex:1;}
+.cat-badge{font-size:.7rem;padding:.15rem .5rem;border-radius:12px;font-weight:600;white-space:nowrap;background:rgba(230,126,34,.15);color:var(--accent2);border:1px solid rgba(230,126,34,.3);}
+.play-sm{background:none;border:1px solid var(--border);color:var(--accent2);cursor:pointer;padding:.15rem .45rem;border-radius:4px;font-size:.75rem;transition:all .2s;flex-shrink:0;}
+.play-sm:hover{background:var(--accent2);color:#fff;}
+.idiom-body{display:none;padding:0 1.2rem 1.2rem;border-top:1px solid var(--border);}
+.idiom-body.open{display:block;}
+.literal{color:var(--text2);font-size:.88rem;font-style:italic;margin:.6rem 0 .3rem;padding:.4rem .8rem;background:var(--bg3);border-radius:4px;}
+.idiom-example{color:var(--text);margin:.5rem 0 .2rem;}
+.idiom-example-en{color:var(--text2);font-size:.88rem;font-style:italic;}
+.region-tag{font-size:.72rem;color:var(--text2);background:var(--bg3);padding:.1rem .4rem;border-radius:8px;margin-top:.5rem;display:inline-block;}
+.toggle-icon{color:var(--text2);font-size:.75rem;margin-left:auto;flex-shrink:0;}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.idiom-list{padding:1rem;}.controls{padding:.8rem 1rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html" class="active">Idioms</a><a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocab</a><a href="pronunciation.html">🗣 Pronunciation</a>
+  <a href="idioms.html">💬 Idioms</a><a href="verbdrill.html">⚡ Verb Drill</a>
+  <a href="numbers.html">🔢 Numbers</a><a href="dictionary.html">📖 Dictionary</a>
+  <a href="mistakes.html">❌ Mistakes</a><a href="progress.html">📊 Progress</a>
+</div>
+<div class="page-header">
+  <div class="page-title">Idioms & Expressions — Modismos</div>
+  <div class="page-sub">120 essential idioms, proverbs, and fixed expressions with context and examples</div>
+</div>
+<div class="controls">
+  <input type="text" id="search" placeholder="Search idioms..." oninput="render()">
+  <select id="catFilter" onchange="render()">
+    <option value="all">All categories</option>
+    <option value="body">Body parts</option>
+    <option value="animals">Animals</option>
+    <option value="emotions">Emotions</option>
+    <option value="time">Time</option>
+    <option value="work">Work & money</option>
+    <option value="social">Social life</option>
+    <option value="proverbs">Proverbs</option>
+    <option value="colloquial">Colloquial</option>
+  </select>
+</div>
+<div class="count-info" id="countInfo"></div>
+<div class="idiom-list" id="idiomList"></div>
+<script>
+const IDIOMS = [
+// BODY
+{es:'costar un ojo de la cara',en:'to cost an arm and a leg',literal:'to cost an eye from your face',cat:'body',example:'Ese vuelo me costó un ojo de la cara.',exen:'That flight cost me an arm and a leg.',region:'General'},
+{es:'tomar el pelo',en:'to pull someone\'s leg / to tease',literal:'to take the hair',cat:'body',example:'¿Me estás tomando el pelo? Eso no puede ser verdad.',exen:'Are you pulling my leg? That can\'t be true.',region:'General'},
+{es:'meter la pata',en:'to put one\'s foot in it / to blunder',literal:'to put the paw in',cat:'body',example:'Metí la pata cuando mencioné su ex.',exen:'I put my foot in it when I mentioned his ex.',region:'General'},
+{es:'no tener pelos en la lengua',en:'to not mince words / to be blunt',literal:'to have no hairs on the tongue',cat:'body',example:'Es un jefe que no tiene pelos en la lengua.',exen:'He\'s a boss who doesn\'t mince words.',region:'General'},
+{es:'quedarse con la boca abierta',en:'to be left speechless / gobsmacked',literal:'to remain with an open mouth',cat:'body',example:'Me quedé con la boca abierta cuando vi el precio.',exen:'I was left speechless when I saw the price.',region:'General'},
+{es:'hacer la vista gorda',en:'to turn a blind eye',literal:'to make the fat eye',cat:'body',example:'El jefe hizo la vista gorda ante los errores.',exen:'The boss turned a blind eye to the mistakes.',region:'General'},
+{es:'tener mano izquierda',en:'to have tact / to be diplomatic',literal:'to have a left hand',cat:'body',example:'Tienes que tener mano izquierda con los clientes difíciles.',exen:'You need to be tactful with difficult clients.',region:'Spain'},
+{es:'hablar por los codos',en:'to talk nineteen to the dozen / non-stop talker',literal:'to talk through the elbows',cat:'body',example:'Mi vecino habla por los codos.',exen:'My neighbour talks non-stop.',region:'General'},
+{es:'echar una mano',en:'to give a hand / to help',literal:'to throw a hand',cat:'body',example:'¿Puedes echarme una mano con esto?',exen:'Can you give me a hand with this?',region:'General'},
+{es:'tener entre manos',en:'to have in the works / to be working on',literal:'to have between hands',cat:'body',example:'Tengo un proyecto importante entre manos.',exen:'I have an important project in the works.',region:'General'},
+// ANIMALS
+{es:'matar dos pájaros de un tiro',en:'to kill two birds with one stone',literal:'to kill two birds with one shot',cat:'animals',example:'Visité a mis padres y al cliente — maté dos pájaros de un tiro.',exen:'I visited my parents and the client — killed two birds with one stone.',region:'General'},
+{es:'ser el patito feo',en:'to be the ugly duckling',literal:'to be the ugly little duck',cat:'animals',example:'Era el patito feo de la familia, pero triunfó.',exen:'He was the ugly duckling of the family, but he succeeded.',region:'General'},
+{es:'llevarse como el perro y el gato',en:'to fight like cat and dog',literal:'to get along like dog and cat',cat:'animals',example:'Mis hermanos se llevan como el perro y el gato.',exen:'My siblings fight like cat and dog.',region:'General'},
+{es:'ser una mosquita muerta',en:'to be a wolf in sheep\'s clothing / to look innocent but not be',literal:'to be a dead little fly',cat:'animals',example:'Parece tímida pero es una mosquita muerta.',exen:'She seems shy but she\'s not as innocent as she looks.',region:'General'},
+{es:'cuando las ranas críen pelo',en:'when pigs fly',literal:'when frogs grow hair',cat:'animals',example:'Me lo devolverá cuando las ranas críen pelo.',exen:'He\'ll return it to me when pigs fly.',region:'General'},
+{es:'a caballo regalado no le mires el diente',en:'don\'t look a gift horse in the mouth',literal:'don\'t look at a gifted horse\'s tooth',cat:'proverbs',example:'No te quejes del trabajo — a caballo regalado no le mires el diente.',exen:'Don\'t complain about the job — don\'t look a gift horse in the mouth.',region:'General'},
+{es:'hacer el ganso',en:'to clown around / to fool about',literal:'to do the goose',cat:'animals',example:'¡Deja de hacer el ganso y pon atención!',exen:'Stop clowning around and pay attention!',region:'Spain'},
+{es:'ser un gallina',en:'to be a coward / chicken',literal:'to be a hen',cat:'animals',example:'No seas gallina, ¡atrévete!',exen:'Don\'t be a chicken, dare yourself!',region:'General'},
+// EMOTIONS
+{es:'estar hasta las narices',en:'to be fed up to the back teeth',literal:'to be up to the noses',cat:'emotions',example:'Estoy hasta las narices de trabajar horas extra.',exen:'I\'m fed up to the back teeth with working overtime.',region:'Spain'},
+{es:'ponerse como un tomate',en:'to go red as a beetroot / to blush',literal:'to become like a tomato',cat:'emotions',example:'Se puso como un tomate cuando le preguntaron.',exen:'He went red as a beetroot when they asked him.',region:'General'},
+{es:'estar en las nubes',en:'to have one\'s head in the clouds',literal:'to be in the clouds',cat:'emotions',example:'Siempre estás en las nubes — ¡presta atención!',exen:'You always have your head in the clouds — pay attention!',region:'General'},
+{es:'no caber en sí de alegría',en:'to be beside oneself with joy',literal:'not to fit in oneself with joy',cat:'emotions',example:'No cabía en sí de alegría cuando supo la noticia.',exen:'She was beside herself with joy when she heard the news.',region:'General'},
+{es:'estar de mal humor',en:'to be in a bad mood',literal:'to be in bad humour',cat:'emotions',example:'Mejor no le hables hoy — está de muy mal humor.',exen:'Better not speak to him today — he\'s in a very bad mood.',region:'General'},
+{es:'comerse el coco',en:'to overthink / to rack one\'s brain',literal:'to eat the coconut',cat:'emotions',example:'Deja de comerte el coco y toma la decisión.',exen:'Stop overthinking it and make the decision.',region:'Spain/LatAm'},
+{es:'ponerse los pelos de punta',en:'to have one\'s hair stand on end / to be terrified',literal:'to put the hairs standing on end',cat:'emotions',example:'La película de terror me puso los pelos de punta.',exen:'The horror film made my hair stand on end.',region:'General'},
+// TIME
+{es:'en un abrir y cerrar de ojos',en:'in the blink of an eye',literal:'in an opening and closing of eyes',cat:'time',example:'El tiempo pasó en un abrir y cerrar de ojos.',exen:'Time passed in the blink of an eye.',region:'General'},
+{es:'de vez en cuando',en:'from time to time / every now and then',literal:'from time to time',cat:'time',example:'De vez en cuando me gusta ir al cine solo.',exen:'Every now and then I like to go to the cinema alone.',region:'General'},
+{es:'a última hora',en:'at the last minute',literal:'at the last hour',cat:'time',example:'Siempre lo deja todo para a última hora.',exen:'He always leaves everything to the last minute.',region:'General'},
+{es:'no hay mal que por bien no venga',en:'every cloud has a silver lining',literal:'there is no evil that doesn\'t come for good',cat:'proverbs',example:'Perdí el trabajo pero encontré algo mejor — no hay mal que por bien no venga.',exen:'I lost the job but found something better — every cloud has a silver lining.',region:'General'},
+{es:'a tiempo',en:'on time / in time',literal:'at time',cat:'time',example:'Por suerte llegamos a tiempo al aeropuerto.',exen:'Luckily we arrived at the airport on time.',region:'General'},
+// WORK & MONEY
+{es:'estar en el paro',en:'to be unemployed',literal:'to be in the stoppage',cat:'work',example:'Lleva seis meses en el paro.',exen:'He\'s been unemployed for six months.',region:'Spain'},
+{es:'ganarse la vida',en:'to earn a living',literal:'to earn one\'s life',cat:'work',example:'Se gana la vida dando clases de inglés.',exen:'She earns a living teaching English.',region:'General'},
+{es:'echar el cierre',en:'to close down / to call it a day',literal:'to throw the lock',cat:'work',example:'El restaurante echó el cierre el año pasado.',exen:'The restaurant closed down last year.',region:'Spain'},
+{es:'no llegar a fin de mes',en:'not to make ends meet',literal:'not to reach the end of the month',cat:'work',example:'Con este sueldo no llegamos a fin de mes.',exen:'With this salary we can\'t make ends meet.',region:'General'},
+{es:'tirar la casa por la ventana',en:'to spare no expense / to splash out',literal:'to throw the house through the window',cat:'work',example:'Para la boda tiraron la casa por la ventana.',exen:'For the wedding they spared no expense.',region:'General'},
+{es:'rascarse el bolsillo',en:'to dig into one\'s pocket / to cough up',literal:'to scratch the pocket',cat:'work',example:'Al final tuvo que rascarse el bolsillo.',exen:'In the end he had to cough up.',region:'Spain'},
+{es:'estar sin blanca',en:'to be broke / skint',literal:'to be without a blanca (old coin)',cat:'work',example:'No puedo salir esta noche, estoy sin blanca.',exen:'I can\'t go out tonight, I\'m broke.',region:'Spain'},
+// SOCIAL
+{es:'romper el hielo',en:'to break the ice',literal:'to break the ice',cat:'social',example:'Contó un chiste para romper el hielo.',exen:'He told a joke to break the ice.',region:'General'},
+{es:'dar el do de pecho',en:'to give one\'s all / to pull out all the stops',literal:'to give the high C of the chest',cat:'social',example:'Dio el do de pecho en la presentación.',exen:'She gave her all in the presentation.',region:'Spain'},
+{es:'no ser moco de pavo',en:'to be no small thing / not to be sneezed at',literal:'not to be turkey snot',cat:'social',example:'Conseguir ese contrato no es moco de pavo.',exen:'Getting that contract is no small thing.',region:'Spain'},
+{es:'quedarse de piedra',en:'to be gobsmacked / to be stunned',literal:'to remain made of stone',cat:'social',example:'Me quedé de piedra cuando vi los resultados.',exen:'I was stunned when I saw the results.',region:'General'},
+{es:'poner las cartas sobre la mesa',en:'to lay one\'s cards on the table',literal:'to put the cards on the table',cat:'social',example:'Es mejor poner las cartas sobre la mesa desde el principio.',exen:'It\'s better to lay your cards on the table from the start.',region:'General'},
+{es:'tener mucha cara',en:'to have a lot of nerve / to be very cheeky',literal:'to have a lot of face',cat:'social',example:'¡Qué cara más dura! Llegó tarde y no se disculpó.',exen:'What a nerve! He arrived late and didn\'t apologise.',region:'Spain'},
+{es:'estar en buenas manos',en:'to be in good hands',literal:'to be in good hands',cat:'social',example:'Con ese médico, estás en buenas manos.',exen:'With that doctor, you\'re in good hands.',region:'General'},
+{es:'hacer las paces',en:'to make peace / to make up',literal:'to make the peaces',cat:'social',example:'Al final hicieron las paces y siguieron amigos.',exen:'In the end they made up and stayed friends.',region:'General'},
+// PROVERBS
+{es:'más vale tarde que nunca',en:'better late than never',literal:'better late than never',cat:'proverbs',example:'— Llegué tarde. — Más vale tarde que nunca.',exen:'"I arrived late." "Better late than never."',region:'General'},
+{es:'camarón que se duerme, se lo lleva la corriente',en:'you snooze, you lose',literal:'the shrimp that falls asleep gets swept away by the current',cat:'proverbs',example:'Si no actúas ahora perderás la oportunidad — camarón que se duerme...',exen:'If you don\'t act now you\'ll miss the opportunity — you snooze, you lose.',region:'General'},
+{es:'dime con quién andas y te diré quién eres',en:'you are judged by the company you keep',literal:'tell me who you walk with and I\'ll tell you who you are',cat:'proverbs',example:'Cuida tus amistades — dime con quién andas...',exen:'Choose your friendships carefully — you are judged by the company you keep.',region:'General'},
+{es:'al mal tiempo, buena cara',en:'put a brave face on things / make the best of a bad situation',literal:'to bad weather, a good face',cat:'proverbs',example:'Al mal tiempo, buena cara — ya encontrarás otro trabajo.',exen:'Put a brave face on it — you\'ll find another job.',region:'General'},
+{es:'no todo lo que brilla es oro',en:'all that glitters is not gold',literal:'not everything that shines is gold',cat:'proverbs',example:'Ese negocio parece rentable, pero no todo lo que brilla es oro.',exen:'That business looks profitable, but all that glitters is not gold.',region:'General'},
+{es:'agua que no has de beber, déjala correr',en:'let it go / don\'t interfere in things that don\'t concern you',literal:'water you don\'t need to drink, let it run',cat:'proverbs',example:'No te metas en sus problemas — agua que no has de beber...',exen:'Don\'t get involved in their problems — let it go.',region:'General'},
+{es:'quien mucho abarca, poco aprieta',en:'don\'t bite off more than you can chew',literal:'he who grasps much, squeezes little',cat:'proverbs',example:'Acepta menos proyectos — quien mucho abarca, poco aprieta.',exen:'Accept fewer projects — don\'t bite off more than you can chew.',region:'General'},
+// COLLOQUIAL
+{es:'estar pez',en:'to know nothing about something / to be clueless',literal:'to be fish',cat:'colloquial',example:'Estoy pez en matemáticas.',exen:'I\'m clueless at maths.',region:'Spain'},
+{es:'¡qué guay!',en:'how cool! / awesome!',literal:'—',cat:'colloquial',example:'¡Qué guay ese coche!',exen:'What an awesome car!',region:'Spain'},
+{es:'tío / tía',en:'dude / mate (casual address)',literal:'uncle / aunt',cat:'colloquial',example:'Tío, ¿has visto eso?',exen:'Dude, did you see that?',region:'Spain'},
+{es:'mola (mucho)',en:'it\'s really cool',literal:'—',cat:'colloquial',example:'Tu mochila mola mucho.',exen:'Your backpack is really cool.',region:'Spain'},
+{es:'liarse',en:'to hook up / to get complicated / to get confused',literal:'to get tangled up',cat:'colloquial',example:'La situación se lió bastante.',exen:'The situation got pretty complicated.',region:'Spain'},
+{es:'dar en el clavo',en:'to hit the nail on the head',literal:'to hit the nail',cat:'colloquial',example:'Diste en el clavo con tu análisis.',exen:'You hit the nail on the head with your analysis.',region:'General'},
+{es:'no pegar ojo',en:'not to sleep a wink',literal:'not to stick an eye',cat:'colloquial',example:'Anoche no pegué ojo pensando en el vuelo.',exen:'Last night I didn\'t sleep a wink thinking about the flight.',region:'General'},
+{es:'estar al loro',en:'to be up to speed / to be tuned in',literal:'to be at the parrot',cat:'colloquial',example:'Estate al loro porque esto cambia rápido.',exen:'Stay tuned in because this changes fast.',region:'Spain'},
+{es:'flipar',en:'to be amazed / to freak out',literal:'—',cat:'colloquial',example:'Flipé cuando vi el precio del apartamento.',exen:'I freaked out when I saw the price of the flat.',region:'Spain'},
+{es:'mala leche',en:'bad mood / spite / bad luck',literal:'bad milk',cat:'colloquial',example:'Tiene muy mala leche por las mañanas.',exen:'He\'s in a terrible mood in the mornings.',region:'Spain'},
+{es:'¡venga!',en:'come on! / let\'s go! / alright!',literal:'come!',cat:'colloquial',example:'¡Venga, que llegamos tarde!',exen:'Come on, we\'re going to be late!',region:'Spain'},
+{es:'¡ostras!',en:'wow! / crikey! (mild exclamation)',literal:'oysters!',cat:'colloquial',example:'¡Ostras, qué tarde es!',exen:'Crikey, how late it is!',region:'Spain'},
+// More body
+{es:'ver algo con buenos ojos',en:'to look favourably on something',literal:'to see something with good eyes',cat:'body',example:'El jefe ve con buenos ojos tu propuesta.',exen:'The boss looks favourably on your proposal.',region:'General'},
+{es:'tener mala cara',en:'to look unwell / to look bad',literal:'to have a bad face',cat:'body',example:'Tienes muy mala cara hoy, ¿estás bien?',exen:'You look really unwell today, are you OK?',region:'General'},
+{es:'caérsele la cara de vergüenza',en:'to be mortified / to die of shame',literal:'for one\'s face to fall off with shame',cat:'body',example:'Se le cayó la cara de vergüenza cuando lo descubrieron.',exen:'He was mortified when they found out.',region:'General'},
+// More animals
+{es:'buscarle tres pies al gato',en:'to look for complications / to overcomplicate things',literal:'to look for three feet on the cat',cat:'animals',example:'No le busques tres pies al gato — la solución es simple.',exen:'Don\'t overcomplicate it — the solution is simple.',region:'Spain'},
+{es:'ser un lince',en:'to be very sharp / perceptive',literal:'to be a lynx',cat:'animals',example:'Es un lince para los negocios.',exen:'He\'s very sharp when it comes to business.',region:'Spain'},
+// More emotions  
+{es:'no poder más',en:'to be at the end of one\'s rope',literal:'not to be able to anymore',cat:'emotions',example:'No puedo más con esta situación.',exen:'I\'m at the end of my rope with this situation.',region:'General'},
+{es:'estar hecho polvo',en:'to be shattered / exhausted',literal:'to be made of dust',cat:'emotions',example:'Después de doce horas de vuelo, estaba hecho polvo.',exen:'After twelve hours of flying, I was shattered.',region:'Spain'},
+// More social
+{es:'hacer el agosto',en:'to make a killing / to cash in',literal:'to do August',cat:'work',example:'Los hoteles hacen el agosto en verano.',exen:'Hotels make a killing in summer.',region:'Spain'},
+{es:'ponerse las pilas',en:'to get one\'s act together / to pull one\'s socks up',literal:'to put the batteries in',cat:'social',example:'Tienes que ponerte las pilas si quieres aprobar.',exen:'You need to get your act together if you want to pass.',region:'Spain'},
+{es:'llevar la voz cantante',en:'to call the shots / to be in charge',literal:'to carry the singing voice',cat:'social',example:'En esa empresa, ella lleva la voz cantante.',exen:'In that company, she calls the shots.',region:'General'},
+{es:'ir al grano',en:'to get to the point',literal:'to go to the grain',cat:'social',example:'Deja de dar rodeos y ve al grano.',exen:'Stop beating around the bush and get to the point.',region:'General'},
+{es:'no hay mal que dure cien años',en:'this too shall pass',literal:'there is no evil that lasts a hundred years',cat:'proverbs',example:'No te preocupes tanto — no hay mal que dure cien años.',exen:'Don\'t worry so much — this too shall pass.',region:'General'},
+{es:'de tal palo, tal astilla',en:'like father, like son / the apple doesn\'t fall far from the tree',literal:'from such a stick, such a splinter',cat:'proverbs',example:'Su hijo es igual de trabajador — de tal palo, tal astilla.',exen:'His son is equally hard-working — the apple doesn\'t fall far from the tree.',region:'General'},
+];
+
+function speak(text) {
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'es-ES'; u.rate = 0.9;
+  window.speechSynthesis.speak(u);
+}
+
+function toggleCard(id) {
+  const body = document.getElementById('ib-'+id);
+  const icon = document.getElementById('ii-'+id);
+  const open = body.classList.toggle('open');
+  icon.textContent = open ? '▼' : '▶';
+}
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  let data = IDIOMS;
+  if (cat !== 'all') data = data.filter(i => i.cat === cat);
+  if (q) data = data.filter(i => i.es.toLowerCase().includes(q) || i.en.toLowerCase().includes(q) || i.example.toLowerCase().includes(q));
+  document.getElementById('countInfo').textContent = `Showing ${data.length} of ${IDIOMS.length} idioms`;
+  document.getElementById('idiomList').innerHTML = data.map((idiom,idx) => `
+    <div class="idiom-card">
+      <div class="idiom-header" onclick="toggleCard(${idx})">
+        <div style="flex:1;min-width:0">
+          <div class="idiom-es">${idiom.es}</div>
+          <div class="idiom-en">"${idiom.en}"</div>
+        </div>
+        <span class="cat-badge">${idiom.cat}</span>
+        <button class="play-sm" onclick="event.stopPropagation();speak('${idiom.es.replace(/'/g,"\\'")}')">🔊</button>
+        <span class="toggle-icon" id="ii-${idx}">▶</span>
+      </div>
+      <div class="idiom-body" id="ib-${idx}">
+        <div class="literal">📖 Literal: "${idiom.literal}"</div>
+        <div class="idiom-example">${idiom.example}</div>
+        <div class="idiom-example-en">${idiom.exen}</div>
+        <div class="region-tag">📍 ${idiom.region}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+render();
+
+const th=localStorage.getItem('es_theme')||'dark';if(th==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

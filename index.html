@@ -6,355 +6,146 @@
 <title>Español — Spanish Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #2d1b0e;
-    --bg2: #3a2415;
-    --bg3: #4a2e1a;
-    --text: #f0e6d3;
-    --text2: #c8b49a;
-    --accent: #c0392b;
-    --accent2: #e67e22;
-    --accent3: #f39c12;
-    --card: #3a2415;
-    --border: #5a3825;
-    --nav-bg: #1e1208;
-  }
-  .light {
-    --bg: #fdf6ec;
-    --bg2: #f5ead8;
-    --bg3: #ecdcc4;
-    --text: #2d1b0e;
-    --text2: #6b4c2a;
-    --accent: #c0392b;
-    --accent2: #e67e22;
-    --accent3: #f39c12;
-    --card: #fff8ef;
-    --border: #d4b896;
-    --nav-bg: #3a1f0d;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 18px;
-    line-height: 1.7;
-    min-height: 100vh;
-    transition: background 0.3s, color 0.3s;
-  }
-  nav {
-    background: var(--nav-bg);
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 2px solid var(--accent);
-  }
-  .nav-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    color: var(--accent3);
-    text-decoration: none;
-    letter-spacing: 0.05em;
-  }
-  .nav-links {
-    display: flex;
-    gap: 0.2rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .nav-links a {
-    color: var(--text2);
-    text-decoration: none;
-    font-size: 0.85rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    transition: color 0.2s, background 0.2s;
-  }
-  .nav-links a:hover, .nav-links a.active {
-    color: var(--accent3);
-    background: rgba(192,57,43,0.2);
-  }
-  .nav-controls {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
-  .btn-icon {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text2);
-    cursor: pointer;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    transition: all 0.2s;
-  }
-  .btn-icon:hover { color: var(--accent3); border-color: var(--accent); }
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 6px;
-    background: none;
-    border: none;
-  }
-  .hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--text2);
-    transition: all 0.3s;
-  }
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    background: var(--nav-bg);
-    padding: 1rem;
-    z-index: 99;
-    border-bottom: 2px solid var(--accent);
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a {
-    color: var(--text2);
-    text-decoration: none;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: all 0.2s;
-  }
-  .mobile-menu a:hover { color: var(--accent3); background: rgba(192,57,43,0.2); }
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.15rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.8rem;padding:.25rem .5rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;max-height:80vh;overflow-y:auto;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;transition:all .2s;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.mm-section{font-size:.72rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;padding:.5rem .8rem .1rem;margin-top:.3rem;}
 
-  .hero {
-    text-align: center;
-    padding: 4rem 2rem 3rem;
-    background: linear-gradient(180deg, rgba(192,57,43,0.08) 0%, transparent 100%);
-    border-bottom: 1px solid var(--border);
-  }
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: var(--accent3);
-    letter-spacing: 0.05em;
-    margin-bottom: 0.3rem;
-    text-shadow: 0 2px 20px rgba(192,57,43,0.3);
-  }
-  .hero-subtitle {
-    font-size: 1.1rem;
-    color: var(--text2);
-    font-style: italic;
-    margin-bottom: 0.5rem;
-  }
-  .hero-tagline {
-    font-size: 0.9rem;
-    color: var(--text2);
-    opacity: 0.8;
-  }
-  .ornament {
-    color: var(--accent);
-    font-size: 1.5rem;
-    margin: 0.8rem 0;
-    letter-spacing: 0.5em;
-  }
+/* Hero */
+.hero{padding:3.5rem 2rem 2.5rem;text-align:center;background:linear-gradient(180deg,rgba(192,57,43,.1) 0%,transparent 100%);border-bottom:1px solid var(--border);}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5rem);color:var(--accent3);line-height:1;letter-spacing:-.02em;}
+.hero-subtitle{font-size:1.1rem;color:var(--text2);margin:.3rem 0 .6rem;letter-spacing:.15em;text-transform:uppercase;font-size:.85rem;}
+.ornament{color:var(--accent);font-size:1.1rem;letter-spacing:.5em;margin:.5rem 0;}
+.hero-tagline{color:var(--text2);font-style:italic;font-size:1rem;}
 
-  .stats-bar {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    padding: 1.2rem 2rem;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-  .stat {
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    color: var(--accent3);
-    display: block;
-  }
-  .stat-label {
-    font-size: 0.78rem;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
+/* Stats bar */
+.stats-bar{display:flex;justify-content:center;gap:0;border-bottom:1px solid var(--border);background:var(--bg2);flex-wrap:wrap;}
+.stat{padding:.8rem 1.5rem;text-align:center;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat-num{display:block;font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--accent3);line-height:1;}
+.stat-label{font-size:.72rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-    padding: 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.4rem;
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.25s;
-    display: block;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--accent);
-    transition: width 0.25s;
-  }
-  .card:hover::before { width: 5px; }
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
-    border-color: var(--accent);
-  }
-  .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-  .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    color: var(--accent3);
-    margin-bottom: 0.3rem;
-  }
-  .card-es {
-    font-size: 0.85rem;
-    color: var(--accent);
-    font-style: italic;
-    margin-bottom: 0.5rem;
-  }
-  .card-desc { font-size: 0.88rem; color: var(--text2); }
-  .card-count {
-    position: absolute;
-    top: 0.8rem;
-    right: 0.8rem;
-    font-size: 0.75rem;
-    color: var(--text2);
-    background: var(--bg3);
-    padding: 0.15rem 0.5rem;
-    border-radius: 20px;
-  }
+/* XP bar */
+.xp-bar-section{background:var(--bg2);border-bottom:1px solid var(--border);padding:.6rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.xp-level-name{font-size:.85rem;color:var(--accent2);font-weight:600;white-space:nowrap;}
+.xp-track{flex:1;min-width:120px;background:var(--bg3);border-radius:20px;height:8px;overflow:hidden;}
+.xp-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width .6s ease;}
+.xp-next{font-size:.8rem;color:var(--text2);white-space:nowrap;}
 
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    padding: 1.5rem 2rem 0.5rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
+/* Section titles */
+.section-heading{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent3);padding:1.2rem 2rem .5rem;letter-spacing:.05em;display:flex;align-items:center;gap:.6rem;}
+.section-heading::after{content:'';flex:1;height:1px;background:var(--border);}
 
-  .streak-widget {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 2rem;
-  }
-  .streak-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  .streak-flame { font-size: 2.5rem; }
-  .streak-count {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--accent3);
-  }
-  .streak-label { font-size: 0.85rem; color: var(--text2); }
-  .streak-dots {
-    display: flex;
-    gap: 6px;
-    margin-top: 0.3rem;
-  }
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-  }
-  .dot.done { background: var(--accent); border-color: var(--accent); }
+/* Card grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem;padding:.5rem 2rem 1.5rem;max-width:1400px;margin:0 auto;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.2rem;text-decoration:none;color:var(--text);transition:all .2s;display:flex;flex-direction:column;gap:.2rem;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .2s;}
+.card:hover{border-color:var(--accent2);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.card:hover::before{opacity:1;}
+.card-icon{font-size:1.5rem;line-height:1;}
+.card-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--accent3);margin-top:.1rem;}
+.card-es{font-size:.78rem;color:var(--accent2);font-style:italic;}
+.card-count{font-size:.72rem;color:var(--text2);background:var(--bg3);display:inline-block;padding:.05rem .4rem;border-radius:8px;margin:.1rem 0;}
+.card-desc{font-size:.82rem;color:var(--text2);line-height:1.5;margin-top:.2rem;}
+.card-new{position:absolute;top:.6rem;right:.6rem;background:var(--accent);color:#fff;font-size:.62rem;font-weight:700;padding:.1rem .4rem;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;}
 
-  footer {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text2);
-    font-size: 0.82rem;
-    border-top: 1px solid var(--border);
-    margin-top: 2rem;
-  }
+/* Streak widget */
+.streak-section{max-width:600px;margin:0 auto;padding:1rem 2rem 2rem;}
+.streak-widget{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.5rem;}
+.streak-flame{font-size:2.5rem;line-height:1;}
+.streak-count{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--accent3);line-height:1;}
+.streak-label{font-size:.78rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;}
+.streak-dots{display:flex;gap:.4rem;margin-top:.5rem;}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);}
+.dot.done{background:var(--accent);border-color:var(--accent);}
+.day-labels{display:flex;gap:.4rem;margin-top:.2rem;}
+.day-label{width:12px;text-align:center;font-size:.6rem;color:var(--text2);}
 
-  @media (max-width: 700px) {
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-    .grid { padding: 1rem; gap: 0.8rem; }
-    .stats-bar { gap: 1rem; }
-    .hero { padding: 2.5rem 1.2rem 2rem; }
-  }
+footer{text-align:center;padding:1.5rem 2rem;color:var(--text2);font-size:.8rem;border-top:1px solid var(--border);}
+
+@media(max-width:700px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .grid{padding:.5rem 1rem 1.2rem;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem;}
+  .stats-bar{gap:0;}
+  .stat{padding:.6rem 1rem;}
+  .section-heading{padding:.8rem 1rem .3rem;}
+  .streak-section{padding:.8rem 1rem 1.5rem;}
+  .xp-bar-section{padding:.6rem 1rem;}
+}
 </style>
 </head>
 <body>
 <nav>
-  <a href="index.html" class="nav-brand">🇪🇸 Español</a>
+  <a href="index.html" class="nav-brand">Español ✦</a>
   <div class="nav-links">
     <a href="grammar.html">Grammar</a>
     <a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronun.</a>
     <a href="reading.html">Reading</a>
     <a href="listening.html">Listening</a>
     <a href="quiz.html">Quiz</a>
     <a href="flashcards.html">Flashcards</a>
     <a href="writing.html">Writing</a>
     <a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a>
+    <a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html">Numbers</a>
+    <a href="dictionary.html">Dictionary</a>
+    <a href="sentences.html">Sentences</a>
+    <a href="speaking.html">Speaking</a>
     <a href="mistakes.html">Mistakes</a>
     <a href="progress.html">Progress</a>
     <a href="schedule.html">Schedule</a>
+    <a href="export.html">Export</a>
   </div>
   <div class="nav-controls">
-    <button class="btn-icon" onclick="toggleFont(-1)" title="Smaller">A−</button>
-    <button class="btn-icon" onclick="resetFont()" title="Reset">A</button>
-    <button class="btn-icon" onclick="toggleFont(1)" title="Larger">A+</button>
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
     <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️</button>
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
+  <div class="mm-section">Reference</div>
   <a href="grammar.html">📚 Grammar</a>
   <a href="vocabulary.html">📝 Vocabulary</a>
-  <a href="reading.html">📖 Reading</a>
-  <a href="listening.html">🎧 Listening</a>
+  <a href="pronunciation.html">🗣 Pronunciation</a>
+  <a href="idioms.html">💬 Idioms</a>
+  <a href="dictionary.html">📖 Dictionary</a>
+  <a href="numbers.html">🔢 Numbers</a>
+  <div class="mm-section">Practice</div>
   <a href="quiz.html">🧠 Quiz</a>
   <a href="flashcards.html">🃏 Flashcards</a>
   <a href="writing.html">✍️ Writing</a>
   <a href="conjugation.html">🔀 Conjugation</a>
+  <a href="verbdrill.html">⚡ Verb Drill</a>
+  <a href="sentences.html">🧩 Sentences</a>
+  <a href="speaking.html">🎙 Speaking</a>
+  <div class="mm-section">Input</div>
+  <a href="reading.html">📖 Reading</a>
+  <a href="listening.html">🎧 Listening</a>
+  <div class="mm-section">Tracking</div>
   <a href="mistakes.html">❌ Mistakes</a>
   <a href="progress.html">📊 Progress</a>
   <a href="schedule.html">📅 Schedule</a>
+  <a href="export.html">💾 Export & XP</a>
 </div>
 
 <div class="hero">
@@ -365,174 +156,256 @@
 </div>
 
 <div class="stats-bar">
-  <div class="stat">
-    <span class="stat-num" id="statVocab">0</span>
-    <span class="stat-label">Words</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num" id="statGrammar">0</span>
-    <span class="stat-label">Grammar Rules</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num" id="statQuizzes">0</span>
-    <span class="stat-label">Quizzes Done</span>
-  </div>
-  <div class="stat">
-    <span class="stat-num" id="statStreak">0</span>
-    <span class="stat-label">Day Streak</span>
-  </div>
+  <div class="stat"><span class="stat-num" id="statVocab">628</span><span class="stat-label">Words</span></div>
+  <div class="stat"><span class="stat-num" id="statGrammar">80</span><span class="stat-label">Grammar Rules</span></div>
+  <div class="stat"><span class="stat-num" id="statQuizzes">0</span><span class="stat-label">Quizzes Done</span></div>
+  <div class="stat"><span class="stat-num" id="statStreak">0</span><span class="stat-label">Day Streak</span></div>
+  <div class="stat"><span class="stat-num" id="statXP" style="color:var(--accent3)">0</span><span class="stat-label">XP</span></div>
+  <div class="stat"><span class="stat-num" id="statMastered">0</span><span class="stat-label">Words Mastered</span></div>
 </div>
 
-<p class="section-title">Study Sections</p>
+<div class="xp-bar-section">
+  <span class="xp-level-name" id="xpLevelName">Principiante</span>
+  <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+  <span class="xp-next" id="xpNext">0 / 100 XP</span>
+</div>
+
+<!-- REFERENCE -->
+<div class="section-heading">📚 Reference</div>
 <div class="grid">
   <a href="grammar.html" class="card">
     <div class="card-icon">📚</div>
     <div class="card-title">Grammar</div>
     <div class="card-es">Gramática</div>
-    <div class="card-count">A1–C1</div>
-    <div class="card-desc">Tenses, moods, ser vs estar, subjunctive, and more — with examples and nuance notes.</div>
+    <div class="card-count">80 rules · A1–C1</div>
+    <div class="card-desc">All tenses, moods, ser vs estar, subjunctive — with formulas and nuance notes.</div>
   </a>
   <a href="vocabulary.html" class="card">
     <div class="card-icon">📝</div>
     <div class="card-title">Vocabulary</div>
     <div class="card-es">Vocabulario</div>
-    <div class="card-count">1,000+ words</div>
-    <div class="card-desc">Organized by level and theme. Essential words with example sentences and audio.</div>
+    <div class="card-count">628 words · SRS mastery</div>
+    <div class="card-desc">Organized by level and theme. Mark words as you learn them with spaced repetition.</div>
   </a>
-  <a href="reading.html" class="card">
+  <a href="pronunciation.html" class="card">
+    <div class="card-icon">🗣</div>
+    <div class="card-title">Pronunciation</div>
+    <div class="card-es">Pronunciación</div>
+    <div class="card-count">Sounds · Stress · Accents</div>
+    <div class="card-desc">Every Spanish sound with IPA, minimal pairs, tongue twisters, and regional accent guide.</div>
+  </a>
+  <a href="idioms.html" class="card">
+    <div class="card-icon">💬</div>
+    <div class="card-title">Idioms</div>
+    <div class="card-es">Modismos</div>
+    <div class="card-count">77 expressions</div>
+    <div class="card-desc">Body-part idioms, animal sayings, proverbs, colloquial slang — with literal translations.</div>
+  </a>
+  <a href="dictionary.html" class="card">
     <div class="card-icon">📖</div>
-    <div class="card-title">Reading</div>
-    <div class="card-es">Lectura</div>
-    <div class="card-count">A2–C1</div>
-    <div class="card-desc">Graded passages from everyday topics to news articles and literature excerpts.</div>
+    <div class="card-title">Dictionary</div>
+    <div class="card-es">Diccionario</div>
+    <div class="card-count">ES ↔ EN lookup</div>
+    <div class="card-desc">Search any word for definitions, example sentences, conjugations, and related terms.</div>
   </a>
-  <a href="listening.html" class="card">
-    <div class="card-icon">🎧</div>
-    <div class="card-title">Listening</div>
-    <div class="card-es">Escucha</div>
-    <div class="card-count">60 scripts</div>
-    <div class="card-desc">Native-speed dialogues and monologues with transcripts and comprehension checks.</div>
+  <a href="numbers.html" class="card">
+    <div class="card-icon">🔢</div>
+    <div class="card-title">Numbers & Dates</div>
+    <div class="card-es">Números y Fechas</div>
+    <div class="card-count">Cardinals · Ordinals · Time</div>
+    <div class="card-desc">Reference tables, live clock in Spanish, number drills, and date expression guide.</div>
   </a>
+</div>
+
+<!-- PRACTICE -->
+<div class="section-heading">⚡ Practice</div>
+<div class="grid">
   <a href="quiz.html" class="card">
     <div class="card-icon">🧠</div>
     <div class="card-title">Quiz</div>
     <div class="card-es">Cuestionario</div>
-    <div class="card-desc">Mixed vocab, grammar, and translation drills. Spaced repetition built-in.</div>
+    <div class="card-count">Spaced repetition · XP</div>
+    <div class="card-desc">Multiple-choice vocab and translation drills. Earns XP. Feeds mistake log.</div>
   </a>
   <a href="flashcards.html" class="card">
     <div class="card-icon">🃏</div>
     <div class="card-title">Flashcards</div>
     <div class="card-es">Tarjetas</div>
-    <div class="card-desc">Flip-card mode with Again / Good / Easy ratings. Pull from your vocab bank.</div>
+    <div class="card-count">3D flip cards</div>
+    <div class="card-desc">Again / Good / Easy ratings. ES→EN or EN→ES. Configurable by level.</div>
   </a>
   <a href="writing.html" class="card">
     <div class="card-icon">✍️</div>
     <div class="card-title">Writing</div>
     <div class="card-es">Escritura</div>
-    <div class="card-desc">Type translations or fill-in-the-blank drills. Configurable by level and count.</div>
+    <div class="card-count">Type translations</div>
+    <div class="card-desc">Type Spanish from English (or reverse). Lenient article matching. Logs mistakes.</div>
   </a>
   <a href="conjugation.html" class="card">
     <div class="card-icon">🔀</div>
     <div class="card-title">Conjugation</div>
     <div class="card-es">Conjugación</div>
-    <div class="card-desc">Full verb tables for -ar, -er, -ir verbs across all tenses including irregular verbs.</div>
+    <div class="card-count">10 verbs · 7 tenses</div>
+    <div class="card-desc">Full verb tables. Toggle tenses. Irregular forms highlighted. Quick-select chips.</div>
   </a>
+  <a href="verbdrill.html" class="card">
+    <div class="card-icon">⚡</div>
+    <div class="card-title">Verb Drill</div>
+    <div class="card-es">Ejercicio de Verbos</div>
+    <div class="card-count">15 verbs · all tenses</div>
+    <div class="card-desc">Type conjugations from memory. Streak tracking. Mistake review. Configurable difficulty.</div>
+  </a>
+  <a href="sentences.html" class="card">
+    <div class="card-icon">🧩</div>
+    <div class="card-title">Sentences</div>
+    <div class="card-es">Frases</div>
+    <div class="card-count">Builder + 50 generated</div>
+    <div class="card-desc">Drag-and-drop sentence builder with templates. Random sentence generator A1–C1 with grammar notes.</div>
+  </a>
+  <a href="speaking.html" class="card">
+    <div class="card-icon">🎙</div>
+    <div class="card-title">Speaking</div>
+    <div class="card-es">Hablar</div>
+    <div class="card-count">Shadow · Repeat · Record</div>
+    <div class="card-desc">Shadowing exercises, repeat-after-me with speech recognition, and free recording with playback.</div>
+  </a>
+</div>
+
+<!-- INPUT -->
+<div class="section-heading">👁 Input</div>
+<div class="grid">
+  <a href="reading.html" class="card">
+    <div class="card-icon">📖</div>
+    <div class="card-title">Reading</div>
+    <div class="card-es">Lectura</div>
+    <div class="card-count">15 passages · A2–C1</div>
+    <div class="card-desc">Graded texts from daily life to political philosophy. Comprehension questions with instant feedback.</div>
+  </a>
+  <a href="listening.html" class="card">
+    <div class="card-icon">🎧</div>
+    <div class="card-title">Listening</div>
+    <div class="card-es">Escucha</div>
+    <div class="card-count">30 scripts · A2–C1</div>
+    <div class="card-desc">Dialogues and monologues with speaker-labelled transcripts and translations. Speed control.</div>
+  </a>
+</div>
+
+<!-- TRACKING -->
+<div class="section-heading">📊 Tracking</div>
+<div class="grid">
   <a href="mistakes.html" class="card">
     <div class="card-icon">❌</div>
     <div class="card-title">Mistakes</div>
     <div class="card-es">Errores</div>
-    <div class="card-desc">Review every question you got wrong. Filter by type and level. Study your weak spots.</div>
+    <div class="card-count">Auto-logged from quizzes</div>
+    <div class="card-desc">Every wrong answer in one place. Filter by type, level, and date. Study your weak spots.</div>
   </a>
   <a href="progress.html" class="card">
     <div class="card-icon">📊</div>
     <div class="card-title">Progress</div>
     <div class="card-es">Progreso</div>
-    <div class="card-desc">Charts and stats across all sessions. Track streaks, accuracy, and level distribution.</div>
+    <div class="card-count">Charts + stats</div>
+    <div class="card-desc">Quiz score history, accuracy by level, XP totals, mastery breakdown, and session log.</div>
   </a>
   <a href="schedule.html" class="card">
     <div class="card-icon">📅</div>
     <div class="card-title">Schedule</div>
     <div class="card-es">Horario</div>
-    <div class="card-desc">Daily goals, streak calendar, and lifetime session history at a glance.</div>
+    <div class="card-count">Streak calendar</div>
+    <div class="card-desc">Daily goals, 7-day streak dots, monthly calendar view, and lifetime stats.</div>
+  </a>
+  <a href="export.html" class="card">
+    <div class="card-icon">💾</div>
+    <div class="card-title">Data & XP</div>
+    <div class="card-es">Datos y XP</div>
+    <div class="card-count">Backup · Restore · Reset</div>
+    <div class="card-desc">XP level dashboard, mastery breakdown, export/import all data, and per-key reset controls.</div>
   </a>
 </div>
 
-<p class="section-title">Today's Streak</p>
-<div class="streak-widget">
-  <div class="streak-box">
+<!-- Streak widget -->
+<div class="streak-section">
+  <div class="streak-widget">
     <div class="streak-flame">🔥</div>
     <div>
       <div class="streak-count" id="streakNum">0</div>
-      <div class="streak-label">days in a row</div>
+      <div class="streak-label">day streak</div>
       <div class="streak-dots" id="streakDots"></div>
+      <div class="day-labels" id="dayLabels"></div>
     </div>
   </div>
 </div>
 
-<footer>
-  Español Study Site &nbsp;·&nbsp; Personal Reference &nbsp;·&nbsp; Built for fluency
-</footer>
+<footer>Español Study Site &nbsp;·&nbsp; Personal Reference &nbsp;·&nbsp; Built for fluency</footer>
 
 <script>
-  // Theme
-  const saved = localStorage.getItem('es_theme') || 'dark';
-  if (saved === 'light') document.body.classList.add('light');
-  document.getElementById('themeBtn').textContent = saved === 'light' ? '🌙' : '☀️';
+const XP_LEVELS = [
+  {name:'Principiante',min:0,max:100},
+  {name:'Estudiante',min:100,max:300},
+  {name:'Aprendiz',min:300,max:600},
+  {name:'Intermedio',min:600,max:1000},
+  {name:'Avanzado',min:1000,max:2000},
+  {name:'Experto',min:2000,max:5000},
+  {name:'Maestro',min:5000,max:Infinity},
+];
 
-  function toggleTheme() {
-    const isLight = document.body.classList.toggle('light');
-    localStorage.setItem('es_theme', isLight ? 'light' : 'dark');
-    document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
-  }
+// Theme
+const saved = localStorage.getItem('es_theme') || 'dark';
+if (saved === 'light') document.body.classList.add('light');
+document.getElementById('themeBtn').textContent = saved === 'light' ? '🌙' : '☀️';
+function toggleTheme() { const l = document.body.classList.toggle('light'); localStorage.setItem('es_theme',l?'light':'dark'); document.getElementById('themeBtn').textContent = l?'🌙':'☀️'; }
 
-  // Font size
-  let fontSize = parseInt(localStorage.getItem('es_fontsize') || '18');
-  document.body.style.fontSize = fontSize + 'px';
-  function toggleFont(d) {
-    fontSize = Math.min(24, Math.max(14, fontSize + d));
-    document.body.style.fontSize = fontSize + 'px';
-    localStorage.setItem('es_fontsize', fontSize);
-  }
-  function resetFont() {
-    fontSize = 18;
-    document.body.style.fontSize = '18px';
-    localStorage.setItem('es_fontsize', 18);
-  }
+// Font
+let fontSize = parseInt(localStorage.getItem('es_fontsize') || '18');
+document.body.style.fontSize = fontSize + 'px';
+function toggleFont(d) { fontSize=Math.min(24,Math.max(14,fontSize+d)); document.body.style.fontSize=fontSize+'px'; localStorage.setItem('es_fontsize',fontSize); }
+function resetFont() { fontSize=18; document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 
-  // Mobile menu
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('open');
-  }
+// Stats
+const scores = (() => { try { return JSON.parse(localStorage.getItem('es_scores')||'[]'); } catch { return []; } })();
+const streak = parseInt(localStorage.getItem('es_streak') || '0');
+const xp = parseInt(localStorage.getItem('es_xp') || '0');
+const mastery = (() => { try { return JSON.parse(localStorage.getItem('es_mastery')||'{}'); } catch { return {}; } })();
+const masteredCount = Object.values(mastery).filter(m=>m.level===5).length;
 
-  // Stats from localStorage
-  const vocab = JSON.parse(localStorage.getItem('es_vocab') || '[]');
-  const grammar = JSON.parse(localStorage.getItem('es_grammar') || '[]');
-  const scores = JSON.parse(localStorage.getItem('es_scores') || '[]');
-  const streak = parseInt(localStorage.getItem('es_streak') || '0');
+document.getElementById('statQuizzes').textContent = scores.length;
+document.getElementById('statStreak').textContent = streak;
+document.getElementById('statXP').textContent = xp >= 1000 ? (xp/1000).toFixed(1)+'k' : xp;
+document.getElementById('statMastered').textContent = masteredCount;
+document.getElementById('streakNum').textContent = streak;
 
-  document.getElementById('statVocab').textContent = '1,200+';
-  document.getElementById('statGrammar').textContent = '80+';
-  document.getElementById('statQuizzes').textContent = scores.length;
-  document.getElementById('statStreak').textContent = streak;
-  document.getElementById('streakNum').textContent = streak;
+// XP bar
+const level = XP_LEVELS.slice().reverse().find(l=>xp>=l.min) || XP_LEVELS[0];
+const nextLevel = XP_LEVELS[XP_LEVELS.indexOf(level)+1];
+const pct = nextLevel ? Math.round((xp-level.min)/(nextLevel.min-level.min)*100) : 100;
+document.getElementById('xpLevelName').textContent = '⚡ ' + level.name;
+document.getElementById('xpFill').style.width = pct + '%';
+document.getElementById('xpNext').textContent = nextLevel ? xp + ' / ' + nextLevel.min + ' XP' : 'Max level!';
 
-  // Streak dots (last 7 days)
-  const days = JSON.parse(localStorage.getItem('es_studyDays') || '[]');
-  const today = new Date().toDateString();
-  const dotContainer = document.getElementById('streakDots');
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (days.includes(d.toDateString()) ? ' done' : '');
-    dot.title = d.toDateString();
-    dotContainer.appendChild(dot);
-  }
+// Streak dots (last 7 days)
+const studyDays = (() => { try { return JSON.parse(localStorage.getItem('es_studyDays')||'[]'); } catch { return []; } })();
+const today = new Date().toDateString();
+const dotContainer = document.getElementById('streakDots');
+const labelContainer = document.getElementById('dayLabels');
+const dayAbbr = ['S','M','T','W','T','F','S'];
+for (let i = 6; i >= 0; i--) {
+  const d = new Date(); d.setDate(d.getDate() - i);
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (studyDays.includes(d.toDateString()) ? ' done' : '');
+  dot.title = d.toDateString();
+  dotContainer.appendChild(dot);
+  const lbl = document.createElement('div');
+  lbl.className = 'day-label';
+  lbl.textContent = dayAbbr[d.getDay()];
+  labelContainer.appendChild(lbl);
+}
 
-  // Mark today as studied
-  if (!days.includes(today)) {
-    days.push(today);
-    localStorage.setItem('es_studyDays', JSON.stringify(days));
-  }
+// Mark today as studied
+if (!studyDays.includes(today)) {
+  studyDays.push(today);
+  localStorage.setItem('es_studyDays', JSON.stringify(studyDays));
+}
 </script>
 </body>
 </html>

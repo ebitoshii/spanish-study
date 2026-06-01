@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronunciation — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(192,57,43,.08) 0%,transparent 100%);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);background:var(--bg2);overflow-x:auto;}
+.tab{background:none;border:none;color:var(--text2);padding:.7rem 1.2rem;cursor:pointer;font-family:'Crimson Pro',serif;font-size:.9rem;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab:hover{color:var(--accent3);}
+.tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
+.content{max-width:900px;margin:0 auto;padding:2rem;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--accent3);margin-bottom:1rem;}
+.section-sub{color:var(--text2);font-style:italic;margin-bottom:1.5rem;font-size:.95rem;}
+/* Sound cards */
+.sound-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:2rem;}
+.sound-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;}
+.sound-card:hover{border-color:var(--accent2);}
+.sound-letter{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);line-height:1;}
+.sound-ipa{font-size:.85rem;color:var(--accent2);font-family:monospace;margin:.2rem 0;}
+.sound-desc{font-size:.88rem;color:var(--text2);margin:.3rem 0;}
+.sound-examples{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem;}
+.sound-ex{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;font-size:.82rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem;}
+.sound-ex:hover{border-color:var(--accent);color:var(--accent3);}
+.sound-ex .play-sm{font-size:.7rem;opacity:.6;}
+/* Minimal pair cards */
+.pair-list{display:flex;flex-direction:column;gap:.8rem;}
+.pair-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;}
+.pair-word{text-align:center;}
+.pair-es{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--accent3);}
+.pair-en{font-size:.82rem;color:var(--text2);font-style:italic;}
+.pair-vs{color:var(--border);font-size:.8rem;text-align:center;}
+.play-btn{background:var(--accent);color:#fff;border:none;padding:.25rem .7rem;border-radius:20px;cursor:pointer;font-size:.8rem;white-space:nowrap;transition:background .2s;}
+.play-btn:hover{background:var(--accent2);}
+/* Stress rules */
+.rule-block{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;}
+.rule-title{font-weight:600;color:var(--accent2);margin-bottom:.4rem;}
+.rule-formula{background:var(--bg3);border-left:3px solid var(--accent);padding:.5rem .8rem;font-family:monospace;font-size:.88rem;color:var(--accent3);border-radius:0 4px 4px 0;margin:.5rem 0;}
+.example-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;}
+.ex-pill{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:.2rem .7rem;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.ex-pill:hover{border-color:var(--accent);color:var(--accent3);}
+.accent-mark{color:var(--accent);font-weight:700;}
+/* Tongue twisters */
+.twister-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;}
+.twister-text{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text);line-height:1.8;margin-bottom:.6rem;}
+.twister-focus{font-size:.82rem;color:var(--accent2);margin-bottom:.8rem;}
+.twister-actions{display:flex;gap:.5rem;}
+/* Regional accents */
+.accent-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;}
+.accent-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent3);margin-bottom:.3rem;}
+.accent-region{font-size:.8rem;color:var(--accent2);margin-bottom:.5rem;}
+.accent-features{list-style:none;padding:0;}
+.accent-features li{font-size:.9rem;color:var(--text2);padding:.2rem 0;border-bottom:1px solid rgba(90,56,37,.2);}
+.accent-features li:last-child{border:none;}
+.accent-features li::before{content:"→ ";color:var(--accent);}
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.content{padding:1rem;}.sound-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html" class="active">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="vocabulary.html">📝 Vocab</a><a href="pronunciation.html">🗣 Pronunciation</a>
+  <a href="idioms.html">💬 Idioms</a><a href="verbdrill.html">⚡ Verb Drill</a>
+  <a href="numbers.html">🔢 Numbers</a><a href="dictionary.html">📖 Dictionary</a>
+  <a href="mistakes.html">❌ Mistakes</a><a href="progress.html">📊 Progress</a><a href="schedule.html">📅 Schedule</a>
+</div>
+<div class="page-header">
+  <div class="page-title">Pronunciation — Pronunciación</div>
+  <div class="page-sub">Sounds, stress, minimal pairs, tongue twisters, and regional accents</div>
+</div>
+<div class="tabs">
+  <button class="tab active" onclick="showTab('sounds',this)">Sounds</button>
+  <button class="tab" onclick="showTab('stress',this)">Stress & Accent</button>
+  <button class="tab" onclick="showTab('pairs',this)">Minimal Pairs</button>
+  <button class="tab" onclick="showTab('twisters',this)">Tongue Twisters</button>
+  <button class="tab" onclick="showTab('regional',this)">Regional Accents</button>
+</div>
+
+<div class="content">
+
+<!-- SOUNDS TAB -->
+<div class="tab-panel active" id="tab-sounds">
+  <div class="section-title">Spanish Sounds</div>
+  <div class="section-sub">Click any word to hear it. Spanish is mostly phonetic — spelling predicts pronunciation.</div>
+  <div class="sound-grid" id="soundGrid"></div>
+</div>
+
+<!-- STRESS TAB -->
+<div class="tab-panel" id="tab-stress">
+  <div class="section-title">Word Stress Rules</div>
+  <div class="section-sub">Spanish stress is predictable — three rules cover almost everything.</div>
+  <div id="stressRules"></div>
+</div>
+
+<!-- MINIMAL PAIRS TAB -->
+<div class="tab-panel" id="tab-pairs">
+  <div class="section-title">Minimal Pairs</div>
+  <div class="section-sub">Words that differ by only one sound. Training your ear to distinguish them is key.</div>
+  <div class="pair-list" id="pairList"></div>
+</div>
+
+<!-- TONGUE TWISTERS TAB -->
+<div class="tab-panel" id="tab-twisters">
+  <div class="section-title">Tongue Twisters — Trabalenguas</div>
+  <div class="section-sub">Repeat each one slowly, then faster. Great for drilling difficult sounds.</div>
+  <div id="twisterList"></div>
+</div>
+
+<!-- REGIONAL ACCENTS TAB -->
+<div class="tab-panel" id="tab-regional">
+  <div class="section-title">Regional Accents</div>
+  <div class="section-sub">Spanish varies significantly across regions. Understanding the main variants helps with listening comprehension.</div>
+  <div id="accentList"></div>
+</div>
+
+</div>
+
+<script>
+const SOUNDS = [
+  {letter:'A',ipa:'/a/',desc:'Open central vowel — like "a" in "father". Always the same.',examples:['casa','mañana','hablar']},
+  {letter:'E',ipa:'/e/',desc:'Mid front vowel — like "e" in "bed" but slightly more closed. No glide.',examples:['mesa','este','hablar']},
+  {letter:'I',ipa:'/i/',desc:'High front vowel — like "ee" in "see". Pure, no diphthong.',examples:['isla','vivir','libro']},
+  {letter:'O',ipa:'/o/',desc:'Mid back vowel — like "o" in "port" but without the English glide.',examples:['como','todo','otro']},
+  {letter:'U',ipa:'/u/',desc:'High back vowel — like "oo" in "moon". Silent after Q and G before E/I.',examples:['uno','grupo','mucho']},
+  {letter:'B / V',ipa:'/b/ or /β/',desc:'Both B and V make the same sound in Spanish! Plosive [b] after pause/nasal; fricative [β] elsewhere.',examples:['bien','vino','saber','vivir']},
+  {letter:'C (before E/I)',ipa:'/θ/ or /s/',desc:'In Spain: /θ/ like English "th" in "thin". In Latin America: /s/ (seseo).',examples:['cero','ciudad','hacer']},
+  {letter:'D',ipa:'/d/ or /ð/',desc:'Plosive /d/ at start of word or after N/L; fricative /ð/ (like English "the") elsewhere.',examples:['dar','donde','ciudad','nada']},
+  {letter:'G (before E/I)',ipa:'/x/',desc:'A guttural sound from the back of the throat — like Scottish "loch". Not like English G.',examples:['gente','girar','general']},
+  {letter:'H',ipa:'(silent)',desc:'Always silent in Spanish. Never pronounced.',examples:['hablar','hotel','hoy','ahora']},
+  {letter:'J',ipa:'/x/',desc:'Same guttural sound as G before E/I. Like Scottish "loch" or Arabic "kh".',examples:['jardín','jefe','viaje','hijo']},
+  {letter:'LL',ipa:'/ʎ/ or /j/',desc:'Traditionally /ʎ/ (like "ll" in "million"). Most speakers today use /j/ (like English "y").',examples:['llegar','llamar','pollo','calle']},
+  {letter:'Ñ',ipa:'/ɲ/',desc:'A palatal nasal — like "ny" in "canyon". A distinct letter in Spanish.',examples:['año','mañana','señor','español']},
+  {letter:'Q',ipa:'/k/',desc:'Always followed by U (which is silent): QU = /k/. Qu before E/I only.',examples:['que','quiero','queso','quedar']},
+  {letter:'R',ipa:'/ɾ/ or /r/',desc:'Single R between vowels: a tap /ɾ/ (like "tt" in American "butter"). RR or R at word start: rolled /r/.',examples:['pero','perro','cara','rojo']},
+  {letter:'RR',ipa:'/r/',desc:'Strongly trilled — multiple tongue flaps. Distinct from single R. Critical for meaning.',examples:['perro','carro','tierra','torre']},
+  {letter:'S',ipa:'/s/',desc:'Always an /s/ sound — never /z/ like in English "rose". Slight aspiration in some dialects.',examples:['saber','casa','esto','mismo']},
+  {letter:'X',ipa:'/ks/ or /x/',desc:'Usually /ks/ as in English. /x/ in Mexican place names (México, Oaxaca).',examples:['éxito','explicar','México','taxi']},
+  {letter:'Y',ipa:'/j/ or /ʝ/',desc:'Like English "y" in "yes". In Rioplatense Spanish, pronounced like "sh" (sheísmo).',examples:['yo','ya','mayo','ayer']},
+  {letter:'Z',ipa:'/θ/ or /s/',desc:'In Spain: /θ/ like "th" in "think". In Latin America: /s/ (seseo). Never /z/ as in English.',examples:['zapato','zona','arroz','vez']},
+];
+
+const STRESS_RULES = [
+  {title:'Rule 1 — Words ending in vowel, N, or S',
+   formula:'Stress falls on the SECOND-TO-LAST syllable (penultimate)',
+   examples:['ca-SA','ha-BLAN','li-BROS','co-MEN','gran-DE'],
+   note:'This is the default — covers the majority of Spanish words.'},
+  {title:'Rule 2 — Words ending in consonant (not N or S)',
+   formula:'Stress falls on the LAST syllable',
+   examples:['ha-BLAR','ciu-DAD','pa-PEL','doc-TOR','re-LOJ'],
+   note:''},
+  {title:'Rule 3 — Written accent overrides rules 1 & 2',
+   formula:'A written accent (´) always indicates the stressed syllable',
+   examples:['MÚ-si-ca','ca-FÉ','fá-cil','lá-piz','tam-BIÉN'],
+   note:'Written accents also distinguish homographs: tú (you) vs tu (your); él (he) vs el (the); sí (yes) vs si (if).'},
+  {title:'Diphthongs and hiatus',
+   formula:'Strong vowels (A, E, O) + weak vowels (I, U) = diphthong (one syllable). Two strong vowels = hiatus (two syllables).',
+   examples:['sien (1 syl)','cau-sa (2)','le-er (2)','po-e-ta (3)'],
+   note:'A written accent on a weak vowel breaks the diphthong: "día" (2 syllables: dí-a) vs "dia-blo" (3: dia-blo).'},
+];
+
+const PAIRS = [
+  {a:'pero',aen:'but',b:'perro',ben:'dog',focus:'Single R vs double RR'},
+  {a:'caro',aen:'expensive',b:'carro',ben:'car',focus:'Single R tap vs trill'},
+  {a:'vino',aen:'wine / he came',b:'bino',ben:'(not a word — illustrates B=V)',focus:'B and V are identical sounds'},
+  {a:'casa',aen:'house',b:'caza',ben:'hunt (Spain)',focus:'S vs Z/C (seseo vs distinción)'},
+  {a:'hola',aen:'hello',b:'ola',ben:'wave',focus:'H is always silent'},
+  {a:'tuyo',aen:'yours',b:'tullo',ben:'(illustrates LL sound)',focus:'Y vs LL (both /j/ in most dialects)'},
+  {a:'tú',aen:'you (subj)',b:'tu',ben:'your',focus:'Accent changes grammar, not pronunciation'},
+  {a:'él',aen:'he',b:'el',ben:'the',focus:'Accent distinguishes pronoun from article'},
+  {a:'sé',aen:'I know',b:'se',ben:'reflexive pronoun',focus:'Accent mark distinguishes meaning'},
+  {a:'más',aen:'more',b:'mas',ben:'but (literary)',focus:'Accent distinguishes adverb from conjunction'},
+  {a:'llegar',aen:'to arrive',b:'llegar',ben:'—',focus:'LL = /j/ in most dialects today (yeísmo)'},
+  {a:'gente',aen:'people',b:'mente',ben:'mind',focus:'G before E = /x/ guttural (not English G)'},
+];
+
+const TWISTERS = [
+  {text:'Tres tristes tigres tragaban trigo en un trigal.',focus:'Consonant cluster TR- and the rolled R',slow:'tres... tris-tes... ti-gres...'},
+  {text:'Pablito clavó un clavito. ¿Qué clavito clavó Pablito?',focus:'CL- clusters and the B/V sound',slow:''},
+  {text:'El perro de San Roque no tiene rabo porque Ramón Ramírez se lo ha cortado.',focus:'Single R vs double RR (perro, rabo, Ramón, Ramírez)',slow:''},
+  {text:'Como poco coco como, poco coco compro.',focus:'The O vowel and C/K sound',slow:''},
+  {text:'Pepe Pecas pica papas con un pico. Con un pico pica papas Pepe Pecas.',focus:'The P consonant and vowel clarity',slow:''},
+  {text:'Me han dicho que has dicho un dicho que han dicho que he dicho yo. El que lo ha dicho mintió.',focus:'The /tʃ/ sound in "dicho" and connected speech',slow:''},
+  {text:'Si la sierva que te sirve no te sirve como sierva, ¿de qué sirve que te sirvas de una sierva que no sirve?',focus:'S sound and the verb servir at speed',slow:''},
+  {text:'Compré pocas copas, pocas copas compré; como compré pocas copas, pocas copas pagaré.',focus:'P, C/K sounds and vowel O',slow:''},
+];
+
+const ACCENTS = [
+  {name:'Castellano (Central Spain)',region:'Madrid, Castilla, Aragón',features:['Distinción: C before E/I and Z = /θ/ (like English "think")','Vosotros used for informal plural you','S pronounced clearly — no aspiration','LL and Y distinct in traditional speech (lleísmo), though yeísmo spreading']},
+  {name:'Andaluz',region:'Andalusia, Southern Spain',features:['Seseo or ceceo: Z and C before E/I = /s/ or /θ̟/ (varies by area)','Aspirated or dropped final S: "los libros" → "loh libroh"','Final consonants often weakened or dropped','Distinctive melodic intonation pattern']},
+  {name:'Canario',region:'Canary Islands',features:['Seseo: Z and C = /s/ (like Latin America)','Often drops final -s or aspirates it','Closer to Latin American Spanish than Peninsular','Distinctive vocabulary influenced by Portuguese and indigenous languages']},
+  {name:'Rioplatense',region:'Argentina, Uruguay (Buenos Aires)',features:['Sheísmo: LL and Y = /ʃ/ (like English "sh") — unique!','Vos used instead of tú (voseo): "vos tenés", "vos querés"','Strong Italian influence on intonation','Future often expressed with ir a + inf rather than simple future']},
+  {name:'Mexicano',region:'Mexico (most of Latin America)',features:['Seseo: C before E/I and Z = /s/',' Ustedes replaces vosotros for all plural you','Clear vowels even in unstressed syllables','X in place names = /x/: México /ˈme.xi.ko/','Nahuatl loanwords: chile, tomate, chocolate, aguacate']},
+  {name:'Caribeño',region:'Cuba, Puerto Rico, Dominican Republic, coastal Colombia/Venezuela',features:['R and L often interchange syllable-finally: "puerta" → "puelta"','Final S strongly aspirated or dropped','Rapid speech rate with syllable reduction','Distinctive musical intonation','Seseo']},
+  {name:'Andino',region:'Colombia (interior), Ecuador, Peru, Bolivia',features:['Often considered the "clearest" Spanish for learners','Vowels clearly pronounced even when unstressed','S pronounced clearly — little aspiration','Intonation more neutral than Caribbean or Rioplatense','Indigenous language influence (Quechua) in vocabulary']},
+];
+
+function speak(text, rate) {
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'es-ES'; u.rate = rate || 0.85;
+  window.speechSynthesis.speak(u);
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Render sounds
+document.getElementById('soundGrid').innerHTML = SOUNDS.map(s => `
+  <div class="sound-card">
+    <div class="sound-letter">${s.letter}</div>
+    <div class="sound-ipa">${s.ipa}</div>
+    <div class="sound-desc">${s.desc}</div>
+    <div class="sound-examples">
+      ${s.examples.map(e => `<span class="sound-ex" onclick="speak('${e}')"><span class="play-sm">🔊</span>${e}</span>`).join('')}
+    </div>
+  </div>
+`).join('');
+
+// Render stress rules
+document.getElementById('stressRules').innerHTML = STRESS_RULES.map(r => `
+  <div class="rule-block">
+    <div class="rule-title">${r.title}</div>
+    <div class="rule-formula">${r.formula}</div>
+    <div class="example-row">
+      ${r.examples.map(e => {
+        const display = e.replace(/([A-ZÁÉÍÓÚ]+)/g, '<span class="accent-mark">$1</span>').toLowerCase();
+        const clean = e.toLowerCase().replace(/-/g,'');
+        return `<span class="ex-pill" onclick="speak('${clean}')">${display}</span>`;
+      }).join('')}
+    </div>
+    ${r.note ? `<div style="color:var(--text2);font-size:.85rem;margin-top:.6rem;font-style:italic">${r.note}</div>` : ''}
+  </div>
+`).join('');
+
+// Render minimal pairs
+document.getElementById('pairList').innerHTML = PAIRS.map(p => `
+  <div class="pair-card">
+    <div class="pair-word">
+      <div class="pair-es">${p.a}</div>
+      <div class="pair-en">${p.aen}</div>
+      <button class="play-btn" onclick="speak('${p.a}')">▶ Play</button>
+    </div>
+    <div class="pair-vs">
+      <div style="font-size:.75rem;color:var(--text2);margin-bottom:.3rem">${p.focus}</div>
+      vs
+    </div>
+    <div class="pair-word">
+      <div class="pair-es">${p.b}</div>
+      <div class="pair-en">${p.ben}</div>
+      <button class="play-btn" onclick="speak('${p.b}')">▶ Play</button>
+    </div>
+  </div>
+`).join('');
+
+// Render tongue twisters
+document.getElementById('twisterList').innerHTML = TWISTERS.map((t,i) => `
+  <div class="twister-card">
+    <div class="twister-text">${t.text}</div>
+    <div class="twister-focus">Focus: ${t.focus}</div>
+    <div class="twister-actions">
+      <button class="play-btn" onclick="speak('${t.text.replace(/'/g,"\\'")}', 0.7)">🐢 Slow</button>
+      <button class="play-btn" onclick="speak('${t.text.replace(/'/g,"\\'")}', 1.0)">▶ Normal</button>
+      <button class="play-btn" onclick="speak('${t.text.replace(/'/g,"\\'")}', 1.3)" style="background:var(--bg3);color:var(--text2);border:1px solid var(--border)">⚡ Fast</button>
+    </div>
+  </div>
+`).join('');
+
+// Render regional accents
+document.getElementById('accentList').innerHTML = ACCENTS.map(a => `
+  <div class="accent-card">
+    <div class="accent-name">${a.name}</div>
+    <div class="accent-region">📍 ${a.region}</div>
+    <ul class="accent-features">
+      ${a.features.map(f => `<li>${f}</li>`).join('')}
+    </ul>
+  </div>
+`).join('');
+
+// Shared controls
+const th = localStorage.getItem('es_theme')||'dark';
+if(th==='light')document.body.classList.add('light');
+document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>

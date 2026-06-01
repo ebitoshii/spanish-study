@@ -80,7 +80,7 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 </div>
 <div class="page-header">
   <div class="page-title">Reading — Lectura</div>
-  <div class="page-sub">Graded passages from everyday topics to complex authentic texts</div>
+  <div class="page-sub">15 graded passages from A2 to C1, with comprehension questions</div>
 </div>
 <div class="filters">
   <button class="filter-btn active" onclick="setLevel('all',this)">All</button>
@@ -116,6 +116,84 @@ const PASSAGES = [
    questions:[
      {q:'¿En qué reside la identidad nacional según el texto?',choices:['Solo en las fronteras','En las instituciones políticas exclusivamente','En la memoria compartida de los ciudadanos','En la economía del país'],ans:2},
      {q:'¿Qué característica tiene la memoria colectiva?',choices:['Es objetiva y permanente','Es selectiva y mutable','Es siempre positiva','Es igual en todas las naciones'],ans:1},
+   ]},
+  // ── New passages ──
+  {id:5,level:'a2',title:'Una carta de presentación',topic:'Work & communication',
+   text:'Estimados señores:\n\nMi nombre es Ana García y me dirijo a ustedes para solicitar el puesto de recepcionista anunciado en su página web. Soy graduada en Turismo y tengo dos años de experiencia trabajando en hoteles de cuatro estrellas. Hablo español, inglés y un poco de francés. Me considero una persona organizada, con buenas habilidades de comunicación y acostumbrada a trabajar en equipo. Adjunto mi currículum y mis referencias. Quedo a su disposición para una entrevista en el momento que consideren oportuno.\n\nAtentamente,\nAna García',
+   questions:[
+     {q:'¿Para qué puesto solicita Ana el trabajo?',choices:['Directora de hotel','Recepcionista','Guía turística','Traductora'],ans:1},
+     {q:'¿Cuántos idiomas habla Ana?',choices:['Uno','Dos','Tres','Cuatro'],ans:2},
+     {q:'¿Dónde vio Ana el anuncio del trabajo?',choices:['En un periódico','En la página web de la empresa','En una agencia de empleo','En redes sociales'],ans:1},
+   ]},
+  {id:6,level:'a2',title:'El correo electrónico',topic:'Daily communication',
+   text:'De: roberto.mora@email.com\nPara: lucia.santos@email.com\nAsunto: Reunión del viernes\n\nHola Lucía:\n\nTe escribo para confirmar nuestra reunión del viernes a las diez de la mañana. El lugar sigue siendo la oficina del señor Pérez en la tercera planta. Si tienes algún problema con el horario, dímelo antes del miércoles para poder cambiar la hora.\n\nTe adjunto el informe que necesitamos revisar. Por favor, léelo antes de la reunión para que podamos discutirlo con más detalle.\n\nHasta el viernes,\nRoberto',
+   questions:[
+     {q:'¿Cuándo es la reunión?',choices:['El miércoles','El jueves','El viernes','El lunes'],ans:2},
+     {q:'¿Dónde tendrá lugar la reunión?',choices:['En casa de Roberto','En un restaurante','En la oficina del señor Pérez','En la sala de juntas principal'],ans:2},
+     {q:'¿Qué pide Roberto a Lucía que haga antes de la reunión?',choices:['Preparar el café','Leer el informe adjunto','Llamar al señor Pérez','Reservar una sala'],ans:1},
+   ]},
+  {id:7,level:'b1',title:'La dieta mediterránea',topic:'Health & food',
+   text:'La dieta mediterránea ha sido reconocida por la UNESCO como Patrimonio Cultural Inmaterial de la Humanidad y numerosos estudios científicos avalan sus beneficios para la salud. Se caracteriza por el consumo abundante de frutas, verduras, legumbres, cereales integrales y aceite de oliva virgen extra. El pescado se consume varias veces a la semana, mientras que la carne roja se limita. El vino, con moderación durante las comidas, forma parte tradicional de este patrón alimentario en muchas culturas mediterráneas. Los beneficios asociados incluyen una reducción del riesgo cardiovascular, menor incidencia de diabetes tipo 2 y una mayor longevidad. Sin embargo, los expertos advierten que el sedentarismo y el ritmo de vida moderno están erosionando este modelo también en los propios países mediterráneos.',
+   questions:[
+     {q:'¿Qué organización ha reconocido la dieta mediterránea como patrimonio?',choices:['OMS','ONU','UNESCO','FAO'],ans:2},
+     {q:'¿Qué alimento es central en la dieta mediterránea?',choices:['La mantequilla','El aceite de oliva','La margarina','La nata'],ans:1},
+     {q:'¿Qué amenaza a la dieta mediterránea actualmente?',choices:['El frío','El sedentarismo y el ritmo de vida moderno','La falta de ingredientes','Los precios elevados'],ans:1},
+   ]},
+  {id:8,level:'b1',title:'Vivir en el extranjero',topic:'Expat life',
+   text:'Mudarse a otro país es una experiencia que transforma profundamente la manera de ver el mundo. Durante los primeros meses, el llamado "choque cultural" puede ser intenso: las costumbres son diferentes, el idioma a veces resulta incomprensible y la sensación de soledad puede ser abrumadora. Sin embargo, quienes superan esta fase inicial suelen describir la experiencia como una de las más enriquecedoras de su vida. Aprendes a valorar tu propia cultura desde la distancia, desarrollas una mayor flexibilidad y tolerancia, y construyes una red de amigos de todo el mundo. La clave, según los expertos en movilidad internacional, es involucrarse activamente en la vida local: aprender el idioma, participar en actividades comunitarias y no limitarse a relacionarse exclusivamente con compatriotas.',
+   questions:[
+     {q:'¿Qué es el "choque cultural" según el texto?',choices:['Una dificultad temporal en los primeros meses','Un problema permanente','Una ventaja de vivir en el extranjero','Un tipo de enfermedad'],ans:0},
+     {q:'¿Qué consejo dan los expertos para adaptarse?',choices:['Relacionarse solo con compatriotas','Volver al país de origen pronto','Involucrarse en la vida local','Trabajar muchas horas'],ans:2},
+     {q:'¿Cómo describen la experiencia quienes superan la fase inicial?',choices:['Negativa y difícil','Una de las más enriquecedoras de su vida','Aburrida','Igual que vivir en su país'],ans:1},
+   ]},
+  {id:9,level:'b1',title:'El voluntariado',topic:'Society & values',
+   text:'El voluntariado es una actividad que crece año tras año en muchos países. Millones de personas dedican parte de su tiempo libre a ayudar a los demás de manera altruista, sin recibir ninguna compensación económica. Las motivaciones son muy diversas: algunos buscan dar sentido a su vida, otros quieren adquirir nuevas habilidades o ampliar su red de contactos, y muchos simplemente sienten la necesidad de contribuir a una causa que consideran importante. Las organizaciones de voluntariado trabajan en ámbitos muy variados: desde la protección del medio ambiente hasta la atención a personas mayores, pasando por la cooperación internacional o la enseñanza de idiomas. Estudios recientes demuestran que el voluntariado también beneficia a quienes lo practican: mejora la salud mental, reduce el estrés y aumenta la satisfacción vital.',
+   questions:[
+     {q:'¿Qué tienen en común todos los voluntarios según el texto?',choices:['Reciben un salario','No reciben compensación económica','Son jóvenes','Trabajan en el medio ambiente'],ans:1},
+     {q:'¿En qué ámbitos trabajan las organizaciones de voluntariado?',choices:['Solo en el medio ambiente','Solo en la educación','En ámbitos muy variados','Solo en cooperación internacional'],ans:2},
+     {q:'¿Qué beneficio personal tiene el voluntariado según estudios recientes?',choices:['Genera ingresos adicionales','Mejora la salud mental','Garantiza empleo','Proporciona formación universitaria'],ans:1},
+   ]},
+  {id:10,level:'b2',title:'La burbuja de las redes sociales',topic:'Technology & society',
+   text:'El concepto de "burbuja de filtro", acuñado por el activista de internet Eli Pariser, describe el fenómeno por el cual los algoritmos de las plataformas digitales nos muestran exclusivamente contenido que refuerza nuestras creencias y opiniones preexistentes. Cada vez que interactuamos con un contenido —un like, un comentario, una búsqueda— el algoritmo aprende nuestras preferencias y ajusta lo que vemos en consecuencia. El resultado es un ecosistema informativo personalizado pero sesgado, en el que la exposición a ideas divergentes se reduce progresivamente. Las implicaciones para la democracia son preocupantes: si los ciudadanos solo acceden a información que confirma sus propios puntos de vista, el diálogo político y el consenso se vuelven casi imposibles. El debate sobre si las plataformas tienen responsabilidad en este fenómeno y cómo regularlo es uno de los más urgentes del presente.',
+   questions:[
+     {q:'¿Quién acuñó el concepto de "burbuja de filtro"?',choices:['Mark Zuckerberg','Eli Pariser','Tim Berners-Lee','Sundar Pichai'],ans:1},
+     {q:'¿Cómo aprende el algoritmo las preferencias del usuario?',choices:['A través de encuestas','Mediante interacciones como likes y comentarios','Leyendo el correo electrónico','Analizando llamadas telefónicas'],ans:1},
+     {q:'¿Cuál es la consecuencia política de las burbujas de filtro?',choices:['Mayor participación ciudadana','Mejor calidad informativa','El diálogo político se dificulta','Los partidos llegan a más acuerdos'],ans:2},
+   ]},
+  {id:11,level:'b2',title:'El español en el mundo',topic:'Language & culture',
+   text:'El español es, tras el chino mandarín, la lengua materna con más hablantes nativos del mundo, con aproximadamente 500 millones de personas que la tienen como primera lengua. Si sumamos los hablantes de español como segunda lengua o como lengua extranjera, la cifra supera los 600 millones. Es la lengua oficial de 21 países, distribuidos principalmente en América Latina y la Península Ibérica. Su expansión global no se debe solo a la herencia colonial: el español ha florecido como lengua viva, adaptándose a contextos muy diversos y generando variedades riquísimas. El español de México, el rioplatense, el caribeño o el peninsular tienen rasgos fonéticos, léxicos y pragmáticos propios que enriquecen el patrimonio lingüístico de la lengua. Además, el español es la segunda lengua más estudiada del mundo, con Estados Unidos —que ya tiene la segunda mayor comunidad hispanohablante del planeta— como uno de los principales mercados de aprendizaje.',
+   questions:[
+     {q:'¿En qué posición mundial está el español por hablantes nativos?',choices:['Primera','Segunda','Tercera','Cuarta'],ans:1},
+     {q:'¿En cuántos países es el español lengua oficial?',choices:['15','18','21','25'],ans:2},
+     {q:'¿Qué país tiene la segunda mayor comunidad hispanohablante?',choices:['México','Colombia','España','Estados Unidos'],ans:3},
+   ]},
+  {id:12,level:'b2',title:'La economía circular',topic:'Environment & economics',
+   text:'La economía circular se presenta como una alternativa al modelo económico lineal dominante, basado en "extraer, producir, usar y tirar". En lugar de tratar los residuos como el destino final de los productos, la economía circular propone mantener los materiales en uso el mayor tiempo posible, regenerar los sistemas naturales y eliminar los residuos desde el diseño. Los principios son tres: diseñar para eliminar residuos y contaminación, mantener productos y materiales en uso, y regenerar los sistemas naturales. Empresas como Renault, Caterpillar o Philips ya aplican estos principios con resultados económicos positivos. Sin embargo, la transición requiere no solo cambios empresariales sino también modificaciones en los patrones de consumo, marcos regulatorios adecuados e inversión pública en infraestructuras de reciclaje y reparación.',
+   questions:[
+     {q:'¿En qué se basa el modelo económico lineal tradicional?',choices:['En el reciclaje total','En extraer, producir, usar y tirar','En la economía colaborativa','En la producción local'],ans:1},
+     {q:'¿Cuántos principios tiene la economía circular según el texto?',choices:['Dos','Tres','Cuatro','Cinco'],ans:1},
+     {q:'¿Qué hace falta además de cambios empresariales para la transición?',choices:['Solo más investigación','Solo apoyo internacional','Cambios de consumo, regulación e inversión pública','Solo tecnología avanzada'],ans:2},
+   ]},
+  {id:13,level:'c1',title:'El populismo y la democracia liberal',topic:'Political science',
+   text:'El populismo no es un fenómeno nuevo, pero su resurgimiento en las democracias consolidadas del siglo XXI ha generado un debate académico y político de primer orden. El politólogo Cas Mudde lo define como una ideología delgada que divide la sociedad en dos grupos homogéneos y antagónicos: "el pueblo puro" y "la élite corrupta". Esta dicotomía simplificadora tiene un atractivo evidente en contextos de crisis de representación, desigualdad creciente y desconfianza institucional. El problema central, desde una perspectiva liberal, es que el populismo reivindica hablar en nombre de "el pueblo" como si este fuera una entidad homogénea con una voluntad unívoca, negando la legitimidad del pluralismo, el disenso y la representación de minorías. Cuando el populismo llega al poder, la tentación de debilitar los contrapesos institucionales —la prensa independiente, el poder judicial, las organizaciones internacionales— puede poner en riesgo el propio sistema democrático que le dio acceso al poder.',
+   questions:[
+     {q:'¿Cómo define Cas Mudde el populismo?',choices:['Como una ideología completa y desarrollada','Como una ideología delgada que divide entre pueblo y élite','Como un sistema económico alternativo','Como una forma de gobierno directo'],ans:1},
+     {q:'¿En qué contextos tiene mayor atractivo el populismo?',choices:['En épocas de prosperidad económica','En democracias consolidadas sin problemas','En contextos de crisis, desigualdad y desconfianza','Solo en países en desarrollo'],ans:2},
+     {q:'¿Qué riesgo plantea el populismo en el poder según el texto?',choices:['Exceso de pluralismo','Debilitar los contrapesos institucionales','Mayor representación de minorías','Fortalecimiento del poder judicial'],ans:1},
+   ]},
+  {id:14,level:'c1',title:'Inteligencia artificial y creatividad',topic:'Philosophy & technology',
+   text:'La irrupción de sistemas de inteligencia artificial generativa como GPT o Dall-E ha reabierto debates filosóficos que parecían reservados a la ciencia ficción. ¿Puede una máquina ser creativa? ¿Qué significa crear cuando el sistema simplemente recombina patrones estadísticos a partir de millones de obras humanas? Los defensores de la creatividad artificial argumentan que la creación humana también consiste en recombinar influencias: no hay creador que opere en el vacío. Sus críticos señalan, sin embargo, que falta el elemento esencial: la intencionalidad, la experiencia subjetiva, la voluntad de decir algo sobre el mundo. La distinción entre generar y crear parece depender de si atribuimos agencia y propósito al proceso. Y esa atribución, en última instancia, revela tanto sobre nuestros prejuicios cognitivos como sobre la naturaleza de la inteligencia misma.',
+   questions:[
+     {q:'¿Qué argumento usan los defensores de la creatividad artificial?',choices:['Las máquinas tienen emociones','La creación humana también recombina influencias','Los ordenadores son más rápidos que los humanos','La IA copia directamente las obras humanas'],ans:1},
+     {q:'¿Qué elemento consideran esencial los críticos de la creatividad artificial?',choices:['La velocidad de procesamiento','La memoria','La intencionalidad y experiencia subjetiva','La conexión a internet'],ans:2},
+     {q:'¿De qué depende la distinción entre generar y crear según el texto?',choices:['Del tipo de algoritmo usado','De la velocidad del proceso','De si atribuimos agencia y propósito al proceso','Del coste económico de la tecnología'],ans:2},
+   ]},
+  {id:15,level:'c1',title:'La paradoja de la tolerancia',topic:'Philosophy & politics',
+   text:'En 1945, Karl Popper formuló lo que él mismo llamó "la paradoja de la tolerancia": si una sociedad es ilimitadamente tolerante, su tolerancia será finalmente reclamada o destruida por los intolerantes. En otras palabras, para preservar la tolerancia en una sociedad, esa sociedad debe ser intolerante hacia la intolerancia. Esta formulación, aparentemente contradictoria, tiene consecuencias prácticas muy concretas en el debate contemporáneo sobre los límites de la libertad de expresión, la regulación de los discursos de odio y la participación de partidos antidemocráticos en los sistemas parlamentarios. Los liberales clásicos suelen resistirse a cualquier restricción de la libertad de expresión, argumentando que la respuesta a los malos discursos es más discurso. Los comunitaristas y republicanos cívicos tienden a aceptar ciertas limitaciones cuando están en juego los fundamentos mismos del sistema democrático. La paradoja de Popper no resuelve el debate, pero lo enmarca con una claridad filosófica que sigue siendo relevante casi ochenta años después.',
+   questions:[
+     {q:'¿En qué año formuló Popper la paradoja de la tolerancia?',choices:['1935','1939','1945','1950'],ans:2},
+     {q:'¿Cuál es el núcleo de la paradoja?',choices:['Que la tolerancia es siempre positiva','Que la tolerancia ilimitada puede destruir la tolerancia','Que la intolerancia es inevitable','Que la libertad de expresión es absoluta'],ans:1},
+     {q:'¿Qué postura adoptan los liberales clásicos ante la libertad de expresión?',choices:['Aceptan restricciones amplias','Proponen prohibir partidos antidemocráticos','Se resisten a cualquier restricción','Apoyan la censura gubernamental'],ans:2},
    ]},
 ];
 

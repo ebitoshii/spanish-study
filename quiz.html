@@ -262,6 +262,7 @@ function selectAnswer(chosen, btn) {
     fb.textContent = '✓ Correct!';
     correctCount++;
     srWeights[q.word.es] = Math.max(1, (srWeights[q.word.es] || 1) - 1);
+    awardXP(5);
   } else {
     btn.classList.add('wrong');
     document.querySelectorAll('.choice-btn').forEach(b => {
@@ -310,7 +311,21 @@ function showResults() {
   const scores = JSON.parse(localStorage.getItem('es_scores') || '[]');
   scores.push({ date: new Date().toISOString(), score: pct, correct: correctCount, total: queueData.length });
   localStorage.setItem('es_scores', JSON.stringify(scores.slice(-100)));
+  // XP bonus for completing session
+  const bonusXP = Math.round(pct / 10) * 2;
+  awardXP(bonusXP);
+  document.getElementById('resultBreakdown').innerHTML += `<div style="color:var(--accent3);text-align:center;margin-top:.5rem;font-size:.9rem">⚡ +${bonusXP} XP bonus · Total: ${getXP()} XP</div>`;
 }
+
+function awardXP(amount) {
+  const xp = parseInt(localStorage.getItem('es_xp')||'0') + amount;
+  localStorage.setItem('es_xp', xp);
+  const log = JSON.parse(localStorage.getItem('es_xpLog')||'[]');
+  log.push({date:new Date().toISOString(), amount, source:'quiz'});
+  if (log.length > 500) log.splice(0, log.length - 500);
+  localStorage.setItem('es_xpLog', JSON.stringify(log));
+}
+function getXP() { return parseInt(localStorage.getItem('es_xp')||'0'); }
 
 // Shared controls
 const themeVal = localStorage.getItem('es_theme') || 'dark';

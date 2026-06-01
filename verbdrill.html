@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verb Drill — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;--green:#27ae60;--red:#e74c3c;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+.page-header{padding:2rem 2rem 1rem;border-bottom:1px solid var(--border);}
+.page-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.page-sub{color:var(--text2);font-style:italic;font-size:1rem;}
+
+/* Setup screen */
+.setup{max-width:700px;margin:2rem auto;padding:0 1.5rem;}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+.setup-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;}
+.setup-label{font-size:.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;}
+.setup-select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem .8rem;border-radius:6px;font-family:'Crimson Pro',serif;font-size:.95rem;outline:none;}
+.setup-select:focus{border-color:var(--accent);}
+.verb-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem;}
+.verb-chip{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:.2rem .6rem;border-radius:12px;font-size:.82rem;cursor:pointer;transition:all .2s;}
+.verb-chip.selected{background:rgba(192,57,43,.25);border-color:var(--accent);color:var(--accent3);}
+.start-btn{width:100%;background:var(--accent);color:#fff;border:none;padding:.9rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1.1rem;cursor:pointer;transition:background .2s;margin-top:.5rem;}
+.start-btn:hover{background:var(--accent2);}
+
+/* Drill screen */
+.drill{max-width:700px;margin:2rem auto;padding:0 1.5rem;display:none;}
+.progress-bar{background:var(--bg3);border-radius:20px;height:8px;margin-bottom:1.5rem;overflow:hidden;}
+.progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width .4s ease;}
+.stats-row{display:flex;gap:1rem;margin-bottom:1.5rem;font-size:.88rem;color:var(--text2);}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.3rem .8rem;}
+.stat span{color:var(--accent3);font-weight:700;}
+.prompt-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;text-align:center;margin-bottom:1.5rem;}
+.prompt-verb{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);}
+.prompt-en{color:var(--text2);font-style:italic;font-size:1rem;margin-top:.2rem;}
+.prompt-target{font-size:1rem;color:var(--text2);margin-top:1rem;background:var(--bg3);border-radius:6px;padding:.5rem 1rem;}
+.prompt-target strong{color:var(--accent2);}
+.input-row{display:flex;gap:.8rem;margin-bottom:1rem;}
+.answer-input{flex:1;background:var(--bg2);border:2px solid var(--border);color:var(--text);padding:.7rem 1rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1.1rem;outline:none;transition:border-color .2s;}
+.answer-input:focus{border-color:var(--accent);}
+.answer-input.correct{border-color:var(--green);background:rgba(39,174,96,.08);}
+.answer-input.wrong{border-color:var(--red);background:rgba(231,76,60,.08);}
+.check-btn{background:var(--accent);color:#fff;border:none;padding:.7rem 1.4rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1rem;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.check-btn:hover{background:var(--accent2);}
+.feedback{text-align:center;min-height:2.5rem;margin-bottom:1rem;}
+.feedback-correct{color:var(--green);font-size:1.1rem;}
+.feedback-wrong{color:var(--red);font-size:1rem;}
+.next-btn{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.7rem;border-radius:8px;font-family:'Crimson Pro',serif;font-size:1rem;cursor:pointer;transition:all .2s;display:none;}
+.next-btn:hover{border-color:var(--accent);color:var(--accent3);}
+
+/* Results screen */
+.results{max-width:700px;margin:2rem auto;padding:0 1.5rem;display:none;text-align:center;}
+.score-circle{width:140px;height:140px;border-radius:50%;border:6px solid var(--accent3);display:flex;align-items:center;justify-content:center;flex-direction:column;margin:1.5rem auto;}
+.score-num{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--accent3);}
+.score-label{font-size:.8rem;color:var(--text2);}
+.mistake-review{text-align:left;margin-top:2rem;}
+.mistake-item{background:var(--card);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:.8rem 1rem;margin-bottom:.6rem;}
+.mi-prompt{font-size:.85rem;color:var(--text2);}
+.mi-wrong{color:var(--red);}
+.mi-correct{color:var(--green);}
+.restart-btn{background:var(--accent);color:#fff;border:none;padding:.8rem 2rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1rem;cursor:pointer;margin-top:1.5rem;transition:background .2s;}
+.restart-btn:hover{background:var(--accent2);}
+@media(max-width:600px){.setup-grid{grid-template-columns:1fr;}.nav-links{display:none;}.hamburger{display:flex;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a><a href="verbdrill.html" class="active">Verb Drill</a>
+    <a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a><a href="grammar.html">📚 Grammar</a>
+  <a href="idioms.html">💬 Idioms</a><a href="verbdrill.html">⚡ Verb Drill</a>
+  <a href="numbers.html">🔢 Numbers</a><a href="dictionary.html">📖 Dictionary</a>
+  <a href="mistakes.html">❌ Mistakes</a><a href="progress.html">📊 Progress</a>
+</div>
+<div class="page-header">
+  <div class="page-title">⚡ Verb Drill</div>
+  <div class="page-sub">Type conjugations from memory — rapid-fire practice across all tenses</div>
+</div>
+
+<!-- SETUP -->
+<div class="setup" id="setupScreen">
+  <div class="setup-grid">
+    <div class="setup-card">
+      <div class="setup-label">Tense</div>
+      <select class="setup-select" id="tenseSelect">
+        <option value="presente">Presente</option>
+        <option value="preterito">Pretérito Indefinido</option>
+        <option value="imperfecto">Imperfecto</option>
+        <option value="futuro">Futuro</option>
+        <option value="condicional">Condicional</option>
+        <option value="subjuntivo">Presente Subjuntivo</option>
+        <option value="imperativo">Imperativo (tú)</option>
+        <option value="random">🎲 Random tense</option>
+      </select>
+    </div>
+    <div class="setup-card">
+      <div class="setup-label">Pronoun</div>
+      <select class="setup-select" id="pronounSelect">
+        <option value="all">All pronouns</option>
+        <option value="yo">yo</option>
+        <option value="tu">tú</option>
+        <option value="el">él/ella/usted</option>
+        <option value="nos">nosotros</option>
+        <option value="vos">vosotros</option>
+        <option value="ellos">ellos/ustedes</option>
+      </select>
+    </div>
+    <div class="setup-card">
+      <div class="setup-label">Questions</div>
+      <select class="setup-select" id="countSelect">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+    <div class="setup-card">
+      <div class="setup-label">Difficulty</div>
+      <select class="setup-select" id="diffSelect">
+        <option value="easy">Easy (regulars only)</option>
+        <option value="medium" selected>Medium (+ common irregulars)</option>
+        <option value="hard">Hard (all verbs)</option>
+      </select>
+    </div>
+  </div>
+  <div class="setup-card" style="margin-bottom:1rem">
+    <div class="setup-label">Verbs (select to include / deselect to exclude)</div>
+    <div class="verb-chips" id="verbChips"></div>
+  </div>
+  <button class="start-btn" onclick="startDrill()">Start Drill ▶</button>
+</div>
+
+<!-- DRILL -->
+<div class="drill" id="drillScreen">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="stats-row">
+    <div class="stat">Q <span id="statQ">1</span>/<span id="statTotal">20</span></div>
+    <div class="stat">✓ <span id="statCorrect">0</span></div>
+    <div class="stat">✗ <span id="statWrong">0</span></div>
+    <div class="stat">🔥 <span id="statStreak">0</span></div>
+  </div>
+  <div class="prompt-card">
+    <div class="prompt-verb" id="promptVerb">—</div>
+    <div class="prompt-en" id="promptEn">—</div>
+    <div class="prompt-target">Conjugate: <strong id="promptTense">—</strong> · <strong id="promptPronoun">—</strong></div>
+  </div>
+  <div class="input-row">
+    <input type="text" class="answer-input" id="answerInput" placeholder="Type the conjugation..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <button class="check-btn" onclick="checkAnswer()">Check</button>
+  </div>
+  <div class="feedback" id="feedbackDiv"></div>
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results" id="resultsScreen">
+  <div class="score-circle">
+    <div class="score-num" id="finalScore">—</div>
+    <div class="score-label">accuracy</div>
+  </div>
+  <div id="finalMsg" style="color:var(--text2);margin-bottom:1rem"></div>
+  <div class="mistake-review" id="mistakeReview"></div>
+  <button class="restart-btn" onclick="goSetup()">Try Again</button>
+</div>
+
+<script>
+const VERBS = {
+  // infinitive: [en, presente[6], preterito[6], imperfecto[6], futuro[6], condicional[6], subjuntivo[6], imperativo_tu, type]
+  hablar:   {en:'to speak',   t:{presente:['hablo','hablas','habla','hablamos','habláis','hablan'],preterito:['hablé','hablaste','habló','hablamos','hablasteis','hablaron'],imperfecto:['hablaba','hablabas','hablaba','hablábamos','hablabais','hablaban'],futuro:['hablaré','hablarás','hablará','hablaremos','hablaréis','hablarán'],condicional:['hablaría','hablarías','hablaría','hablaríamos','hablaríais','hablarían'],subjuntivo:['hable','hables','hable','hablemos','habléis','hablen'],imperativo:['habla','—','—','—','—','—']},reg:true},
+  comer:    {en:'to eat',     t:{presente:['como','comes','come','comemos','coméis','comen'],preterito:['comí','comiste','comió','comimos','comisteis','comieron'],imperfecto:['comía','comías','comía','comíamos','comíais','comían'],futuro:['comeré','comerás','comerá','comeremos','comeréis','comerán'],condicional:['comería','comerías','comería','comeríamos','comeríais','comerían'],subjuntivo:['coma','comas','coma','comamos','comáis','coman'],imperativo:['come','—','—','—','—','—']},reg:true},
+  vivir:    {en:'to live',    t:{presente:['vivo','vives','vive','vivimos','vivís','viven'],preterito:['viví','viviste','vivió','vivimos','vivisteis','vivieron'],imperfecto:['vivía','vivías','vivía','vivíamos','vivíais','vivían'],futuro:['viviré','vivirás','vivirá','viviremos','viviréis','vivirán'],condicional:['viviría','vivirías','viviría','viviríamos','viviríais','vivirían'],subjuntivo:['viva','vivas','viva','vivamos','viváis','vivan'],imperativo:['vive','—','—','—','—','—']},reg:true},
+  ser:      {en:'to be (perm)',t:{presente:['soy','eres','es','somos','sois','son'],preterito:['fui','fuiste','fue','fuimos','fuisteis','fueron'],imperfecto:['era','eras','era','éramos','erais','eran'],futuro:['seré','serás','será','seremos','seréis','serán'],condicional:['sería','serías','sería','seríamos','seríais','serían'],subjuntivo:['sea','seas','sea','seamos','seáis','sean'],imperativo:['sé','—','—','—','—','—']},reg:false},
+  estar:    {en:'to be (temp)',t:{presente:['estoy','estás','está','estamos','estáis','están'],preterito:['estuve','estuviste','estuvo','estuvimos','estuvisteis','estuvieron'],imperfecto:['estaba','estabas','estaba','estábamos','estabais','estaban'],futuro:['estaré','estarás','estará','estaremos','estaréis','estarán'],condicional:['estaría','estarías','estaría','estaríamos','estaríais','estarían'],subjuntivo:['esté','estés','esté','estemos','estéis','estén'],imperativo:['está','—','—','—','—','—']},reg:false},
+  tener:    {en:'to have',    t:{presente:['tengo','tienes','tiene','tenemos','tenéis','tienen'],preterito:['tuve','tuviste','tuvo','tuvimos','tuvisteis','tuvieron'],imperfecto:['tenía','tenías','tenía','teníamos','teníais','tenían'],futuro:['tendré','tendrás','tendrá','tendremos','tendréis','tendrán'],condicional:['tendría','tendrías','tendría','tendríamos','tendríais','tendrían'],subjuntivo:['tenga','tengas','tenga','tengamos','tengáis','tengan'],imperativo:['ten','—','—','—','—','—']},reg:false},
+  hacer:    {en:'to do/make', t:{presente:['hago','haces','hace','hacemos','hacéis','hacen'],preterito:['hice','hiciste','hizo','hicimos','hicisteis','hicieron'],imperfecto:['hacía','hacías','hacía','hacíamos','hacíais','hacían'],futuro:['haré','harás','hará','haremos','haréis','harán'],condicional:['haría','harías','haría','haríamos','haríais','harían'],subjuntivo:['haga','hagas','haga','hagamos','hagáis','hagan'],imperativo:['haz','—','—','—','—','—']},reg:false},
+  ir:       {en:'to go',      t:{presente:['voy','vas','va','vamos','vais','van'],preterito:['fui','fuiste','fue','fuimos','fuisteis','fueron'],imperfecto:['iba','ibas','iba','íbamos','ibais','iban'],futuro:['iré','irás','irá','iremos','iréis','irán'],condicional:['iría','irías','iría','iríamos','iríais','irían'],subjuntivo:['vaya','vayas','vaya','vayamos','vayáis','vayan'],imperativo:['ve','—','—','—','—','—']},reg:false},
+  poder:    {en:'to be able', t:{presente:['puedo','puedes','puede','podemos','podéis','pueden'],preterito:['pude','pudiste','pudo','pudimos','pudisteis','pudieron'],imperfecto:['podía','podías','podía','podíamos','podíais','podían'],futuro:['podré','podrás','podrá','podremos','podréis','podrán'],condicional:['podría','podrías','podría','podríamos','podríais','podrían'],subjuntivo:['pueda','puedas','pueda','podamos','podáis','puedan'],imperativo:['puede','—','—','—','—','—']},reg:false},
+  querer:   {en:'to want/love',t:{presente:['quiero','quieres','quiere','queremos','queréis','quieren'],preterito:['quise','quisiste','quiso','quisimos','quisisteis','quisieron'],imperfecto:['quería','querías','quería','queríamos','queríais','querían'],futuro:['querré','querrás','querrá','querremos','querréis','querrán'],condicional:['querría','querrías','querría','querríamos','querríais','querrían'],subjuntivo:['quiera','quieras','quiera','queramos','queráis','quieran'],imperativo:['quiere','—','—','—','—','—']},reg:false},
+  decir:    {en:'to say/tell',t:{presente:['digo','dices','dice','decimos','decís','dicen'],preterito:['dije','dijiste','dijo','dijimos','dijisteis','dijeron'],imperfecto:['decía','decías','decía','decíamos','decíais','decían'],futuro:['diré','dirás','dirá','diremos','diréis','dirán'],condicional:['diría','dirías','diría','diríamos','diríais','dirían'],subjuntivo:['diga','digas','diga','digamos','digáis','digan'],imperativo:['di','—','—','—','—','—']},reg:false},
+  venir:    {en:'to come',    t:{presente:['vengo','vienes','viene','venimos','venís','vienen'],preterito:['vine','viniste','vino','vinimos','vinisteis','vinieron'],imperfecto:['venía','venías','venía','veníamos','veníais','venían'],futuro:['vendré','vendrás','vendrá','vendremos','vendréis','vendrán'],condicional:['vendría','vendrías','vendría','vendríamos','vendríais','vendrían'],subjuntivo:['venga','vengas','venga','vengamos','vengáis','vengan'],imperativo:['ven','—','—','—','—','—']},reg:false},
+  saber:    {en:'to know',    t:{presente:['sé','sabes','sabe','sabemos','sabéis','saben'],preterito:['supe','supiste','supo','supimos','supisteis','supieron'],imperfecto:['sabía','sabías','sabía','sabíamos','sabíais','sabían'],futuro:['sabré','sabrás','sabrá','sabremos','sabréis','sabrán'],condicional:['sabría','sabrías','sabría','sabríamos','sabríais','sabrían'],subjuntivo:['sepa','sepas','sepa','sepamos','sepáis','sepan'],imperativo:['sabe','—','—','—','—','—']},reg:false},
+  poner:    {en:'to put',     t:{presente:['pongo','pones','pone','ponemos','ponéis','ponen'],preterito:['puse','pusiste','puso','pusimos','pusisteis','pusieron'],imperfecto:['ponía','ponías','ponía','poníamos','poníais','ponían'],futuro:['pondré','pondrás','pondrá','pondremos','pondréis','pondrán'],condicional:['pondría','pondrías','pondría','pondríamos','pondríais','pondrían'],subjuntivo:['ponga','pongas','ponga','pongamos','pongáis','pongan'],imperativo:['pon','—','—','—','—','—']},reg:false},
+  salir:    {en:'to leave',   t:{presente:['salgo','sales','sale','salimos','salís','salen'],preterito:['salí','saliste','salió','salimos','salisteis','salieron'],imperfecto:['salía','salías','salía','salíamos','salíais','salían'],futuro:['saldré','saldrás','saldrá','saldremos','saldréis','saldrán'],condicional:['saldría','saldrías','saldría','saldríamos','saldríais','saldrían'],subjuntivo:['salga','salgas','salga','salgamos','salgáis','salgan'],imperativo:['sal','—','—','—','—','—']},reg:false},
+};
+
+const PRONOUNS = ['yo','tú','él/ella','nosotros','vosotros','ellos/ellas'];
+const PRON_KEYS = ['yo','tu','el','nos','vos','ellos'];
+const TENSE_NAMES = {presente:'Presente',preterito:'Pretérito',imperfecto:'Imperfecto',futuro:'Futuro',condicional:'Condicional',subjuntivo:'Subjuntivo',imperativo:'Imperativo (tú)'};
+
+let queue = [], qIdx = 0, correct = 0, wrong = 0, streak = 0, mistakes = [];
+let selectedVerbs = Object.keys(VERBS);
+let checked = false;
+
+// Render verb chips
+const chipContainer = document.getElementById('verbChips');
+chipContainer.innerHTML = Object.keys(VERBS).map(v => 
+  `<span class="verb-chip selected" onclick="toggleVerb('${v}',this)">${v}</span>`
+).join('');
+
+function toggleVerb(v, el) {
+  el.classList.toggle('selected');
+  selectedVerbs = [...document.querySelectorAll('.verb-chip.selected')].map(c => c.textContent);
+}
+
+function buildQueue() {
+  const tense = document.getElementById('tenseSelect').value;
+  const pronounFilter = document.getElementById('pronounSelect').value;
+  const count = parseInt(document.getElementById('countSelect').value);
+  const diff = document.getElementById('diffSelect').value;
+  const verbs = selectedVerbs.length ? selectedVerbs : Object.keys(VERBS);
+  const filteredVerbs = verbs.filter(v => {
+    if (diff === 'easy') return VERBS[v].reg;
+    return true;
+  });
+  if (!filteredVerbs.length) return [];
+  const q = [];
+  while (q.length < count) {
+    const verb = filteredVerbs[Math.floor(Math.random()*filteredVerbs.length)];
+    let t = tense === 'random' ? ['presente','preterito','imperfecto','futuro','condicional','subjuntivo'][Math.floor(Math.random()*6)] : tense;
+    let pIdx;
+    if (pronounFilter === 'all') {
+      pIdx = Math.floor(Math.random()*6);
+    } else {
+      pIdx = PRON_KEYS.indexOf(pronounFilter);
+      if (pIdx < 0) pIdx = 0;
+    }
+    if (t === 'imperativo' && pIdx !== 0) pIdx = 0;
+    const answer = VERBS[verb].t[t]?.[pIdx];
+    if (!answer || answer === '—') continue;
+    q.push({verb, tense:t, pIdx, answer});
+  }
+  return q;
+}
+
+function startDrill() {
+  queue = buildQueue();
+  if (!queue.length) { alert('No verbs/tenses available with current settings.'); return; }
+  qIdx = 0; correct = 0; wrong = 0; streak = 0; mistakes = [];
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('drillScreen').style.display = 'block';
+  document.getElementById('resultsScreen').style.display = 'none';
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (qIdx >= queue.length) { showResults(); return; }
+  checked = false;
+  const q = queue[qIdx];
+  document.getElementById('promptVerb').textContent = q.verb;
+  document.getElementById('promptEn').textContent = VERBS[q.verb].en;
+  document.getElementById('promptTense').textContent = TENSE_NAMES[q.tense];
+  document.getElementById('promptPronoun').textContent = PRONOUNS[q.pIdx];
+  document.getElementById('answerInput').value = '';
+  document.getElementById('answerInput').className = 'answer-input';
+  document.getElementById('feedbackDiv').innerHTML = '';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('statQ').textContent = qIdx+1;
+  document.getElementById('statTotal').textContent = queue.length;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statStreak').textContent = streak;
+  document.getElementById('progressFill').style.width = (qIdx/queue.length*100)+'%';
+  document.getElementById('answerInput').focus();
+}
+
+function checkAnswer() {
+  if (checked) { nextQuestion(); return; }
+  checked = true;
+  const q = queue[qIdx];
+  const userAns = document.getElementById('answerInput').value.trim().toLowerCase();
+  const correctAns = q.answer.toLowerCase();
+  const isCorrect = userAns === correctAns;
+  if (isCorrect) {
+    correct++; streak++;
+    document.getElementById('answerInput').classList.add('correct');
+    document.getElementById('feedbackDiv').innerHTML = `<div class="feedback-correct">✓ Correcto</div>`;
+  } else {
+    wrong++; streak = 0;
+    document.getElementById('answerInput').classList.add('wrong');
+    document.getElementById('feedbackDiv').innerHTML = `<div class="feedback-wrong">✗ Correcto: <strong>${q.answer}</strong></div>`;
+    mistakes.push({verb:q.verb, tense:q.tense, pronoun:PRONOUNS[q.pIdx], userAns, correct:q.answer});
+  }
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statStreak').textContent = streak;
+  document.getElementById('nextBtn').style.display = 'block';
+  document.getElementById('check-btn');
+}
+
+function nextQuestion() {
+  qIdx++;
+  loadQuestion();
+}
+
+function showResults() {
+  document.getElementById('drillScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+  const pct = Math.round(correct/queue.length*100);
+  document.getElementById('finalScore').textContent = pct+'%';
+  const msgs = {90:'Excelente — fluency incoming! 🔥',70:'Muy bien — keep drilling! 💪',50:'Bien — more practice needed 📚',0:'Keep going — it takes time ✨'};
+  document.getElementById('finalMsg').textContent = Object.entries(msgs).reverse().find(([k])=>pct>=parseInt(k))[1];
+  if (mistakes.length) {
+    document.getElementById('mistakeReview').innerHTML = `<div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent3);margin-bottom:.8rem">Mistakes to review:</div>` +
+      mistakes.map(m=>`<div class="mistake-item"><div class="mi-prompt">${m.verb} · ${TENSE_NAMES[m.tense]} · ${m.pronoun}</div><div class="mi-wrong">You: ${m.userAns || '(blank)'}</div><div class="mi-correct">✓ ${m.correct}</div></div>`).join('');
+  } else {
+    document.getElementById('mistakeReview').innerHTML = '<div style="color:var(--green);font-size:1.1rem">🎯 Perfect score — no mistakes!</div>';
+  }
+}
+
+function goSetup() {
+  document.getElementById('setupScreen').style.display = 'block';
+  document.getElementById('drillScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'none';
+}
+
+document.getElementById('answerInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { if (checked) nextQuestion(); else checkAnswer(); }
+});
+
+const th=localStorage.getItem('es_theme')||'dark';if(th==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+</body>
+</html>
