@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz — Español Study</title>
@@ -68,23 +78,19 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.choices{grid-template-columns:1fr;}.quiz-setup,.quiz-area,.results{padding:0 1rem;}}
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+<script src="shared.js"></script>
 </head>
 <body>
 <nav>
   <a href="index.html" class="nav-brand">🇪🇸 Español</a>
-  <div class="nav-links">
-    <a href="grammar.html">Grammar</a>
-    <a href="vocabulary.html">Vocab</a>
-    <a href="reading.html">Reading</a>
-    <a href="listening.html">Listening</a>
-    <a href="quiz.html" class="active">Quiz</a>
-    <a href="flashcards.html">Flashcards</a>
-    <a href="writing.html">Writing</a>
-    <a href="conjugation.html">Conjugation</a>
-    <a href="mistakes.html">Mistakes</a>
-    <a href="progress.html">Progress</a>
-    <a href="schedule.html">Schedule</a>
-  </div>
+  <div class="nav-links"><a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="pronunciation.html">Pronunciation</a><a href="reading.html">Reading</a><a href="listening.html">Listening</a><a href="quiz.html" class="active">Quiz</a><a href="flashcards.html">Flashcards</a><a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a><a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a><a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a><a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a><a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a><a href="export.html">Export</a></div>
   <div class="nav-controls">
     <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
     <button class="btn-icon" onclick="resetFont()">A</button>
@@ -120,6 +126,8 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
         <button class="opt-btn" onclick="setOpt('level','b1',this)">B1</button>
         <button class="opt-btn" onclick="setOpt('level','b2',this)">B2</button>
         <button class="opt-btn" onclick="setOpt('level','c1',this)">C1</button>
+        <button class="opt-btn" onclick="setOpt('level','due',this)" style="border-color:var(--accent2);color:var(--accent2)">⚡ Due</button>
+        <button class="opt-btn" onclick="setOpt('level','weak',this)" style="border-color:var(--red);color:var(--red)">🔴 Weak</button>
       </div>
     </div>
     <div class="setup-row">
@@ -197,17 +205,36 @@ function setOpt(key, val, btn) {
   btn.classList.add('active');
 }
 
+function getMastery() { try { return JSON.parse(localStorage.getItem('es_mastery')||'{}'); } catch { return {}; } }
+function isDue(word) { const m = getMastery()[word]; return m && m.level < 5 && m.nextReview <= Date.now(); }
+function isWeak(word) { const m = getMastery()[word]; return m && m.level <= 2; }
+
 function buildQueue() {
   let pool = VOCAB;
-  if (settings.level !== 'all') pool = pool.filter(w => w.level === settings.level);
-  // Weighted selection
+  const mastery = getMastery();
+
+  if (settings.level === 'due') {
+    // SRS due words — sorted by most overdue first
+    pool = VOCAB.filter(w => isDue(w.es));
+    if (!pool.length) pool = VOCAB.filter(w => !mastery[w.es]); // fall back to new words
+    pool.sort((a,b) => {
+      const ma = mastery[a.es], mb = mastery[b.es];
+      return (ma?.nextReview||0) - (mb?.nextReview||0);
+    });
+  } else if (settings.level === 'weak') {
+    pool = VOCAB.filter(w => isWeak(w.es));
+    if (!pool.length) pool = VOCAB;
+  } else if (settings.level !== 'all') {
+    pool = pool.filter(w => w.level === settings.level);
+  }
+
+  // Weighted by SRS weight (wrong answers boost weight)
   const weighted = [];
   pool.forEach(w => {
     const wt = srWeights[w.es] || 1;
     for (let i = 0; i < wt; i++) weighted.push(w);
   });
   const shuffled = weighted.sort(() => Math.random() - 0.5);
-  // Deduplicate
   const seen = new Set();
   const unique = [];
   for (const w of shuffled) {
@@ -263,6 +290,8 @@ function selectAnswer(chosen, btn) {
     correctCount++;
     srWeights[q.word.es] = Math.max(1, (srWeights[q.word.es] || 1) - 1);
     awardXP(5);
+    // update mastery
+    updateMastery(q.word.es, 1);
   } else {
     btn.classList.add('wrong');
     document.querySelectorAll('.choice-btn').forEach(b => {
@@ -272,6 +301,8 @@ function selectAnswer(chosen, btn) {
     fb.innerHTML = `✗ Wrong — correct: <strong>${q.answer}</strong>`;
     srWeights[q.word.es] = Math.min(8, (srWeights[q.word.es] || 1) + 2);
     wrongItems.push({ prompt: q.prompt, answer: q.answer, type: q.type, level: q.word.level });
+    // update mastery
+    updateMastery(q.word.es, -1);
   }
   fb.style.display = 'block';
   document.getElementById('nextBtn').style.display = 'block';
@@ -317,6 +348,16 @@ function showResults() {
   document.getElementById('resultBreakdown').innerHTML += `<div style="color:var(--accent3);text-align:center;margin-top:.5rem;font-size:.9rem">⚡ +${bonusXP} XP bonus · Total: ${getXP()} XP</div>`;
 }
 
+function updateMastery(word, dir) {
+  const SRS_INTERVALS = [0,1,3,7,14,30];
+  const m = getMastery();
+  if (!m[word]) m[word] = {level:0, nextReview:Date.now(), lastSeen:null};
+  m[word].level = Math.min(5, Math.max(0, m[word].level + dir));
+  m[word].lastSeen = Date.now();
+  m[word].nextReview = Date.now() + SRS_INTERVALS[m[word].level] * 86400000;
+  localStorage.setItem('es_mastery', JSON.stringify(m));
+}
+
 function awardXP(amount) {
   const xp = parseInt(localStorage.getItem('es_xp')||'0') + amount;
   localStorage.setItem('es_xp', xp);
@@ -338,5 +379,12 @@ function toggleFont(d) { let f = parseInt(document.body.style.fontSize||'18'); f
 function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
 function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab active" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>

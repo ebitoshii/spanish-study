@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flashcards — Español Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
@@ -56,16 +66,19 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .start-btn{width:100%;background:var(--accent);color:#fff;border:none;padding:.7rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1.1rem;cursor:pointer;}
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.fc-area,.setup-area{padding:0 1rem;}.rating-btns{gap:.5rem;}.rate-btn{padding:.5rem 1rem;}}
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+<script src="shared.js"></script>
 </head>
 <body>
 <nav>
   <a href="index.html" class="nav-brand">🇪🇸 Español</a>
-  <div class="nav-links">
-    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="reading.html">Reading</a>
-    <a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html" class="active">Flashcards</a>
-    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
-    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
-  </div>
+  <div class="nav-links"><a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="pronunciation.html">Pronunciation</a><a href="reading.html">Reading</a><a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html" class="active">Flashcards</a><a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a><a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a><a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a><a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a><a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a><a href="export.html">Export</a></div>
   <div class="nav-controls">
     <button class="btn-icon" onclick="toggleFont(-1)">A−</button><button class="btn-icon" onclick="resetFont()">A</button>
     <button class="btn-icon" onclick="toggleFont(1)">A+</button>
@@ -91,6 +104,7 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
       <button class="opt-btn" onclick="setOpt('level','b1',this)">B1</button>
       <button class="opt-btn" onclick="setOpt('level','b2',this)">B2</button>
       <button class="opt-btn" onclick="setOpt('level','c1',this)">C1</button>
+      <button class="opt-btn" onclick="setOpt('level','due',this)" style="border-color:var(--accent2);color:var(--accent2)">⚡ Due</button>
     </div>
     <div class="setup-label">Direction</div>
     <div class="setup-opts">
@@ -153,37 +167,87 @@ const VOCAB=[
 ];
 let settings={level:'all',dir:'es-en',count:20};
 let deck=[],idx=0,flipped=false;
+let sessionCorrect=0,sessionTotal=0;
+
+const SRS_INTERVALS=[0,1,3,7,14,30];
+function getMastery(){try{return JSON.parse(localStorage.getItem('es_mastery')||'{}');}catch{return {};}}
+function updateMastery(word,dir){
+  const m=getMastery();
+  if(!m[word])m[word]={level:0,nextReview:Date.now(),lastSeen:null};
+  m[word].level=Math.min(5,Math.max(0,m[word].level+dir));
+  m[word].lastSeen=Date.now();
+  m[word].nextReview=Date.now()+SRS_INTERVALS[m[word].level]*86400000;
+  localStorage.setItem('es_mastery',JSON.stringify(m));
+}
+function awardXP(n){localStorage.setItem('es_xp',parseInt(localStorage.getItem('es_xp')||'0')+n);}
+
 function setOpt(k,v,btn){settings[k]=v;btn.closest('.setup-opts').querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+
 function startFC(){
+  const mastery=getMastery();
   let pool=VOCAB;
-  if(settings.level!=='all')pool=pool.filter(w=>w.level===settings.level);
-  deck=pool.sort(()=>Math.random()-.5).slice(0,settings.count);
-  idx=0;
+  if(settings.level==='due'){
+    pool=VOCAB.filter(w=>{const m=mastery[w.es];return m&&m.level<5&&m.nextReview<=Date.now();});
+    if(!pool.length)pool=VOCAB.filter(w=>!mastery[w.es]); // new words if nothing due
+  } else if(settings.level!=='all'){
+    pool=pool.filter(w=>w.level===settings.level);
+  }
+  // Sort due words first, then by mastery level ascending (weakest first)
+  pool.sort((a,b)=>{
+    const ma=mastery[a.es]?.level??-1, mb=mastery[b.es]?.level??-1;
+    return ma-mb;
+  });
+  deck=pool.slice(0,settings.count);
+  idx=0; sessionCorrect=0; sessionTotal=0;
   document.getElementById('setupArea').style.display='none';
   document.getElementById('fcArea').style.display='block';
   showCard();
 }
+
 function showCard(){
-  if(idx>=deck.length){document.getElementById('fcArea').style.display='none';document.getElementById('doneArea').style.display='block';return;}
+  if(idx>=deck.length){
+    document.getElementById('fcArea').style.display='none';
+    document.getElementById('doneArea').style.display='block';
+    const pct=sessionTotal?Math.round(sessionCorrect/sessionTotal*100):0;
+    const bonus=Math.round(pct/10)*2;
+    awardXP(bonus);
+    document.getElementById('doneArea').querySelector('p').innerHTML=
+      `Session complete · ${sessionCorrect}/${sessionTotal} Good/Easy · <span style="color:var(--accent3)">+${bonus} XP</span>`;
+    return;
+  }
   const w=deck[idx];
+  const mastery=getMastery();
+  const ml=mastery[w.es]?.level??0;
+  const COLORS=['#888','#e67e22','#f39c12','#2980b9','#27ae60','#9b59b6'];
+  const LABELS=['New','Learning','Familiar','Good','Strong','Mastered'];
   flipped=false;
   document.getElementById('cardInner').classList.remove('flipped');
   document.getElementById('ratingBtns').style.display='none';
-  document.getElementById('fcCount').textContent=`Card ${idx+1} of ${deck.length}`;
+  document.getElementById('fcCount').textContent=`Card ${idx+1} of ${deck.length} · ${sessionCorrect} ✓`;
+  const masteryBadge=`<div style="font-size:.7rem;color:${COLORS[ml]};margin-top:.4rem">${LABELS[ml]}</div>`;
   if(settings.dir==='es-en'){
-    document.getElementById('cardFront').innerHTML=`<div class="card-word">${w.es}</div><div class="card-hint">${w.type}</div>`;
+    document.getElementById('cardFront').innerHTML=`<div class="card-word">${w.es}</div><div class="card-hint">${w.type}</div>${masteryBadge}`;
     document.getElementById('cardBack').innerHTML=`<div class="card-en">${w.en}</div><div class="card-example">${w.example}</div>`;
   } else {
-    document.getElementById('cardFront').innerHTML=`<div class="card-word">${w.en}</div><div class="card-hint">${w.type}</div>`;
+    document.getElementById('cardFront').innerHTML=`<div class="card-word">${w.en}</div><div class="card-hint">${w.type}</div>${masteryBadge}`;
     document.getElementById('cardBack').innerHTML=`<div class="card-word" style="font-size:1.4rem">${w.es}</div><div class="card-example">${w.example}</div>`;
   }
 }
+
 function flipCard(){
   flipped=!flipped;
   document.getElementById('cardInner').classList.toggle('flipped',flipped);
   if(flipped)document.getElementById('ratingBtns').style.display='flex';
 }
-function rate(r){idx++;showCard();}
+
+function rate(r){
+  const w=deck[idx];
+  sessionTotal++;
+  if(r==='again'){updateMastery(w.es,-1);}
+  else if(r==='good'){updateMastery(w.es,1);sessionCorrect++;awardXP(3);}
+  else if(r==='easy'){updateMastery(w.es,2);sessionCorrect++;awardXP(5);}
+  idx++;showCard();
+}
 const tv=localStorage.getItem('es_theme')||'dark';if(tv==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=tv==='light'?'🌙':'☀️');
 const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
 function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
@@ -191,5 +255,12 @@ function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math
 function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
 function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>

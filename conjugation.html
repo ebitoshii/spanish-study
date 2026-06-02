@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Conjugation — Español Study</title>
@@ -54,23 +64,18 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.conj-content{padding:1rem;}.verb-search{padding:.8rem 1rem;}.tables-grid{grid-template-columns:1fr;}}
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
 </head>
 <body>
 <nav>
   <a href="index.html" class="nav-brand">🇪🇸 Español</a>
-  <div class="nav-links">
-    <a href="grammar.html">Grammar</a>
-    <a href="vocabulary.html">Vocab</a>
-    <a href="reading.html">Reading</a>
-    <a href="listening.html">Listening</a>
-    <a href="quiz.html">Quiz</a>
-    <a href="flashcards.html">Flashcards</a>
-    <a href="writing.html">Writing</a>
-    <a href="conjugation.html" class="active">Conjugation</a>
-    <a href="mistakes.html">Mistakes</a>
-    <a href="progress.html">Progress</a>
-    <a href="schedule.html">Schedule</a>
-  </div>
+  <div class="nav-links"><a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="pronunciation.html">Pronunciation</a><a href="reading.html">Reading</a><a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a><a href="writing.html">Writing</a><a href="conjugation.html" class="active">Conjugation</a><a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a><a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a><a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a><a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a><a href="export.html">Export</a></div>
   <div class="nav-controls">
     <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
     <button class="btn-icon" onclick="resetFont()">A</button>
@@ -87,7 +92,7 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 
 <div class="page-header">
   <div class="page-title">Conjugation — Conjugación</div>
-  <div class="page-sub">Complete verb tables across all tenses</div>
+  <div class="page-sub">50 verbs across all tenses — regular, irregular, and stem-changing</div>
 </div>
 
 <div class="verb-search">
@@ -100,7 +105,7 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 </div>
 
 <script>
-const COMMON = ['ser','estar','tener','hacer','ir','poder','querer','saber','hablar','comer','vivir','venir','dar','ver','haber'];
+const COMMON = ['ser','estar','tener','hacer','ir','poder','querer','saber','hablar','comer','vivir','venir','dar','ver','decir','poner','salir','traer','caer','oír','pensar','volver','pedir','dormir','sentir','perder','entender','jugar','empezar','llegar','seguir','recordar','mostrar','resolver','conducir','producir','construir','servir','reír','coger','trabajar','estudiar','llamar','comprar','escuchar','caminar','beber','leer','conocer','escribir','abrir'];
 
 const VERBS = {
   hablar: {
@@ -215,7 +220,61 @@ const VERBS = {
   },
 };
 
+// Additional 40 verbs
+const VERBS_EXTRA = {
+  // Regular -ar
+  trabajar:{meaning:'to work',type:'-ar regular',present:['trabajo','trabajas','trabaja','trabajamos','trabajáis','trabajan'],preterite:['trabajé','trabajaste','trabajó','trabajamos','trabajasteis','trabajaron'],imperfect:['trabajaba','trabajabas','trabajaba','trabajábamos','trabajabais','trabajaban'],future:['trabajaré','trabajarás','trabajará','trabajaremos','trabajaréis','trabajarán'],conditional:['trabajaría','trabajarías','trabajaría','trabajaríamos','trabajaríais','trabajarían'],subjunctive:['trabaje','trabajes','trabaje','trabajemos','trabajéis','trabajen'],imperative:['—','trabaja','trabaje','trabajemos','trabajad','trabajen'],irregular:[]},
+  estudiar:{meaning:'to study',type:'-ar regular',present:['estudio','estudias','estudia','estudiamos','estudiáis','estudian'],preterite:['estudié','estudiaste','estudió','estudiamos','estudiasteis','estudiaron'],imperfect:['estudiaba','estudiabas','estudiaba','estudiábamos','estudiabais','estudiaban'],future:['estudiaré','estudiarás','estudiará','estudiaremos','estudiaréis','estudiarán'],conditional:['estudiaría','estudiarías','estudiaría','estudiaríamos','estudiaríais','estudiarían'],subjunctive:['estudie','estudies','estudie','estudiemos','estudiéis','estudien'],imperative:['—','estudia','estudie','estudiemos','estudiad','estudien'],irregular:[]},
+  llamar:{meaning:'to call',type:'-ar regular',present:['llamo','llamas','llama','llamamos','llamáis','llaman'],preterite:['llamé','llamaste','llamó','llamamos','llamasteis','llamaron'],imperfect:['llamaba','llamabas','llamaba','llamábamos','llamabais','llamaban'],future:['llamaré','llamarás','llamará','llamaremos','llamaréis','llamarán'],conditional:['llamaría','llamarías','llamaría','llamaríamos','llamaríais','llamarían'],subjunctive:['llame','llames','llame','llamemos','llaméis','llamen'],imperative:['—','llama','llame','llamemos','llamad','llamen'],irregular:[]},
+  comprar:{meaning:'to buy',type:'-ar regular',present:['compro','compras','compra','compramos','compráis','compran'],preterite:['compré','compraste','compró','compramos','comprasteis','compraron'],imperfect:['compraba','comprabas','compraba','comprábamos','comprabais','compraban'],future:['compraré','comprarás','comprará','compraremos','compraréis','comprarán'],conditional:['compraría','comprarías','compraría','compraríamos','compraríais','comprarían'],subjunctive:['compre','compres','compre','compremos','compréis','compren'],imperative:['—','compra','compre','compremos','comprad','compren'],irregular:[]},
+  escuchar:{meaning:'to listen',type:'-ar regular',present:['escucho','escuchas','escucha','escuchamos','escucháis','escuchan'],preterite:['escuché','escuchaste','escuchó','escuchamos','escuchasteis','escucharon'],imperfect:['escuchaba','escuchabas','escuchaba','escuchábamos','escuchabais','escuchaban'],future:['escucharé','escucharás','escuchará','escucharemos','escucharéis','escucharán'],conditional:['escucharía','escucharías','escucharía','escucharíamos','escucharíais','escucharían'],subjunctive:['escuche','escuches','escuche','escuchemos','escuchéis','escuchen'],imperative:['—','escucha','escuche','escuchemos','escuchad','escuchen'],irregular:[]},
+  caminar:{meaning:'to walk',type:'-ar regular',present:['camino','caminas','camina','caminamos','camináis','caminan'],preterite:['caminé','caminaste','caminó','caminamos','caminasteis','caminaron'],imperfect:['caminaba','caminabas','caminaba','caminábamos','caminabais','caminaban'],future:['caminaré','caminarás','caminará','caminaremos','caminaréis','caminarán'],conditional:['caminaría','caminarías','caminaría','caminaríamos','caminaríais','caminarían'],subjunctive:['camine','camines','camine','caminemos','caminéis','caminen'],imperative:['—','camina','camine','caminemos','caminad','caminen'],irregular:[]},
+  // Regular -er
+  beber:{meaning:'to drink',type:'-er regular',present:['bebo','bebes','bebe','bebemos','bebéis','beben'],preterite:['bebí','bebiste','bebió','bebimos','bebisteis','bebieron'],imperfect:['bebía','bebías','bebía','bebíamos','bebíais','bebían'],future:['beberé','beberás','beberá','beberemos','beberéis','beberán'],conditional:['bebería','beberías','bebería','beberíamos','beberíais','beberían'],subjunctive:['beba','bebas','beba','bebamos','bebáis','beban'],imperative:['—','bebe','beba','bebamos','bebed','beban'],irregular:[]},
+  leer:{meaning:'to read',type:'-er irregular (spelling)',present:['leo','lees','lee','leemos','leéis','leen'],preterite:['leí','leíste','leyó','leímos','leísteis','leyeron'],imperfect:['leía','leías','leía','leíamos','leíais','leían'],future:['leeré','leerás','leerá','leeremos','leeréis','leerán'],conditional:['leería','leerías','leería','leeríamos','leeríais','leerían'],subjunctive:['lea','leas','lea','leamos','leáis','lean'],imperative:['—','lee','lea','leamos','leed','lean'],irregular:[7,8,9]},
+  ver:{meaning:'to see / watch',type:'-er irregular',present:['veo','ves','ve','vemos','veis','ven'],preterite:['vi','viste','vio','vimos','visteis','vieron'],imperfect:['veía','veías','veía','veíamos','veíais','veían'],future:['veré','verás','verá','veremos','veréis','verán'],conditional:['vería','verías','vería','veríamos','veríais','verían'],subjunctive:['vea','veas','vea','veamos','veáis','vean'],imperative:['—','ve','vea','veamos','ved','vean'],irregular:[0,6,7,8,9,10,11,12,13,14,15,16,17,24,25,26,27,28,29]},
+  conocer:{meaning:'to know (person/place)',type:'-er irregular (yo)',present:['conozco','conoces','conoce','conocemos','conocéis','conocen'],preterite:['conocí','conociste','conoció','conocimos','conocisteis','conocieron'],imperfect:['conocía','conocías','conocía','conocíamos','conocíais','conocían'],future:['conoceré','conocerás','conocerá','conoceremos','conoceréis','conocerán'],conditional:['conocería','conocerías','conocería','conoceríamos','conoceríais','conocerían'],subjunctive:['conozca','conozcas','conozca','conozcamos','conozcáis','conozcan'],imperative:['—','conoce','conozca','conozcamos','conoced','conozcan'],irregular:[0,30,31,32,33,34,35]},
+  // Regular -ir
+  escribir:{meaning:'to write',type:'-ir irregular (participle)',present:['escribo','escribes','escribe','escribimos','escribís','escriben'],preterite:['escribí','escribiste','escribió','escribimos','escribisteis','escribieron'],imperfect:['escribía','escribías','escribía','escribíamos','escribíais','escribían'],future:['escribiré','escribirás','escribirá','escribiremos','escribiréis','escribirán'],conditional:['escribiría','escribirías','escribiría','escribiríamos','escribiríais','escribirían'],subjunctive:['escriba','escribas','escriba','escribamos','escribáis','escriban'],imperative:['—','escribe','escriba','escribamos','escribid','escriban'],irregular:[]},
+  abrir:{meaning:'to open',type:'-ir irregular (participle)',present:['abro','abres','abre','abrimos','abrís','abren'],preterite:['abrí','abriste','abrió','abrimos','abristeis','abrieron'],imperfect:['abría','abrías','abría','abríamos','abríais','abrían'],future:['abriré','abrirás','abrirá','abriremos','abriréis','abrirán'],conditional:['abriría','abrirías','abriría','abriríamos','abriríais','abrirían'],subjunctive:['abra','abras','abra','abramos','abráis','abran'],imperative:['—','abre','abra','abramos','abrid','abran'],irregular:[]},
+  // Stem-changing
+  pensar:{meaning:'to think',type:'-ar stem-changing (e→ie)',present:['pienso','piensas','piensa','pensamos','pensáis','piensan'],preterite:['pensé','pensaste','pensó','pensamos','pensasteis','pensaron'],imperfect:['pensaba','pensabas','pensaba','pensábamos','pensabais','pensaban'],future:['pensaré','pensarás','pensará','pensaremos','pensaréis','pensarán'],conditional:['pensaría','pensarías','pensaría','pensaríamos','pensaríais','pensarían'],subjunctive:['piense','pienses','piense','pensemos','penséis','piensen'],imperative:['—','piensa','piense','pensemos','pensad','piensen'],irregular:[0,1,2,4,5,30,31,32,35]},
+  volver:{meaning:'to return',type:'-er stem-changing (o→ue)',present:['vuelvo','vuelves','vuelve','volvemos','volvéis','vuelven'],preterite:['volví','volviste','volvió','volvimos','volvisteis','volvieron'],imperfect:['volvía','volvías','volvía','volvíamos','volvíais','volvían'],future:['volveré','volverás','volverá','volveremos','volveréis','volverán'],conditional:['volvería','volverías','volvería','volveríamos','volveríais','volverían'],subjunctive:['vuelva','vuelvas','vuelva','volvamos','volváis','vuelvan'],imperative:['—','vuelve','vuelva','volvamos','volved','vuelvan'],irregular:[0,1,2,4,5,30,31,32,35]},
+  pedir:{meaning:'to ask for / order',type:'-ir stem-changing (e→i)',present:['pido','pides','pide','pedimos','pedís','piden'],preterite:['pedí','pediste','pidió','pedimos','pedisteis','pidieron'],imperfect:['pedía','pedías','pedía','pedíamos','pedíais','pedían'],future:['pediré','pedirás','pedirá','pediremos','pediréis','pedirán'],conditional:['pediría','pedirías','pediría','pediríamos','pediríais','pedirían'],subjunctive:['pida','pidas','pida','pidamos','pidáis','pidan'],imperative:['—','pide','pida','pidamos','pedid','pidan'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  dormir:{meaning:'to sleep',type:'-ir stem-changing (o→ue/u)',present:['duermo','duermes','duerme','dormimos','dormís','duermen'],preterite:['dormí','dormiste','durmió','dormimos','dormisteis','durmieron'],imperfect:['dormía','dormías','dormía','dormíamos','dormíais','dormían'],future:['dormiré','dormirás','dormirá','dormiremos','dormiréis','dormirán'],conditional:['dormiría','dormirías','dormiría','dormiríamos','dormiríais','dormirían'],subjunctive:['duerma','duermas','duerma','durmamos','durmáis','duerman'],imperative:['—','duerme','duerma','durmamos','dormid','duerman'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  sentir:{meaning:'to feel / regret',type:'-ir stem-changing (e→ie/i)',present:['siento','sientes','siente','sentimos','sentís','sienten'],preterite:['sentí','sentiste','sintió','sentimos','sentisteis','sintieron'],imperfect:['sentía','sentías','sentía','sentíamos','sentíais','sentían'],future:['sentiré','sentirás','sentirá','sentiremos','sentiréis','sentirán'],conditional:['sentiría','sentirías','sentiría','sentiríamos','sentiríais','sentirían'],subjunctive:['sienta','sientas','sienta','sintamos','sintáis','sientan'],imperative:['—','siente','sienta','sintamos','sentid','sientan'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  // Irregular
+  saber:{meaning:'to know (facts)',type:'irregular',present:['sé','sabes','sabe','sabemos','sabéis','saben'],preterite:['supe','supiste','supo','supimos','supisteis','supieron'],imperfect:['sabía','sabías','sabía','sabíamos','sabíais','sabían'],future:['sabré','sabrás','sabrá','sabremos','sabréis','sabrán'],conditional:['sabría','sabrías','sabría','sabríamos','sabríais','sabrían'],subjunctive:['sepa','sepas','sepa','sepamos','sepáis','sepan'],imperative:['—','sabe','sepa','sepamos','sabed','sepan'],irregular:[0,6,7,8,9,10,11,18,19,20,21,22,23,24,25,30,31,32,33,34,35]},
+  poner:{meaning:'to put / place',type:'irregular',present:['pongo','pones','pone','ponemos','ponéis','ponen'],preterite:['puse','pusiste','puso','pusimos','pusisteis','pusieron'],imperfect:['ponía','ponías','ponía','poníamos','poníais','ponían'],future:['pondré','pondrás','pondrá','pondremos','pondréis','pondrán'],conditional:['pondría','pondrías','pondría','pondríamos','pondríais','pondrían'],subjunctive:['ponga','pongas','ponga','pongamos','pongáis','pongan'],imperative:['—','pon','ponga','pongamos','poned','pongan'],irregular:[0,6,7,8,9,10,11,18,19,20,21,22,23,24,25,30,31,32,33,34,35]},
+  salir:{meaning:'to leave / go out',type:'irregular',present:['salgo','sales','sale','salimos','salís','salen'],preterite:['salí','saliste','salió','salimos','salisteis','salieron'],imperfect:['salía','salías','salía','salíamos','salíais','salían'],future:['saldré','saldrás','saldrá','saldremos','saldréis','saldrán'],conditional:['saldría','saldrías','saldría','saldríamos','saldríais','saldrían'],subjunctive:['salga','salgas','salga','salgamos','salgáis','salgan'],imperative:['—','sal','salga','salgamos','salid','salgan'],irregular:[0,18,19,20,21,22,23,24,25,30,31,32,33,34,35]},
+  venir:{meaning:'to come',type:'irregular',present:['vengo','vienes','viene','venimos','venís','vienen'],preterite:['vine','viniste','vino','vinimos','vinisteis','vinieron'],imperfect:['venía','venías','venía','veníamos','veníais','venían'],future:['vendré','vendrás','vendrá','vendremos','vendréis','vendrán'],conditional:['vendría','vendrías','vendría','vendríamos','vendríais','vendrían'],subjunctive:['venga','vengas','venga','vengamos','vengáis','vengan'],imperative:['—','ven','venga','vengamos','venid','vengan'],irregular:[0,1,2,4,5,6,7,8,9,10,11,18,19,20,21,22,23,24,25,30,31,32,33,34,35]},
+  decir:{meaning:'to say / tell',type:'irregular',present:['digo','dices','dice','decimos','decís','dicen'],preterite:['dije','dijiste','dijo','dijimos','dijisteis','dijeron'],imperfect:['decía','decías','decía','decíamos','decíais','decían'],future:['diré','dirás','dirá','diremos','diréis','dirán'],conditional:['diría','dirías','diría','diríamos','diríais','dirían'],subjunctive:['diga','digas','diga','digamos','digáis','digan'],imperative:['—','di','diga','digamos','decid','digan'],irregular:[0,1,2,4,5,6,7,8,9,10,11,18,19,20,21,22,23,24,25,30,31,32,33,34,35,40]},
+  traer:{meaning:'to bring',type:'irregular',present:['traigo','traes','trae','traemos','traéis','traen'],preterite:['traje','trajiste','trajo','trajimos','trajisteis','trajeron'],imperfect:['traía','traías','traía','traíamos','traíais','traían'],future:['traeré','traerás','traerá','traeremos','traeréis','traerán'],conditional:['traería','traerías','traería','traeríamos','traeríais','traerían'],subjunctive:['traiga','traigas','traiga','traigamos','traigáis','traigan'],imperative:['—','trae','traiga','traigamos','traed','traigan'],irregular:[0,6,7,8,9,10,11,30,31,32,33,34,35]},
+  dar:{meaning:'to give',type:'irregular',present:['doy','das','da','damos','dais','dan'],preterite:['di','diste','dio','dimos','disteis','dieron'],imperfect:['daba','dabas','daba','dábamos','dabais','daban'],future:['daré','darás','dará','daremos','daréis','darán'],conditional:['daría','darías','daría','daríamos','daríais','darían'],subjunctive:['dé','des','dé','demos','deis','den'],imperative:['—','da','dé','demos','dad','den'],irregular:[0,6,7,8,9,10,11,30,31,32,33,34,35]},
+  caer:{meaning:'to fall',type:'irregular',present:['caigo','caes','cae','caemos','caéis','caen'],preterite:['caí','caíste','cayó','caímos','caísteis','cayeron'],imperfect:['caía','caías','caía','caíamos','caíais','caían'],future:['caeré','caerás','caerá','caeremos','caeréis','caerán'],conditional:['caería','caerías','caería','caeríamos','caeríais','caerían'],subjunctive:['caiga','caigas','caiga','caigamos','caigáis','caigan'],imperative:['—','cae','caiga','caigamos','caed','caigan'],irregular:[0,8,10,30,31,32,33,34,35]},
+  oír:{meaning:'to hear',type:'irregular',present:['oigo','oyes','oye','oímos','oís','oyen'],preterite:['oí','oíste','oyó','oímos','oísteis','oyeron'],imperfect:['oía','oías','oía','oíamos','oíais','oían'],future:['oiré','oirás','oirá','oiremos','oiréis','oirán'],conditional:['oiría','oirías','oiría','oiríamos','oiríais','oirían'],subjunctive:['oiga','oigas','oiga','oigamos','oigáis','oigan'],imperative:['—','oye','oiga','oigamos','oíd','oigan'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  seguir:{meaning:'to follow / continue',type:'-ir irregular (e→i)',present:['sigo','sigues','sigue','seguimos','seguís','siguen'],preterite:['seguí','seguiste','siguió','seguimos','seguisteis','siguieron'],imperfect:['seguía','seguías','seguía','seguíamos','seguíais','seguían'],future:['seguiré','seguirás','seguirá','seguiremos','seguiréis','seguirán'],conditional:['seguiría','seguirías','seguiría','seguiríamos','seguiríais','seguirían'],subjunctive:['siga','sigas','siga','sigamos','sigáis','sigan'],imperative:['—','sigue','siga','sigamos','seguid','sigan'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  llegar:{meaning:'to arrive',type:'-ar irregular (spelling g→gu)',present:['llego','llegas','llega','llegamos','llegáis','llegan'],preterite:['llegué','llegaste','llegó','llegamos','llegasteis','llegaron'],imperfect:['llegaba','llegabas','llegaba','llegábamos','llegabais','llegaban'],future:['llegaré','llegarás','llegará','llegaremos','llegaréis','llegarán'],conditional:['llegaría','llegarías','llegaría','llegaríamos','llegaríais','llegarían'],subjunctive:['llegue','llegues','llegue','lleguemos','lleguéis','lleguen'],imperative:['—','llega','llegue','lleguemos','llegad','lleguen'],irregular:[6,30,31,32,33,34,35]},
+  empezar:{meaning:'to begin',type:'-ar irregular (e→ie + spelling)',present:['empiezo','empiezas','empieza','empezamos','empezáis','empiezan'],preterite:['empecé','empezaste','empezó','empezamos','empezasteis','empezaron'],imperfect:['empezaba','empezabas','empezaba','empezábamos','empezabais','empezaban'],future:['empezaré','empezarás','empezará','empezaremos','empezaréis','empezarán'],conditional:['empezaría','empezarías','empezaría','empezaríamos','empezaríais','empezarían'],subjunctive:['empiece','empieces','empiece','empecemos','empecéis','empiecen'],imperative:['—','empieza','empiece','empecemos','empezad','empiecen'],irregular:[0,1,2,4,5,6,30,31,32,33,34,35]},
+  jugar:{meaning:'to play',type:'-ar stem-changing (u→ue)',present:['juego','juegas','juega','jugamos','jugáis','juegan'],preterite:['jugué','jugaste','jugó','jugamos','jugasteis','jugaron'],imperfect:['jugaba','jugabas','jugaba','jugábamos','jugabais','jugaban'],future:['jugaré','jugarás','jugará','jugaremos','jugaréis','jugarán'],conditional:['jugaría','jugarías','jugaría','jugaríamos','jugaríais','jugarían'],subjunctive:['juegue','juegues','juegue','juguemos','juguéis','jueguen'],imperative:['—','juega','juegue','juguemos','jugad','jueguen'],irregular:[0,1,2,4,5,6,30,31,32,33,34,35]},
+  conducir:{meaning:'to drive',type:'-ir irregular (c→zc)',present:['conduzco','conduces','conduce','conducimos','conducís','conducen'],preterite:['conduje','condujiste','condujo','condujimos','condujisteis','condujeron'],imperfect:['conducía','conducías','conducía','conducíamos','conducíais','conducían'],future:['conduciré','conducirás','conducirá','conduciremos','conduciréis','conducirán'],conditional:['conduciría','conducirías','conduciría','conduciríamos','conduciréis','conducirían'],subjunctive:['conduzca','conduzcas','conduzca','conduzcamos','conduzcáis','conduzcan'],imperative:['—','conduce','conduzca','conduzcamos','conducid','conduzcan'],irregular:[0,6,7,8,9,10,11,30,31,32,33,34,35]},
+  producir:{meaning:'to produce',type:'-ir irregular (c→zc)',present:['produzco','produces','produce','producimos','producís','producen'],preterite:['produje','produjiste','produjo','produjimos','produjisteis','produjeron'],imperfect:['producía','producías','producía','producíamos','producíais','producían'],future:['produciré','producirás','producirá','produciremos','produciréis','producirán'],conditional:['produciría','producirías','produciría','produciríamos','produciríais','producirían'],subjunctive:['produzca','produzcas','produzca','produzcamos','produzcáis','produzcan'],imperative:['—','produce','produzca','produzcamos','producid','produzcan'],irregular:[0,6,7,8,9,10,11,30,31,32,33,34,35]},
+  construir:{meaning:'to build / construct',type:'-ir irregular (y insertion)',present:['construyo','construyes','construye','construimos','construís','construyen'],preterite:['construí','construiste','construyó','construimos','construisteis','construyeron'],imperfect:['construía','construías','construía','construíamos','construíais','construían'],future:['construiré','construirás','construirá','construiremos','construiréis','construirán'],conditional:['construiría','construirías','construiría','construiríamos','construiríais','construirían'],subjunctive:['construya','construyas','construya','construyamos','construyáis','construyan'],imperative:['—','construye','construya','construyamos','construid','construyan'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  servir:{meaning:'to serve',type:'-ir stem-changing (e→i)',present:['sirvo','sirves','sirve','servimos','servís','sirven'],preterite:['serví','serviste','sirvió','servimos','servisteis','sirvieron'],imperfect:['servía','servías','servía','servíamos','servíais','servían'],future:['serviré','servirás','servirá','serviremos','serviréis','servirán'],conditional:['serviría','servirías','serviría','serviríamos','serviríais','servirían'],subjunctive:['sirva','sirvas','sirva','sirvamos','sirváis','sirvan'],imperative:['—','sirve','sirva','sirvamos','servid','sirvan'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  reír:{meaning:'to laugh',type:'-ir irregular (e→í)',present:['río','ríes','ríe','reímos','reís','ríen'],preterite:['reí','reíste','rió','reímos','reísteis','rieron'],imperfect:['reía','reías','reía','reíamos','reíais','reían'],future:['reiré','reirás','reirá','reiremos','reiréis','reirán'],conditional:['reiría','reirías','reiría','reiríamos','reiríais','reirían'],subjunctive:['ría','rías','ría','riamos','riáis','rían'],imperative:['—','ríe','ría','riamos','reíd','rían'],irregular:[0,1,2,4,5,8,10,30,31,32,33,34,35]},
+  perder:{meaning:'to lose',type:'-er stem-changing (e→ie)',present:['pierdo','pierdes','pierde','perdemos','perdéis','pierden'],preterite:['perdí','perdiste','perdió','perdimos','perdisteis','perdieron'],imperfect:['perdía','perdías','perdía','perdíamos','perdíais','perdían'],future:['perderé','perderás','perderá','perderemos','perderéis','perderán'],conditional:['perdería','perderías','perdería','perderíamos','perderíais','perderían'],subjunctive:['pierda','pierdas','pierda','perdamos','perdáis','pierdan'],imperative:['—','pierde','pierda','perdamos','perded','pierdan'],irregular:[0,1,2,4,5,30,31,32,35]},
+  entender:{meaning:'to understand',type:'-er stem-changing (e→ie)',present:['entiendo','entiendes','entiende','entendemos','entendéis','entienden'],preterite:['entendí','entendiste','entendió','entendimos','entendisteis','entendieron'],imperfect:['entendía','entendías','entendía','entendíamos','entendíais','entendían'],future:['entenderé','entenderás','entenderá','entenderemos','entenderéis','entenderán'],conditional:['entendería','entenderías','entendería','entenderíamos','entenderíais','entenderían'],subjunctive:['entienda','entiendas','entienda','entendamos','entendáis','entiendan'],imperative:['—','entiende','entienda','entendamos','entended','entiendan'],irregular:[0,1,2,4,5,30,31,32,35]},
+  coger:{meaning:'to take / catch / grab',type:'-er irregular (g→j spelling)',present:['cojo','coges','coge','cogemos','cogéis','cogen'],preterite:['cogí','cogiste','cogió','cogimos','cogisteis','cogieron'],imperfect:['cogía','cogías','cogía','cogíamos','cogíais','cogían'],future:['cogeré','cogerás','cogerá','cogeremos','cogeréis','cogerán'],conditional:['cogería','cogerías','cogería','cogeríamos','cogeríais','cogerían'],subjunctive:['coja','cojas','coja','cojamos','cojáis','cojan'],imperative:['—','coge','coja','cojamos','coged','cojan'],irregular:[0,30,31,32,33,34,35]},
+  recordar:{meaning:'to remember',type:'-ar stem-changing (o→ue)',present:['recuerdo','recuerdas','recuerda','recordamos','recordáis','recuerdan'],preterite:['recordé','recordaste','recordó','recordamos','recordasteis','recordaron'],imperfect:['recordaba','recordabas','recordaba','recordábamos','recordabais','recordaban'],future:['recordaré','recordarás','recordará','recordaremos','recordaréis','recordarán'],conditional:['recordaría','recordarías','recordaría','recordaríamos','recordaríais','recordarían'],subjunctive:['recuerde','recuerdes','recuerde','recordemos','recordéis','recuerden'],imperative:['—','recuerda','recuerde','recordemos','recordad','recuerden'],irregular:[0,1,2,4,5,30,31,32,35]},
+  mostrar:{meaning:'to show',type:'-ar stem-changing (o→ue)',present:['muestro','muestras','muestra','mostramos','mostráis','muestran'],preterite:['mostré','mostraste','mostró','mostramos','mostrasteis','mostraron'],imperfect:['mostraba','mostrabas','mostraba','mostrábamos','mostrabais','mostraban'],future:['mostraré','mostrarás','mostrará','mostraremos','mostraréis','mostrarán'],conditional:['mostraría','mostrarías','mostraría','mostraríamos','mostraríais','mostrarían'],subjunctive:['muestre','muestres','muestre','mostremos','mostréis','muestren'],imperative:['—','muestra','muestre','mostremos','mostrad','muestren'],irregular:[0,1,2,4,5,30,31,32,35]},
+  resolver:{meaning:'to resolve / solve',type:'-er stem-changing (o→ue)',present:['resuelvo','resuelves','resuelve','resolvemos','resolvéis','resuelven'],preterite:['resolví','resolviste','resolvió','resolvimos','resolvisteis','resolvieron'],imperfect:['resolvía','resolvías','resolvía','resolvíamos','resolvíais','resolvían'],future:['resolveré','resolverás','resolverá','resolveremos','resolveréis','resolverán'],conditional:['resolvería','resolverías','resolvería','resolveríamos','resolveríais','resolverían'],subjunctive:['resuelva','resuelvas','resuelva','resolvamos','resolváis','resuelvan'],imperative:['—','resuelve','resuelva','resolvamos','resolved','resuelvan'],irregular:[0,1,2,4,5,30,31,32,35]},
+};
+
+// Merge all verbs
+Object.assign(VERBS, VERBS_EXTRA);
+
 const PRONOUNS = ['yo','tú','él/ella','nosotros','vosotros','ellos/ellas'];
+
 const TENSES = [
   {key:'present', label:'Presente'},
   {key:'preterite', label:'Pretérito'},
@@ -252,29 +311,36 @@ function onVerbInput() {
 function renderVerb(v) {
   const data = VERBS[v];
   if (!data) {
-    document.getElementById('conjContent').innerHTML = `<p style="color:var(--text2);font-style:italic">Verb "${v}" not in database yet. Try: ${COMMON.join(', ')}</p>`;
+    document.getElementById('conjContent').innerHTML = `<p style="color:var(--text2);font-style:italic;padding:1rem">Verb "${v}" not found. Try one of the chips above.</p>`;
     return;
   }
+
+  const irregList = Array.isArray(data.irregular) ? data.irregular : [];
   const tabs = TENSES.map(t =>
     `<button class="tab-btn${activeTenses.includes(t.key)?' active':''}" onclick="toggleTense('${t.key}',this)">${t.label}</button>`
   ).join('');
 
-  const tables = TENSES.filter(t => activeTenses.includes(t.key)).map(t => {
+  const tables = TENSES.filter(t => activeTenses.includes(t.key)).map((t, ti) => {
     const forms = data[t.key];
+    if (!forms) return '';
     const rows = PRONOUNS.map((p, i) => {
-      const irreg = (data.irregular || []).length > 0;
-      const isIrreg = irreg; // simplified — all marked if verb is irregular
-      return `<div class="conj-row"><span class="pronoun">${p}</span><span class="form${irreg?' irregular':''}">${forms[i]}</span></div>`;
+      // irregular index: each tense block of 6, offset by tense index
+      const flatIdx = ti * 6 + i;
+      const isIrreg = irregList.includes(flatIdx);
+      return `<div class="conj-row">
+        <span class="pronoun">${p}</span>
+        <span class="form${isIrreg ? ' irregular' : ''}">${forms[i] || '—'}</span>
+      </div>`;
     }).join('');
     return `<div class="conj-table"><div class="table-title">${t.label}</div>${rows}</div>`;
   }).join('');
 
   document.getElementById('conjContent').innerHTML = `
     <div class="verb-title">${v}</div>
-    <div class="verb-meta">${data.meaning} &nbsp;·&nbsp; ${data.type}</div>
+    <div class="verb-meta">${data.meaning} &nbsp;·&nbsp; <em>${data.type}</em></div>
     <div class="tense-tabs">${tabs}</div>
     <div class="tables-grid">${tables}</div>
-    ${data.irregular.length ? '<div class="irreg-legend"><span style="color:var(--accent2)">●</span> Orange = irregular forms</div>' : ''}
+    ${irregList.length ? '<div class="irreg-legend"><span style="color:var(--accent2)">●</span> Orange = irregular forms</div>' : ''}
   `;
 }
 
@@ -299,5 +365,12 @@ function toggleFont(d) { let f = parseInt(document.body.style.fontSize||'18'); f
 function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
 function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>

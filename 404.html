@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Página no encontrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+})();
+</script>
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+.light-early,.light-early body{background:#fdf6ec!important;color:#2d1b0e!important;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background .3s,color .3s;padding:2rem;}
+.hero{text-align:center;max-width:600px;}
+.num{font-family:'Playfair Display',serif;font-size:8rem;color:var(--accent);line-height:1;opacity:.8;}
+.title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--accent3);margin:.5rem 0;}
+.sub{color:var(--text2);font-style:italic;margin-bottom:2rem;}
+.phrase{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--text2);margin-bottom:2rem;padding:1rem 1.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;}
+.phrase-en{font-size:.85rem;color:var(--text2);font-style:italic;}
+.links{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:2rem;}
+.link-btn{background:var(--card);border:1px solid var(--border);color:var(--text2);text-decoration:none;padding:.5rem 1rem;border-radius:8px;transition:all .2s;font-size:.9rem;}
+.link-btn:hover{border-color:var(--accent2);color:var(--accent3);}
+.link-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.link-btn.primary:hover{background:var(--accent2);}
+.controls{display:flex;gap:.5rem;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="controls" style="position:fixed;top:1rem;right:1rem">
+  <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️</button>
+</div>
+<div class="hero">
+  <div class="num">404</div>
+  <div class="title">Página no encontrada</div>
+  <div class="sub">The page you're looking for doesn't exist — but your Spanish journey does.</div>
+
+  <div class="phrase">
+    <div>No hay mal que por bien no venga.</div>
+    <div class="phrase-en">Every cloud has a silver lining.</div>
+  </div>
+
+  <div class="links">
+    <a href="index.html" class="link-btn primary">🏠 Go Home</a>
+    <a href="grammar.html" class="link-btn">📚 Grammar</a>
+    <a href="vocabulary.html" class="link-btn">📝 Vocab</a>
+    <a href="quiz.html" class="link-btn">🧠 Quiz</a>
+    <a href="search.html" class="link-btn">🔍 Search</a>
+  </div>
+
+  <div id="randomPhrase" style="color:var(--text2);font-size:.85rem;cursor:pointer" onclick="nextPhrase()">
+    Click for a Spanish phrase while you're here →
+  </div>
+</div>
+
+<script>
+const PHRASES = [
+  {es:'¡No pasa nada!', en:'"No worries!" / "It\'s fine!"'},
+  {es:'Más vale tarde que nunca.', en:'"Better late than never."'},
+  {es:'A quien madruga, Dios le ayuda.', en:'"The early bird catches the worm."'},
+  {es:'Cada uno es como Dios lo hizo.', en:'"Everyone is as God made them."'},
+  {es:'El que busca, encuentra.', en:'"He who seeks, finds."'},
+  {es:'La práctica hace al maestro.', en:'"Practice makes perfect."'},
+  {es:'Al mal tiempo, buena cara.', en:'"Put a brave face on things."'},
+  {es:'Querer es poder.', en:'"Where there\'s a will, there\'s a way."'},
+  {es:'Poco a poco se va lejos.', en:'"Little by little, one goes far."'},
+  {es:'No todo lo que brilla es oro.', en:'"All that glitters is not gold."'},
+];
+let pi = Math.floor(Math.random()*PHRASES.length);
+function nextPhrase() {
+  pi = (pi+1)%PHRASES.length;
+  const p = PHRASES[pi];
+  document.getElementById('randomPhrase').innerHTML =
+    `<div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent3);margin-bottom:.3rem">${p.es}</div><div style="font-style:italic">${p.en}</div><div style="font-size:.75rem;margin-top:.5rem;opacity:.6">Click for another →</div>`;
+}
+nextPhrase();
+
+const th=localStorage.getItem('es_theme')||'dark';
+if(th==='light'){document.body.classList.add('light');document.getElementById('themeBtn').textContent='🌙';}
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.getElementById('themeBtn').textContent=l?'🌙':'☀️';}
+</script>
+</body>
+</html>

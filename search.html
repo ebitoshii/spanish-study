@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search — Español Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2d1b0e;--bg2:#3a2415;--bg3:#4a2e1a;--text:#f0e6d3;--text2:#c8b49a;--accent:#c0392b;--accent2:#e67e22;--accent3:#f39c12;--card:#3a2415;--border:#5a3825;--nav-bg:#1e1208;}
+.light{--bg:#fdf6ec;--bg2:#f5ead8;--bg3:#ecdcc4;--text:#2d1b0e;--text2:#6b4c2a;--accent:#c0392b;--accent2:#e67e22;--accent3:#d4700a;--card:#fff8ef;--border:#d4b896;--nav-bg:#3a1f0d;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent3);text-decoration:none;letter-spacing:.05em;}
+.nav-links{display:flex;gap:.2rem;align-items:center;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;padding:.3rem .6rem;border-radius:4px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent3);background:rgba(192,57,43,.2);}
+.nav-controls{display:flex;gap:.5rem;align-items:center;}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--text2);cursor:pointer;padding:.25rem .5rem;border-radius:4px;font-size:.8rem;transition:all .2s;}
+.btn-icon:hover{color:var(--accent3);border-color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--nav-bg);padding:1rem;z-index:99;border-bottom:2px solid var(--accent);flex-direction:column;gap:.3rem;max-height:80vh;overflow-y:auto;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem .8rem;border-radius:4px;font-size:1rem;}
+.mobile-menu a:hover{color:var(--accent3);background:rgba(192,57,43,.2);}
+
+.search-hero{padding:2.5rem 2rem;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(192,57,43,.08) 0%,transparent 100%);}
+.search-title{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--accent3);margin-bottom:.4rem;}
+.search-sub{color:var(--text2);font-style:italic;font-size:.95rem;margin-bottom:1.5rem;}
+.search-wrap{display:flex;gap:.6rem;max-width:680px;margin:0 auto;}
+.search-box{flex:1;background:var(--bg2);border:2px solid var(--border);color:var(--text);padding:.85rem 1.2rem;border-radius:10px;font-family:'Crimson Pro',serif;font-size:1.1rem;outline:none;transition:border-color .2s;}
+.search-box:focus{border-color:var(--accent);}
+.search-box::placeholder{color:var(--text2);}
+.search-btn{background:var(--accent);color:#fff;border:none;padding:.85rem 1.5rem;border-radius:10px;font-family:'Crimson Pro',serif;font-size:1rem;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.search-btn:hover{background:var(--accent2);}
+.filter-row{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;}
+.stype-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.25rem .7rem;border-radius:20px;cursor:pointer;font-family:'Crimson Pro',serif;font-size:.82rem;transition:all .2s;}
+.stype-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.container{max-width:900px;margin:0 auto;padding:1.5rem;}
+.results-summary{color:var(--text2);font-size:.88rem;margin-bottom:1rem;padding:.5rem 0;border-bottom:1px solid var(--border);}
+.result-group{margin-bottom:2rem;}
+.group-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent2);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;}
+.group-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;text-decoration:none;display:block;transition:all .2s;}
+.result-card:hover{border-color:var(--accent2);transform:translateX(3px);}
+.result-header{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:.3rem;}
+.result-source{font-size:.72rem;color:#fff;background:var(--accent);padding:.1rem .4rem;border-radius:8px;white-space:nowrap;flex-shrink:0;}
+.result-source.grammar{background:var(--accent);}
+.result-source.vocab{background:var(--accent2);}
+.result-source.idiom{background:#9b59b6;}
+.result-source.reading{background:#2980b9;}
+.result-source.listening{background:#27ae60;}
+.result-title{font-size:1rem;color:var(--accent3);font-weight:600;}
+.result-snippet{font-size:.88rem;color:var(--text2);line-height:1.5;}
+.result-snippet mark{background:rgba(243,156,18,.25);color:var(--accent3);border-radius:2px;padding:0 2px;}
+.result-meta{font-size:.72rem;color:var(--text2);margin-top:.3rem;}
+
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--text2);}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:.4;}
+.quick-links{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:1rem;}
+.quick-link{background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:.3rem .8rem;border-radius:20px;cursor:pointer;font-size:.85rem;transition:all .2s;}
+.quick-link:hover{border-color:var(--accent);color:var(--accent3);}
+
+@media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.search-wrap{flex-direction:column;}.container{padding:1rem;}}
+</style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+<script src="shared.js"></script>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Español ✦</a>
+  <div class="nav-links">
+    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
+    <a href="pronunciation.html">Pronunciation</a>
+    <a href="reading.html">Reading</a><a href="listening.html">Listening</a>
+    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
+    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
+    <a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a>
+    <a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a>
+    <a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a>
+    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a>
+    <a href="schedule.html">Schedule</a><a href="export.html">Export</a>
+    <a href="search.html" class="active">Search</a>
+  </div>
+  <div class="nav-controls">
+    <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
+    <button class="btn-icon" onclick="resetFont()">A</button>
+    <button class="btn-icon" onclick="toggleFont(1)">A+</button>
+    <button class="btn-icon themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a>
+  <a href="grammar.html">📚 Grammar</a><a href="vocabulary.html">📝 Vocab</a>
+  <a href="idioms.html">💬 Idioms</a><a href="reading.html">📖 Reading</a>
+  <a href="search.html">🔍 Search</a>
+</div>
+
+<div class="search-hero">
+  <div class="search-title">🔍 Site Search</div>
+  <div class="search-sub">Search across grammar rules, vocabulary, idioms, reading passages, and listening scripts</div>
+  <div class="search-wrap">
+    <input type="text" class="search-box" id="searchBox" placeholder="Try: subjunctive, por favor, perro, ser vs estar..." autocomplete="off" spellcheck="false">
+    <button class="search-btn" onclick="doSearch()">Search</button>
+  </div>
+  <div class="filter-row">
+    <button class="stype-btn active" onclick="setType('all',this)">All</button>
+    <button class="stype-btn" onclick="setType('grammar',this)">Grammar</button>
+    <button class="stype-btn" onclick="setType('vocab',this)">Vocabulary</button>
+    <button class="stype-btn" onclick="setType('idiom',this)">Idioms</button>
+    <button class="stype-btn" onclick="setType('reading',this)">Reading</button>
+    <button class="stype-btn" onclick="setType('listening',this)">Listening</button>
+  </div>
+</div>
+
+<div class="container">
+  <div id="resultsArea">
+    <div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <div>Search the entire site</div>
+      <div style="font-size:.85rem;margin-top:.5rem;color:var(--text2)">Try a Spanish word, English translation, grammar topic, or level</div>
+      <div class="quick-links" id="quickLinks"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── SEARCH INDEX ──
+// Grammar rules
+const GRAMMAR_INDEX = [
+  {id:1,name:'Ser vs Estar',es:'Ser y Estar',level:'a1',desc:'Both mean "to be" but used in different contexts. Ser for permanent; estar for states, location.',url:'grammar.html'},
+  {id:2,name:'Present Tense Regular Verbs',es:'Presente Regular',level:'a1',desc:'Regular verb endings: -ar → -o/as/a; -er → -o/es/e; -ir → -o/es/e',url:'grammar.html'},
+  {id:3,name:'Definite & Indefinite Articles',es:'Artículos',level:'a1',desc:'el/la/los/las and un/una/unos/unas — agree in gender and number',url:'grammar.html'},
+  {id:4,name:'Noun Gender',es:'Género de Sustantivos',level:'a1',desc:'All Spanish nouns are masculine or feminine. -o usually masculine, -a usually feminine.',url:'grammar.html'},
+  {id:5,name:'Adjective Agreement',es:'Concordancia de Adjetivos',level:'a1',desc:'Adjectives agree in gender and number with the noun they modify',url:'grammar.html'},
+  {id:6,name:'Subject Pronouns',es:'Pronombres Personales',level:'a1',desc:'yo tú él ella usted nosotros vosotros ellos ustedes — often omitted',url:'grammar.html'},
+  {id:7,name:'Negation',es:'Negación',level:'a1',desc:'no + verb. Double negatives required: no tengo nada',url:'grammar.html'},
+  {id:8,name:'Question Formation',es:'Preguntas',level:'a1',desc:'¿Dónde cuándo quién qué cómo cuánto por qué cuál? Inverted opening question mark',url:'grammar.html'},
+  {id:9,name:'Hay',es:'Hay',level:'a1',desc:'Invariable form of haber for existence: hay un banco, hay tres vuelos',url:'grammar.html'},
+  {id:10,name:'Tener Expressions',es:'Tener y Expresiones',level:'a1',desc:'tener hambre/sed/frío/calor/sueño/miedo/razón. tener que + inf = must',url:'grammar.html'},
+  {id:11,name:'Preterite Tense',es:'Pretérito Indefinido',level:'a2',desc:'Completed past actions. -AR: é/aste/ó; -ER/-IR: í/iste/ió. Key irregulars: fui hice tuve',url:'grammar.html'},
+  {id:12,name:'Imperfect Tense',es:'Pretérito Imperfecto',level:'a2',desc:'Habitual/ongoing past. -aba endings for -ar; -ía for -er/-ir. Only 3 irregulars.',url:'grammar.html'},
+  {id:13,name:'Object Pronouns',es:'Pronombres de Complemento',level:'a2',desc:'DO: lo/la/los/las. IO: le/les. Le→se before lo/la.',url:'grammar.html'},
+  {id:14,name:'Gustar',es:'Gustar y Similares',level:'a2',desc:'me/te/le/nos/os/les + gusta/gustan. Subject is the thing liked.',url:'grammar.html'},
+  {id:15,name:'Reflexive Verbs',es:'Verbos Reflexivos',level:'a2',desc:'me/te/se/nos/os/se. levantarse, ducharse, ponerse.',url:'grammar.html'},
+  {id:16,name:'Present Progressive',es:'Estar + Gerundio',level:'a2',desc:'estar + -ando/-iendo. Used for actions in progress right now.',url:'grammar.html'},
+  {id:17,name:'Ir a + Infinitive',es:'Futuro Próximo',level:'a2',desc:'voy/vas/va + a + infinitive. Near future plans.',url:'grammar.html'},
+  {id:18,name:'Demonstratives',es:'Demostrativos',level:'a2',desc:'este/ese/aquel and feminine/plural forms. Near, mid, far distance.',url:'grammar.html'},
+  {id:19,name:'Possessives',es:'Posesivos',level:'a2',desc:'mi/tu/su/nuestro short forms; mío/tuyo/suyo long forms.',url:'grammar.html'},
+  {id:20,name:'Present Perfect',es:'Pretérito Perfecto',level:'a2',desc:'he/has/ha/hemos/habéis/han + participle. Recent past in Spain.',url:'grammar.html'},
+  {id:21,name:'Present Subjunctive',es:'Presente de Subjuntivo',level:'b1',desc:'WEIRDO triggers. Take yo present, drop -o, add opposite vowel.',url:'grammar.html'},
+  {id:22,name:'Por vs Para',es:'Por y Para',level:'b1',desc:'Por: cause duration exchange means. Para: purpose destination deadline.',url:'grammar.html'},
+  {id:23,name:'Future Tense',es:'Futuro Simple',level:'b1',desc:'Infinitive + é/ás/á/emos/éis/án. Irregular stems: tendr/har/podr/dir.',url:'grammar.html'},
+  {id:24,name:'Preterite vs Imperfect',es:'Indefinido vs Imperfecto',level:'b1',desc:'Key contrast. Preterite: completed. Imperfect: habitual/ongoing/background.',url:'grammar.html'},
+  {id:25,name:'Relative Pronouns',es:'Pronombres Relativos',level:'b1',desc:'que el/la que lo que cuyo quien. Connect clauses.',url:'grammar.html'},
+  {id:26,name:'Infinitive Constructions',es:'Perífrasis con Infinitivo',level:'b1',desc:'acabar de ir a empezar a dejar de soler + infinitive',url:'grammar.html'},
+  {id:27,name:'Adverbial Clauses',es:'Oraciones Adverbiales',level:'b1',desc:'cuando mientras aunque porque para que. Time cause concession purpose.',url:'grammar.html'},
+  {id:28,name:'Haber Expressions',es:'Expresiones con Haber',level:'b1',desc:'hay/había/hubo/habrá. haber que + inf.',url:'grammar.html'},
+  {id:29,name:'Comparatives & Superlatives',es:'Comparativos y Superlativos',level:'b1',desc:'más/menos que tan como. mejor peor mayor menor. -ísimo.',url:'grammar.html'},
+  {id:30,name:'Ser/Estar with Adjectives',es:'Ser vs Estar con Adjetivos',level:'b1',desc:'listo vivo rico malo — change meaning with ser vs estar.',url:'grammar.html'},
+  {id:31,name:'Imperfect Subjunctive',es:'Subjuntivo Imperfecto',level:'b2',desc:'Si-clauses: si + imperfect subj + conditional. -ra/-se forms.',url:'grammar.html'},
+  {id:32,name:'Conditional Tense',es:'Condicional Simple',level:'b2',desc:'Infinitive + ía/ías/ía. Would. Polite requests. Reported speech.',url:'grammar.html'},
+  {id:33,name:'Passive Voice',es:'Voz Pasiva',level:'b2',desc:'ser + participle + por. Se pasiva more common in speech.',url:'grammar.html'},
+  {id:34,name:'Compound Tenses',es:'Tiempos Compuestos',level:'b2',desc:'haber + participle: present perfect pluperfect future perfect conditional perfect.',url:'grammar.html'},
+  {id:35,name:'Subjunctive in Relative Clauses',es:'Subjuntivo en Relativas',level:'b2',desc:'Unknown antecedent → subjunctive. No hay nadie que sepa.',url:'grammar.html'},
+  {id:36,name:'Sequence of Tenses',es:'Concordancia Temporal',level:'b2',desc:'Present main → present subj. Past main → imperfect subj.',url:'grammar.html'},
+  {id:37,name:'Ser/Estar Advanced',es:'Ser y Estar Avanzado',level:'b2',desc:'Events use ser. Dates use estar. Resultant states use estar.',url:'grammar.html'},
+  {id:38,name:'Nominalization',es:'Nominalización',level:'b2',desc:'lo + adj. Article + participle. lo que = what (abstract).',url:'grammar.html'},
+  {id:39,name:'Prepositional Verbs',es:'Verbos con Preposición',level:'b2',desc:'aprender a, acabar de, insistir en, soñar con, casarse con.',url:'grammar.html'},
+  {id:40,name:'Discourse Markers',es:'Marcadores del Discurso',level:'b2',desc:'sin embargo no obstante dado que por lo tanto por consiguiente.',url:'grammar.html'},
+  {id:41,name:'Compound Subjunctive',es:'Subjuntivo Compuesto',level:'c1',desc:'haya/hubiera + participle. Perfect and pluperfect subjunctive.',url:'grammar.html'},
+  {id:42,name:'Verb Periphrases',es:'Perífrasis Verbales',level:'c1',desc:'llevar + gerund seguir + gerund estar dispuesto a venir a.',url:'grammar.html'},
+  {id:43,name:'Concessive Clauses',es:'Oraciones Concesivas',level:'c1',desc:'aunque + ind (fact) vs + subj (hypothetical). por más que.',url:'grammar.html'},
+  {id:44,name:'Impersonal Constructions',es:'Impersonales',level:'c1',desc:'se + 3rd person. haber que. es necesario. se dice que.',url:'grammar.html'},
+  {id:45,name:'False Friends',es:'Falsos Amigos',level:'c1',desc:'embarazada≠embarrassed. sensible≠sensible. actual≠actual. largo≠large.',url:'grammar.html'},
+  {id:46,name:'Subjunctive in Nominal Clauses',es:'Subjuntivo en Sustantivas',level:'c1',desc:'Verbs of desire emotion doubt + que + subjunctive.',url:'grammar.html'},
+  {id:47,name:'Register & Lexical Variation',es:'Registro y Variación',level:'c1',desc:'Formal vs colloquial. o sea bueno pues fillers. nominalisation.',url:'grammar.html'},
+  {id:48,name:'Complex Relative Clauses',es:'Relativas Complejas',level:'c1',desc:'cuyo el cual lo cual. Formal relative pronouns with prepositions.',url:'grammar.html'},
+  {id:49,name:'Advanced Si Clauses',es:'Condicionales Avanzadas',level:'c1',desc:'Mixed conditionals. de + inf literary. como + subj warning.',url:'grammar.html'},
+  {id:50,name:'Verbal Aspect',es:'El Aspecto Verbal',level:'c1',desc:'Perfective vs imperfective. Key to preterite/imperfect and ser/estar.',url:'grammar.html'},
+];
+
+// Vocabulary sample index (key words)
+const VOCAB_INDEX = [
+  {word:'hablar',en:'to speak',level:'a1',theme:'basics',url:'vocabulary.html'},
+  {word:'ser',en:'to be (permanent)',level:'a1',theme:'basics',url:'vocabulary.html'},
+  {word:'estar',en:'to be (temporary)',level:'a1',theme:'basics',url:'vocabulary.html'},
+  {word:'tener',en:'to have',level:'a1',theme:'basics',url:'vocabulary.html'},
+  {word:'hacer',en:'to do/make',level:'a1',theme:'basics',url:'vocabulary.html'},
+  {word:'ir',en:'to go',level:'a1',theme:'basics',url:'vocabulary.html'},
+  {word:'querer',en:'to want/love',level:'a1',theme:'emotions',url:'vocabulary.html'},
+  {word:'poder',en:'to be able to',level:'a1',theme:'basics',url:'vocabulary.html'},
+  {word:'el vuelo',en:'flight',level:'a2',theme:'travel',url:'vocabulary.html'},
+  {word:'el aeropuerto',en:'airport',level:'a2',theme:'travel',url:'vocabulary.html'},
+  {word:'la salud',en:'health',level:'a2',theme:'health',url:'vocabulary.html'},
+  {word:'el trabajo',en:'work/job',level:'a1',theme:'work',url:'vocabulary.html'},
+  {word:'el medio ambiente',en:'environment',level:'b1',theme:'nature',url:'vocabulary.html'},
+  {word:'la conciencia',en:'awareness/conscience',level:'b2',theme:'society',url:'vocabulary.html'},
+  {word:'no obstante',en:'nevertheless',level:'c1',theme:'work',url:'vocabulary.html'},
+  {word:'dilucidar',en:'to elucidate',level:'c1',theme:'work',url:'vocabulary.html'},
+  {word:'el ámbito',en:'field/scope',level:'b2',theme:'work',url:'vocabulary.html'},
+  {word:'la brecha',en:'gap/divide',level:'b2',theme:'society',url:'vocabulary.html'},
+  {word:'palmario',en:'obvious/evident',level:'c1',theme:'work',url:'vocabulary.html'},
+  {word:'por ende',en:'therefore',level:'c1',theme:'work',url:'vocabulary.html'},
+];
+
+// Idioms index
+const IDIOM_INDEX = [
+  {es:'costar un ojo de la cara',en:'to cost an arm and a leg',cat:'body',url:'idioms.html'},
+  {es:'tomar el pelo',en:'to pull someone\'s leg',cat:'body',url:'idioms.html'},
+  {es:'meter la pata',en:'to put one\'s foot in it',cat:'body',url:'idioms.html'},
+  {es:'matar dos pájaros de un tiro',en:'to kill two birds with one stone',cat:'animals',url:'idioms.html'},
+  {es:'no hay mal que por bien no venga',en:'every cloud has a silver lining',cat:'proverbs',url:'idioms.html'},
+  {es:'más vale tarde que nunca',en:'better late than never',cat:'proverbs',url:'idioms.html'},
+  {es:'en un abrir y cerrar de ojos',en:'in the blink of an eye',cat:'time',url:'idioms.html'},
+  {es:'estar hasta las narices',en:'to be fed up',cat:'emotions',url:'idioms.html'},
+  {es:'ponerse como un tomate',en:'to go red as a beetroot',cat:'emotions',url:'idioms.html'},
+  {es:'romper el hielo',en:'to break the ice',cat:'social',url:'idioms.html'},
+  {es:'llevar la voz cantante',en:'to call the shots',cat:'social',url:'idioms.html'},
+  {es:'ir al grano',en:'to get to the point',cat:'social',url:'idioms.html'},
+  {es:'hablar por los codos',en:'to talk non-stop',cat:'body',url:'idioms.html'},
+  {es:'echar una mano',en:'to give a hand',cat:'body',url:'idioms.html'},
+  {es:'estar en las nubes',en:'to have head in the clouds',cat:'emotions',url:'idioms.html'},
+  {es:'ponerse las pilas',en:'to get one\'s act together',cat:'social',url:'idioms.html'},
+  {es:'cuando las ranas críen pelo',en:'when pigs fly',cat:'animals',url:'idioms.html'},
+  {es:'hacer el agosto',en:'to make a killing',cat:'work',url:'idioms.html'},
+];
+
+// Reading passages index
+const READING_INDEX = [
+  {title:'Mi rutina diaria',topic:'Daily routine',level:'a2',url:'reading.html'},
+  {title:'El turismo en España',topic:'Tourism',level:'a2',url:'reading.html'},
+  {title:'El mercado laboral digital',topic:'Digital work',level:'b1',url:'reading.html'},
+  {title:'La memoria colectiva',topic:'History & memory',level:'b1',url:'reading.html'},
+  {title:'Una carta de presentación',topic:'Work & communication',level:'a2',url:'reading.html'},
+  {title:'La dieta mediterránea',topic:'Health & food',level:'b1',url:'reading.html'},
+  {title:'Vivir en el extranjero',topic:'Expat life',level:'b1',url:'reading.html'},
+  {title:'La burbuja de las redes sociales',topic:'Technology & society',level:'b2',url:'reading.html'},
+  {title:'El español en el mundo',topic:'Language & culture',level:'b2',url:'reading.html'},
+  {title:'La economía circular',topic:'Environment & economics',level:'b2',url:'reading.html'},
+  {title:'El populismo y la democracia liberal',topic:'Political science',level:'c1',url:'reading.html'},
+  {title:'Inteligencia artificial y creatividad',topic:'Philosophy & technology',level:'c1',url:'reading.html'},
+  {title:'La paradoja de la tolerancia',topic:'Philosophy & politics',level:'c1',url:'reading.html'},
+];
+
+// Listening scripts index
+const LISTENING_INDEX = [
+  {title:'En el restaurante',topic:'Ordering food',level:'a2',url:'listening.html'},
+  {title:'En el aeropuerto',topic:'Travel',level:'a2',url:'listening.html'},
+  {title:'En la reunión de negocios',topic:'Business meeting',level:'b1',url:'listening.html'},
+  {title:'El cambio climático',topic:'Environment',level:'b2',url:'listening.html'},
+  {title:'La entrevista de trabajo',topic:'Job interview',level:'b1',url:'listening.html'},
+  {title:'La economía digital',topic:'Economy',level:'b2',url:'listening.html'},
+  {title:'La farmacia',topic:'Health',level:'a2',url:'listening.html'},
+  {title:'Comprando ropa',topic:'Shopping',level:'a2',url:'listening.html'},
+  {title:'La dieta mediterránea',topic:'Food & health',level:'b1',url:'listening.html'},
+  {title:'Noticias del día',topic:'News',level:'b1',url:'listening.html'},
+  {title:'La IA y el trabajo',topic:'AI & employment',level:'b2',url:'listening.html'},
+  {title:'La ética de la IA',topic:'AI ethics',level:'c1',url:'listening.html'},
+  {title:'La memoria histórica',topic:'Historical memory',level:'c1',url:'listening.html'},
+  {title:'Filosofía política',topic:'Political philosophy',level:'c1',url:'listening.html'},
+  {title:'Neurociencia y libre albedrío',topic:'Neuroscience',level:'c1',url:'listening.html'},
+  {title:'La crisis de la democracia',topic:'Democratic theory',level:'c1',url:'listening.html'},
+];
+
+let activeType = 'all';
+
+function setType(t, btn) {
+  activeType = t;
+  document.querySelectorAll('.stype-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if (document.getElementById('searchBox').value.trim()) doSearch();
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function doSearch() {
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  if (!q) return;
+
+  const results = {grammar:[], vocab:[], idiom:[], reading:[], listening:[]};
+
+  if (activeType === 'all' || activeType === 'grammar') {
+    GRAMMAR_INDEX.forEach(r => {
+      const score = [r.name, r.es, r.desc, r.level].join(' ').toLowerCase();
+      if (score.includes(q)) results.grammar.push(r);
+    });
+  }
+  if (activeType === 'all' || activeType === 'vocab') {
+    VOCAB_INDEX.forEach(v => {
+      if ((v.word+' '+v.en+' '+v.theme).toLowerCase().includes(q)) results.vocab.push(v);
+    });
+  }
+  if (activeType === 'all' || activeType === 'idiom') {
+    IDIOM_INDEX.forEach(i => {
+      if ((i.es+' '+i.en+' '+i.cat).toLowerCase().includes(q)) results.idiom.push(i);
+    });
+  }
+  if (activeType === 'all' || activeType === 'reading') {
+    READING_INDEX.forEach(p => {
+      if ((p.title+' '+p.topic+' '+p.level).toLowerCase().includes(q)) results.reading.push(p);
+    });
+  }
+  if (activeType === 'all' || activeType === 'listening') {
+    LISTENING_INDEX.forEach(s => {
+      if ((s.title+' '+s.topic+' '+s.level).toLowerCase().includes(q)) results.listening.push(s);
+    });
+  }
+
+  const total = Object.values(results).reduce((a,v)=>a+v.length,0);
+  const container = document.getElementById('resultsArea');
+
+  if (!total) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div>No results for "<strong>${q}</strong>"</div><div style="font-size:.85rem;margin-top:.5rem">Try different keywords or check spelling</div></div>`;
+    return;
+  }
+
+  let html = `<div class="results-summary">${total} result${total!==1?'s':''} for "<strong>${q}</strong>"</div>`;
+
+  const SECTIONS = [
+    {key:'grammar', label:'📚 Grammar Rules', render: r =>
+      `<a href="${r.url}#rule-${r.id}" class="result-card" onclick="sessionStorage.setItem('grammar_open',${r.id})">
+        <div class="result-header"><span class="result-source grammar">Grammar</span><span class="result-title">${highlight(r.name, q)} <span style="font-size:.75rem;color:var(--text2)">· ${r.level.toUpperCase()}</span></span></div>
+        <div class="result-snippet">${highlight(r.desc.slice(0,120), q)}…</div>
+      </a>`},
+    {key:'vocab', label:'📝 Vocabulary', render: v =>
+      `<a href="${v.url}?q=${encodeURIComponent(v.word)}" class="result-card">
+        <div class="result-header"><span class="result-source vocab">Vocab</span><span class="result-title">${highlight(v.word, q)} <span style="font-size:.75rem;color:var(--text2)">· ${v.en} · ${v.level.toUpperCase()}</span></span></div>
+        <div class="result-snippet">Theme: ${v.theme}</div>
+      </a>`},
+    {key:'idiom', label:'💬 Idioms', render: i =>
+      `<a href="${i.url}" class="result-card">
+        <div class="result-header"><span class="result-source idiom">Idiom</span><span class="result-title">${highlight(i.es, q)}</span></div>
+        <div class="result-snippet">${highlight(i.en, q)} · ${i.cat}</div>
+      </a>`},
+    {key:'reading', label:'📖 Reading Passages', render: p =>
+      `<a href="${p.url}" class="result-card">
+        <div class="result-header"><span class="result-source reading">Reading</span><span class="result-title">${highlight(p.title, q)} <span style="font-size:.75rem;color:var(--text2)">· ${p.level.toUpperCase()}</span></span></div>
+        <div class="result-snippet">${highlight(p.topic, q)}</div>
+      </a>`},
+    {key:'listening', label:'🎧 Listening Scripts', render: s =>
+      `<a href="${s.url}" class="result-card">
+        <div class="result-header"><span class="result-source listening">Listening</span><span class="result-title">${highlight(s.title, q)} <span style="font-size:.75rem;color:var(--text2)">· ${s.level.toUpperCase()}</span></span></div>
+        <div class="result-snippet">${highlight(s.topic, q)}</div>
+      </a>`},
+  ];
+
+  SECTIONS.forEach(sec => {
+    if (!results[sec.key].length) return;
+    html += `<div class="result-group"><div class="group-title">${sec.label} (${results[sec.key].length})</div>${results[sec.key].map(sec.render).join('')}</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// Quick search suggestions
+const SUGGESTIONS = ['subjunctive','ser vs estar','por vs para','preterite','imperfect','gustar','perro','hacer','no hay mal','aunque','llevar','tener'];
+document.getElementById('quickLinks').innerHTML = SUGGESTIONS.map(s=>
+  `<span class="quick-link" onclick="document.getElementById('searchBox').value='${s}';doSearch()">${s}</span>`
+).join('');
+
+document.getElementById('searchBox').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+// Check for query param
+const urlQ = new URLSearchParams(location.search).get('q');
+if (urlQ) { document.getElementById('searchBox').value = urlQ; doSearch(); }
+
+const th=localStorage.getItem('es_theme')||'dark';if(th==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=th==='light'?'🌙':'☀️');
+const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
+function toggleTheme(){const l=document.body.classList.toggle('light');localStorage.setItem('es_theme',l?'light':'dark');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=l?'🌙':'☀️');}
+function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math.min(24,Math.max(14,f+d));document.body.style.fontSize=f+'px';localStorage.setItem('es_fontsize',f);}
+function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+</script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab active" title="Search">🔍<span>Search</span></a>
+</nav>
+</body>
+</html>

@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Schedule — Español Study</title>
@@ -74,6 +84,20 @@
   .goal-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--accent),var(--accent3)); transition:width 0.5s ease; }
   .goal-done { color:var(--accent3); font-size:0.88rem; margin-top:0.4rem; text-align:center; }
 
+  /* Weekly planner */
+  .planner-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:.5rem; margin-bottom:1rem; }
+  .planner-day { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:.5rem; min-height:120px; }
+  .planner-day.today { border-color:var(--accent3); }
+  .planner-day-header { font-size:.72rem; text-transform:uppercase; letter-spacing:.07em; color:var(--text2); margin-bottom:.4rem; display:flex; justify-content:space-between; }
+  .planner-day-date { color:var(--accent3); font-weight:600; }
+  .planner-task { background:var(--bg3); border-radius:4px; padding:.2rem .4rem; font-size:.75rem; color:var(--text); margin-bottom:.25rem; display:flex; justify-content:space-between; align-items:center; }
+  .planner-task.done { text-decoration:line-through; opacity:.5; }
+  .task-del { background:none; border:none; color:var(--text2); cursor:pointer; font-size:.7rem; padding:0 .2rem; }
+  .task-del:hover { color:var(--red,#e74c3c); }
+  .planner-add { width:100%; background:none; border:1px dashed var(--border); color:var(--text2); border-radius:4px; padding:.2rem; font-size:.72rem; cursor:pointer; margin-top:.3rem; transition:all .2s; }
+  .planner-add:hover { border-color:var(--accent2); color:var(--accent2); }
+  .task-input { width:100%; background:var(--bg3); border:1px solid var(--accent); color:var(--text); padding:.2rem .4rem; border-radius:4px; font-size:.75rem; font-family:inherit; outline:none; margin-top:.3rem; }
+
   .lifetime-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:1rem; }
   .lt-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:1rem; text-align:center; }
   .lt-card .num { font-size:1.6rem; font-weight:700; color:var(--accent3); font-family:'Playfair Display',serif; }
@@ -86,23 +110,19 @@
 
   @media(max-width:640px) { .nav-links { display:none; } .hamburger { display:flex; } .streak-hero { gap:1rem; } }
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+<script src="shared.js"></script>
 </head>
 <body>
 <nav>
   <a class="nav-brand" href="index.html">Español ✦</a>
-  <div class="nav-links">
-    <a href="grammar.html">Grammar</a>
-    <a href="vocabulary.html">Vocabulary</a>
-    <a href="conjugation.html">Conjugation</a>
-    <a href="quiz.html">Quiz</a>
-    <a href="flashcards.html">Flashcards</a>
-    <a href="writing.html">Writing</a>
-    <a href="listening.html">Listening</a>
-    <a href="reading.html">Reading</a>
-    <a href="mistakes.html">Mistakes</a>
-    <a href="progress.html">Progress</a>
-    <a href="schedule.html" class="active">Schedule</a>
-  </div>
+  <div class="nav-links"><a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="pronunciation.html">Pronunciation</a><a href="reading.html">Reading</a><a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a><a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a><a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a><a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a><a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a><a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html" class="active">Schedule</a><a href="export.html">Export</a></div>
   <div class="nav-controls">
     <button class="btn-icon" id="themeBtn">☀</button>
     <button class="btn-icon" id="fontDn">A−</button>
@@ -177,6 +197,13 @@
       <span style="display:flex;align-items:center;gap:0.4rem"><span style="width:12px;height:12px;border-radius:3px;background:rgba(192,57,43,0.3);display:inline-block"></span>Studied</span>
       <span style="display:flex;align-items:center;gap:0.4rem"><span style="width:12px;height:12px;border-radius:3px;border:2px solid var(--accent3);display:inline-block"></span>Today</span>
     </div>
+  </div>
+
+  <!-- Weekly planner -->
+  <div class="cal-section">
+    <div class="section-title">📋 Weekly Study Planner</div>
+    <div class="planner-grid" id="plannerGrid"></div>
+    <div style="font-size:.78rem;color:var(--text2);text-align:center">Click a task to mark done · Click + to add · Click ✕ to remove</div>
   </div>
 
   <!-- Lifetime stats -->
@@ -347,6 +374,92 @@
     setTimeout(() => { btn.textContent = '✓ Mark Today as Studied'; btn.style.background = 'var(--accent)'; }, 2000);
   });
 
+  // ── WEEKLY PLANNER ──
+  const PLANNER_KEY = 'es_weeklyPlan';
+  const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const DAY_FULL = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const SUGGESTED_TASKS = ['Grammar review','Vocabulary (30 words)','Quiz session','Listening (2 scripts)','Reading passage','Verb drill','Flashcards','Writing drill','Speaking practice','Idioms review'];
+
+  function getPlan() { try { return JSON.parse(localStorage.getItem(PLANNER_KEY)||'{}'); } catch { return {}; } }
+  function savePlan(p) { localStorage.setItem(PLANNER_KEY, JSON.stringify(p)); }
+
+  function getWeekDates() {
+    const today = new Date();
+    const dow = (today.getDay()+6)%7; // Mon=0
+    return Array.from({length:7}, (_,i) => {
+      const d = new Date(today);
+      d.setDate(d.getDate() - dow + i);
+      return d;
+    });
+  }
+
+  function renderPlanner() {
+    const plan = getPlan();
+    const dates = getWeekDates();
+    const todayStr = new Date().toISOString().slice(0,10);
+    const grid = document.getElementById('plannerGrid');
+    grid.innerHTML = dates.map((d,i) => {
+      const ds = d.toISOString().slice(0,10);
+      const tasks = plan[ds] || [];
+      const isToday = ds === todayStr;
+      return `<div class="planner-day${isToday?' today':''}">
+        <div class="planner-day-header">
+          <span>${DAY_NAMES[i]}</span>
+          <span class="planner-day-date">${d.getDate()}</span>
+        </div>
+        ${tasks.map((t,ti) => `
+          <div class="planner-task${t.done?' done':''}" onclick="toggleTask('${ds}',${ti})">
+            <span>${t.text}</span>
+            <button class="task-del" onclick="event.stopPropagation();deleteTask('${ds}',${ti})">✕</button>
+          </div>`).join('')}
+        <button class="planner-add" onclick="addTask('${ds}',this)">+ Add</button>
+      </div>`;
+    }).join('');
+  }
+
+  function addTask(date, btn) {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'task-input';
+    input.placeholder = 'Task name...';
+    input.setAttribute('list', 'task-suggestions');
+    btn.parentNode.insertBefore(input, btn);
+    input.focus();
+    // Add datalist for suggestions
+    if (!document.getElementById('task-suggestions')) {
+      const dl = document.createElement('datalist');
+      dl.id = 'task-suggestions';
+      dl.innerHTML = SUGGESTED_TASKS.map(t=>`<option value="${t}">`).join('');
+      document.body.appendChild(dl);
+    }
+    const save = () => {
+      const text = input.value.trim();
+      if (text) {
+        const plan = getPlan();
+        if (!plan[date]) plan[date] = [];
+        plan[date].push({text, done:false});
+        savePlan(plan);
+      }
+      renderPlanner();
+    };
+    input.addEventListener('keydown', e => { if (e.key==='Enter') save(); if (e.key==='Escape') renderPlanner(); });
+    input.addEventListener('blur', save);
+  }
+
+  function toggleTask(date, idx) {
+    const plan = getPlan();
+    if (plan[date]?.[idx]) plan[date][idx].done = !plan[date][idx].done;
+    savePlan(plan);
+    renderPlanner();
+  }
+
+  function deleteTask(date, idx) {
+    const plan = getPlan();
+    if (plan[date]) plan[date].splice(idx, 1);
+    savePlan(plan);
+    renderPlanner();
+  }
+
   function init() {
     const days = getStudyDays();
     const scores = getScores();
@@ -355,9 +468,17 @@
     renderCalendar(days);
     renderLifetime(days, scores);
     updateGoal();
+    renderPlanner();
   }
 
   init();
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>

@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reading — Español Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
@@ -34,6 +44,7 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .pass-header{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;cursor:pointer;}
 .pass-header:hover{background:var(--bg3);}
 .level-badge{font-size:.7rem;padding:.15rem .5rem;border-radius:12px;font-weight:600;}
+.level-badge.a1{background:rgba(39,174,96,.15);color:#27ae60;border:1px solid #27ae60;}
 .level-badge.a2{background:rgba(41,128,185,.15);color:#2980b9;border:1px solid #2980b9;}
 .level-badge.b1{background:rgba(192,57,43,.15);color:var(--accent);border:1px solid var(--accent);}
 .level-badge.b2{background:rgba(243,156,18,.15);color:var(--accent3);border:1px solid var(--accent3);}
@@ -54,17 +65,19 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .q-btn.wrong{background:rgba(231,76,60,.12);border-color:var(--red);color:var(--red);}
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.passages-list{padding:1rem;}.filters{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+<script src="shared.js"></script>
 </head>
 <body>
 <nav>
   <a href="index.html" class="nav-brand">🇪🇸 Español</a>
-  <div class="nav-links">
-    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a>
-    <a href="reading.html" class="active">Reading</a><a href="listening.html">Listening</a>
-    <a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
-    <a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a>
-    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
-  </div>
+  <div class="nav-links"><a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="pronunciation.html">Pronunciation</a><a href="reading.html" class="active">Reading</a><a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a><a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a><a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a><a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a><a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a><a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a><a href="export.html">Export</a></div>
   <div class="nav-controls">
     <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
     <button class="btn-icon" onclick="resetFont()">A</button>
@@ -80,10 +93,11 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 </div>
 <div class="page-header">
   <div class="page-title">Reading — Lectura</div>
-  <div class="page-sub">15 graded passages from A2 to C1, with comprehension questions</div>
+  <div class="page-sub">18 graded passages from A1 to C1, with comprehension questions</div>
 </div>
 <div class="filters">
   <button class="filter-btn active" onclick="setLevel('all',this)">All</button>
+  <button class="filter-btn" onclick="setLevel('a1',this)">A1</button>
   <button class="filter-btn" onclick="setLevel('a2',this)">A2</button>
   <button class="filter-btn" onclick="setLevel('b1',this)">B1</button>
   <button class="filter-btn" onclick="setLevel('b2',this)">B2</button>
@@ -92,6 +106,27 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 <div class="passages-list" id="passagesList"></div>
 <script>
 const PASSAGES = [
+  {id:16,level:'a1',title:'Me llamo Ana',topic:'Introductions',
+   text:'Me llamo Ana. Tengo veintiocho años. Soy española. Vivo en Madrid con mi familia. Mi familia es pequeña: tengo una hermana y un perro. Mi perro se llama Café. Es marrón y muy simpático. Me gusta mucho el fútbol y la música. Los fines de semana camino en el parque con Café.',
+   questions:[
+     {q:'¿Cómo se llama el perro de Ana?',choices:['Madrid','Ana','Café','España'],ans:2},
+     {q:'¿Dónde vive Ana?',choices:['Barcelona','Madrid','Sevilla','Valencia'],ans:1},
+     {q:'¿Qué le gusta a Ana los fines de semana?',choices:['Ver la televisión','Caminar en el parque','Trabajar','Leer libros'],ans:1},
+   ]},
+  {id:17,level:'a1',title:'En el café',topic:'Ordering food and drink',
+   text:'Son las diez de la mañana. Estoy en un café cerca de mi oficina. El camarero se llama Miguel. Es muy amable. Pido un café con leche y un croissant. El café está caliente y delicioso. El croissant está muy bueno también. La cuenta es tres euros. Pago con tarjeta. ¡Hasta luego, Miguel!',
+   questions:[
+     {q:'¿Cómo se llama el camarero?',choices:['Carlos','Pedro','Miguel','Juan'],ans:2},
+     {q:'¿Qué pide la persona?',choices:['Un té y una tostada','Un café con leche y un croissant','Un zumo y un bocadillo','Un café solo y una galleta'],ans:1},
+     {q:'¿Cuánto cuesta todo?',choices:['Dos euros','Cuatro euros','Tres euros','Cinco euros'],ans:2},
+   ]},
+  {id:18,level:'a1',title:'Mi semana',topic:'Daily routine',
+   text:'Los lunes, martes y miércoles trabajo en la oficina. El trabajo empieza a las nueve y termina a las seis. Los jueves estudio español en una academia. La clase es de siete a nueve de la noche. Los viernes salgo con mis amigos. Los sábados hago deporte — corro o voy al gimnasio. Los domingos descanso y como con mi familia.',
+   questions:[
+     {q:'¿Cuántos días trabaja esta persona en la oficina?',choices:['Dos días','Tres días','Cuatro días','Cinco días'],ans:1},
+     {q:'¿Qué hace los jueves por la noche?',choices:['Sale con amigos','Hace deporte','Estudia español','Descansa'],ans:2},
+     {q:'¿Qué hace los domingos?',choices:['Trabaja','Va al gimnasio','Come con la familia','Estudia'],ans:2},
+   ]},
   {id:1,level:'a2',title:'Mi rutina diaria',topic:'Daily life',
    text:'Me llamo Carlos y soy piloto. Cada día me levanto a las cinco de la mañana porque mis vuelos salen muy temprano. Primero, me ducho y desayuno rápidamente. Luego cojo el metro hasta el aeropuerto. El trabajo es muy interesante pero también cansado. Cuando llego a casa por la noche, ceno con mi familia y después leo un poco antes de dormir. Los fines de semana descanso y hago deporte.',
    questions:[
@@ -249,5 +284,12 @@ function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math
 function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
 function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>

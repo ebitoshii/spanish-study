@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dictionary — Español Study</title>
@@ -71,6 +81,14 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .history-chip:hover{border-color:var(--accent);color:var(--accent3);}
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.content{padding:1rem;}.search-wrap{flex-direction:column;}.entry-word{font-size:1.4rem;}}
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+<script src="shared.js"></script>
 </head>
 <body>
 <nav>
@@ -151,6 +169,56 @@ const DICT = [
 let searchLang = 'es';
 let searchHistory = JSON.parse(localStorage.getItem('es_dictHistory')||'[]');
 
+// Build a lightweight vocab lookup from DICT + generate stub entries for common words
+const VOCAB_STUB = [
+  // This gets searched if not found in DICT
+  // Format: {es, type, level, en, example}
+  {es:'hola',type:'interj',level:'a1',en:'hello',example:'¡Hola! ¿Cómo estás?'},
+  {es:'gracias',type:'interj',level:'a1',en:'thank you',example:'Muchas gracias por tu ayuda.'},
+  {es:'por favor',type:'phrase',level:'a1',en:'please',example:'¿Puedes ayudarme, por favor?'},
+  {es:'bueno',type:'adj',level:'a1',en:'good',example:'Es un buen libro.'},
+  {es:'malo',type:'adj',level:'a1',en:'bad',example:'Hace mal tiempo hoy.'},
+  {es:'grande',type:'adj',level:'a1',en:'big / large',example:'Vivimos en una ciudad grande.'},
+  {es:'pequeño',type:'adj',level:'a1',en:'small',example:'Tengo un perro pequeño.'},
+  {es:'feliz',type:'adj',level:'a2',en:'happy',example:'Estoy muy feliz con los resultados.'},
+  {es:'triste',type:'adj',level:'a2',en:'sad',example:'Se puso triste al escuchar la noticia.'},
+  {es:'cansado',type:'adj',level:'a2',en:'tired',example:'Estoy muy cansado después del vuelo.'},
+  {es:'la casa',type:'noun',level:'a1',en:'house / home',example:'Mi casa es pequeña pero bonita.'},
+  {es:'el libro',type:'noun',level:'a2',en:'book',example:'Estoy leyendo un libro en español.'},
+  {es:'la comida',type:'noun',level:'a1',en:'food / meal',example:'La comida española es deliciosa.'},
+  {es:'el agua',type:'noun',level:'a1',en:'water',example:'Bebo ocho vasos de agua al día.'},
+  {es:'el trabajo',type:'noun',level:'a1',en:'work / job',example:'Mi trabajo es muy interesante.'},
+  {es:'la familia',type:'noun',level:'a1',en:'family',example:'Mi familia es muy unida.'},
+  {es:'el amigo',type:'noun',level:'a1',en:'friend',example:'Mi mejor amigo vive en Madrid.'},
+  {es:'el año',type:'noun',level:'a1',en:'year',example:'El año que viene aprenderé chino.'},
+  {es:'el día',type:'noun',level:'a1',en:'day',example:'¿Qué día es hoy?'},
+  {es:'la ciudad',type:'noun',level:'a1',en:'city',example:'Vivo en una ciudad muy grande.'},
+  {es:'la vida',type:'noun',level:'a1',en:'life',example:'La vida en Singapur es emocionante.'},
+  {es:'el tiempo',type:'noun',level:'a1',en:'time / weather',example:'No tengo tiempo para eso.'},
+  {es:'la mano',type:'noun',level:'a1',en:'hand',example:'Lávate las manos antes de comer.'},
+  {es:'el mundo',type:'noun',level:'a2',en:'world',example:'Vivimos en un mundo globalizado.'},
+  {es:'la gente',type:'noun',level:'a2',en:'people',example:'La gente aquí es muy amable.'},
+  {es:'el país',type:'noun',level:'a1',en:'country',example:'¿De qué país eres?'},
+  {es:'el problema',type:'noun',level:'a2',en:'problem',example:'Tenemos un pequeño problema.'},
+  {es:'la idea',type:'noun',level:'a2',en:'idea',example:'Tengo una buena idea.'},
+  {es:'mucho',type:'adv',level:'a1',en:'a lot / very much',example:'Me gusta mucho la música.'},
+  {es:'muy',type:'adv',level:'a1',en:'very',example:'Estoy muy cansado hoy.'},
+  {es:'también',type:'adv',level:'a1',en:'also / too',example:'Yo también quiero venir.'},
+  {es:'nunca',type:'adv',level:'a1',en:'never',example:'Nunca he estado en México.'},
+  {es:'siempre',type:'adv',level:'a1',en:'always',example:'Siempre llego puntual.'},
+  {es:'ya',type:'adv',level:'a1',en:'already / now',example:'Ya he terminado el trabajo.'},
+  {es:'todavía',type:'adv',level:'a2',en:'still / yet',example:'Todavía no ha llegado.'},
+  {es:'sin embargo',type:'conj',level:'a2',en:'however / nevertheless',example:'Es difícil; sin embargo, lo intento.'},
+  {es:'aunque',type:'conj',level:'a2',en:'although / even though',example:'Aunque llueve, saldremos.'},
+  {es:'porque',type:'conj',level:'a1',en:'because',example:'Estudio porque me gusta.'},
+  {es:'pero',type:'conj',level:'a1',en:'but',example:'Es caro, pero vale la pena.'},
+  {es:'sin duda',type:'phrase',level:'b1',en:'without a doubt',example:'Sin duda, es la mejor opción.'},
+  {es:'por lo tanto',type:'phrase',level:'b1',en:'therefore',example:'Por lo tanto, debemos actuar.'},
+  {es:'a pesar de',type:'phrase',level:'b1',en:'in spite of / despite',example:'A pesar del tráfico, llegamos a tiempo.'},
+  {es:'no obstante',type:'conj',level:'c1',en:'nevertheless',example:'No obstante, la situación mejoró.'},
+  {es:'por ende',type:'phrase',level:'c1',en:'therefore / hence',example:'El mercado cayó; por ende, ajustamos.'},
+];
+
 function setLang(lang, btn) {
   searchLang = lang;
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
@@ -173,38 +241,59 @@ function doSearch() {
 
 function searchWord(word) {
   document.getElementById('searchBox').value = word;
-  // Add to history
   searchHistory = [word, ...searchHistory.filter(h=>h!==word)].slice(0,10);
   localStorage.setItem('es_dictHistory', JSON.stringify(searchHistory));
   renderHistory();
 
-  const q = word.toLowerCase();
-  let results;
+  const q = word.toLowerCase().trim();
+  let results = [];
+
   if (searchLang === 'es') {
-    results = DICT.filter(e => e.es.toLowerCase().includes(q) || e.es.toLowerCase() === q);
-    // Sort exact match first
+    // First check DICT for rich entries
+    results = DICT.filter(e => e.es.toLowerCase() === q || e.es.toLowerCase().includes(q));
     results.sort((a,b) => (a.es.toLowerCase()===q?-1:1));
+    // Then check stub vocab for basic entries
+    if (results.length < 3) {
+      const stubs = VOCAB_STUB.filter(e =>
+        !results.some(r=>r.es===e.es) &&
+        (e.es.toLowerCase() === q || e.es.toLowerCase().includes(q))
+      );
+      results = [...results, ...stubs.map(vocabToEntry)];
+    }
   } else {
-    results = DICT.filter(e => e.en.toLowerCase().includes(q) || e.defs.some(d=>d.en.toLowerCase().includes(q)));
+    results = DICT.filter(e => e.en.toLowerCase().includes(q) || e.defs?.some(d=>d.en.toLowerCase().includes(q)));
+    if (results.length < 3) {
+      const stubs = VOCAB_STUB.filter(e =>
+        !results.some(r=>r.es===e.es) &&
+        e.en.toLowerCase().includes(q)
+      );
+      results = [...results, ...stubs.map(vocabToEntry)];
+    }
   }
 
   const container = document.getElementById('mainContent');
   if (!results.length) {
     container.innerHTML = `
       <div id="historySection" class="history-section"><div class="history-title">Recent searches</div><div class="history-chips" id="historyChips"></div></div>
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <div>No results for "<strong>${word}</strong>"</div>
-        <div style="font-size:.85rem;margin-top:.5rem;opacity:.7">Try a different spelling or switch language direction</div>
-      </div>`;
-    renderHistory();
-    return;
+      <div class="empty-state"><div class="empty-icon">🔍</div><div>No results for "<strong>${word}</strong>"</div>
+      <div style="font-size:.85rem;margin-top:.5rem;opacity:.7">Try a different spelling or switch language direction</div></div>`;
+    renderHistory(); return;
   }
-
-  container.innerHTML = `
-    <div id="historySection" class="history-section"><div class="history-title">Recent searches</div><div class="history-chips" id="historyChips"></div></div>
-    ${results.map(renderEntry).join('')}`;
+  container.innerHTML = `<div id="historySection" class="history-section"><div class="history-title">Recent searches</div><div class="history-chips" id="historyChips"></div></div>${results.map(renderEntry).join('')}`;
   renderHistory();
+}
+
+function vocabToEntry(v) {
+  // Convert a simple VOCAB_STUB entry to a DICT-style entry
+  return {
+    es: v.es,
+    type: v.type,
+    level: v.level,
+    en: v.en,
+    defs: [{en: v.en, ex: v.example, exen: ''}],
+    related: [],
+    conj: null,
+  };
 }
 
 function renderEntry(e) {
@@ -271,5 +360,12 @@ function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math
 function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
 function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>

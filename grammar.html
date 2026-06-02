@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grammar — Español Study</title>
@@ -30,6 +40,8 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .filters{display:flex;gap:.5rem;padding:1rem 2rem;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--bg2);}
 .filter-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.3rem .8rem;border-radius:20px;cursor:pointer;font-size:.85rem;font-family:inherit;transition:all .2s;}
 .filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+#topicFilters .filter-btn.active{background:var(--accent2);border-color:var(--accent2);}
+#topicFilters .filter-btn:hover:not(.active){background:rgba(230,126,34,.15);border-color:var(--accent2);color:var(--accent2);}
 .search-bar{padding:.8rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
 .search-bar input{width:100%;max-width:400px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem 1rem;border-radius:6px;font-family:inherit;font-size:.9rem;outline:none;}
 .search-bar input:focus{border-color:var(--accent);}
@@ -60,23 +72,37 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .count-info{color:var(--text2);font-size:.85rem;padding:.5rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.grammar-list{padding:1rem;}.filters{padding:.8rem 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+
+<style id="print-css">
+@media print {
+  nav, .mobile-menu, .search-bar, .filters, .count-info, .rule-toggle,
+  .bottom-tab-bar, #printBar { display:none!important; }
+  body { background:#fff!important; color:#000!important; font-size:11pt; }
+  .rule-card { break-inside:avoid; border:1px solid #ccc; margin-bottom:.5rem; border-radius:0; }
+  .rule-header { background:#f5f5f5!important; padding:.4rem .6rem; }
+  .rule-level { border:1px solid #999; }
+  .rule-body { display:block!important; padding:.5rem .6rem; }
+  .rule-body.open, .rule-body:not(.open) { display:block!important; }
+  .rule-formula { background:#f9f9f9; border-left:3px solid #c0392b; font-size:9pt; }
+  .example { background:#fafafa; margin:.2rem 0; padding:.3rem .5rem; }
+  .nuance-box { background:#fff8e1; border:1px solid #f39c12; }
+  .grammar-list { max-width:100%; padding:0; }
+  a { color:#000; text-decoration:none; }
+}
+</style>
+<script src="shared.js"></script>
 </head>
 <body>
 <nav>
   <a href="index.html" class="nav-brand">Español ✦</a>
-  <div class="nav-links">
-    <a href="grammar.html" class="active">Grammar</a>
-    <a href="vocabulary.html">Vocab</a>
-    <a href="reading.html">Reading</a>
-    <a href="listening.html">Listening</a>
-    <a href="quiz.html">Quiz</a>
-    <a href="flashcards.html">Flashcards</a>
-    <a href="writing.html">Writing</a>
-    <a href="conjugation.html">Conjugation</a>
-    <a href="mistakes.html">Mistakes</a>
-    <a href="progress.html">Progress</a>
-    <a href="schedule.html">Schedule</a>
-  </div>
+  <div class="nav-links"><a href="grammar.html" class="active">Grammar</a><a href="vocabulary.html">Vocab</a><a href="pronunciation.html">Pronunciation</a><a href="reading.html">Reading</a><a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a><a href="writing.html">Writing</a><a href="conjugation.html">Conjugation</a><a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a><a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a><a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a><a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a><a href="export.html">Export</a></div>
   <div class="nav-controls">
     <button class="btn-icon" onclick="toggleFont(-1)">A−</button>
     <button class="btn-icon" onclick="resetFont()">A</button>
@@ -106,13 +132,24 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 <div class="search-bar">
   <input type="text" id="searchInput" placeholder="Search grammar rules..." oninput="filterAll()">
 </div>
-<div class="filters">
-  <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
-  <button class="filter-btn" onclick="setFilter('a1', this)">A1</button>
-  <button class="filter-btn" onclick="setFilter('a2', this)">A2</button>
-  <button class="filter-btn" onclick="setFilter('b1', this)">B1</button>
-  <button class="filter-btn" onclick="setFilter('b2', this)">B2</button>
-  <button class="filter-btn" onclick="setFilter('c1', this)">C1</button>
+<div class="filters" id="levelFilters">
+  <button class="filter-btn active" onclick="setFilter('level','all', this)">All Levels</button>
+  <button class="filter-btn" onclick="setFilter('level','a1', this)">A1</button>
+  <button class="filter-btn" onclick="setFilter('level','a2', this)">A2</button>
+  <button class="filter-btn" onclick="setFilter('level','b1', this)">B1</button>
+  <button class="filter-btn" onclick="setFilter('level','b2', this)">B2</button>
+  <button class="filter-btn" onclick="setFilter('level','c1', this)">C1</button>
+</div>
+<div class="filters" id="topicFilters" style="background:var(--bg3);border-bottom:1px solid var(--border)">
+  <button class="filter-btn active" onclick="setFilter('topic','all', this)">All Topics</button>
+  <button class="filter-btn" onclick="setFilter('topic','verbs', this)">Verbs & Tenses</button>
+  <button class="filter-btn" onclick="setFilter('topic','subjunctive', this)">Subjunctive</button>
+  <button class="filter-btn" onclick="setFilter('topic','nouns', this)">Nouns & Articles</button>
+  <button class="filter-btn" onclick="setFilter('topic','pronouns', this)">Pronouns</button>
+  <button class="filter-btn" onclick="setFilter('topic','ser-estar', this)">Ser / Estar</button>
+  <button class="filter-btn" onclick="setFilter('topic','conditionals', this)">Conditionals</button>
+  <button class="filter-btn" onclick="setFilter('topic','discourse', this)">Discourse</button>
+  <button class="filter-btn" onclick="setFilter('topic','advanced', this)">Advanced</button>
 </div>
 <div class="count-info" id="countInfo"></div>
 <div class="grammar-list" id="grammarList"></div>
@@ -530,7 +567,28 @@ const GRAMMAR = [
    nuance:'Avoid starting consecutive sentences with the same word. Use synonyms: empresa → compañía → organización → entidad. Use hypernyms: "rojo, azul y verde" → "estos colores". Repetition of key terms is sometimes intentional for emphasis — but vary surrounding structure.'},
 ];
 
+// Topic map: rule id → topic tags
+const TOPICS = {
+  1:'ser-estar', 2:'verbs', 3:'nouns', 4:'nouns', 5:'nouns',
+  6:'pronouns', 7:'verbs', 8:'verbs', 9:'verbs', 10:'verbs',
+  11:'verbs', 12:'verbs', 13:'pronouns', 14:'pronouns', 15:'pronouns',
+  16:'verbs', 17:'verbs', 18:'pronouns', 19:'pronouns', 20:'verbs',
+  21:'subjunctive', 22:'verbs', 23:'verbs', 24:'verbs', 25:'pronouns',
+  26:'verbs', 27:'discourse', 28:'verbs', 29:'nouns', 30:'ser-estar',
+  31:'subjunctive conditionals', 32:'conditionals', 33:'verbs', 34:'verbs', 35:'subjunctive',
+  36:'subjunctive', 37:'ser-estar', 38:'nouns', 39:'verbs', 40:'discourse',
+  41:'subjunctive', 42:'verbs', 43:'subjunctive', 44:'verbs', 45:'advanced',
+  46:'subjunctive', 47:'discourse advanced', 48:'pronouns advanced', 49:'conditionals advanced', 50:'verbs advanced',
+  51:'verbs', 52:'verbs', 53:'verbs', 54:'pronouns', 55:'discourse',
+  56:'verbs', 57:'verbs', 58:'verbs', 59:'nouns', 60:'conditionals',
+  61:'verbs', 62:'subjunctive', 63:'verbs', 64:'conditionals', 65:'subjunctive',
+  66:'ser-estar verbs', 67:'discourse', 68:'nouns', 69:'nouns', 70:'verbs',
+  71:'subjunctive', 72:'discourse advanced', 73:'discourse advanced', 74:'subjunctive advanced', 75:'verbs advanced',
+  76:'subjunctive', 77:'ser-estar', 78:'nouns advanced', 79:'discourse advanced', 80:'discourse advanced',
+};
+
 let activeFilter = 'all';
+let activeTopicFilter = 'all';
 
 function renderGrammar(data) {
   const container = document.getElementById('grammarList');
@@ -567,6 +625,10 @@ function filterAll() {
   const q = document.getElementById('searchInput').value.toLowerCase();
   let data = GRAMMAR;
   if (activeFilter !== 'all') data = data.filter(r => r.level === activeFilter);
+  if (activeTopicFilter !== 'all') data = data.filter(r => {
+    const t = TOPICS[r.id] || '';
+    return t.includes(activeTopicFilter);
+  });
   if (q) data = data.filter(r =>
     r.name.toLowerCase().includes(q) ||
     r.es.toLowerCase().includes(q) ||
@@ -575,14 +637,46 @@ function filterAll() {
   renderGrammar(data);
 }
 
-function setFilter(level, btn) {
-  activeFilter = level;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+function setFilter(type, value, btn) {
+  if (type === 'level') {
+    activeFilter = value;
+    document.querySelectorAll('#levelFilters .filter-btn').forEach(b => b.classList.remove('active'));
+  } else {
+    activeTopicFilter = value;
+    document.querySelectorAll('#topicFilters .filter-btn').forEach(b => b.classList.remove('active'));
+  }
   btn.classList.add('active');
   filterAll();
 }
 
 renderGrammar(GRAMMAR);
+
+function printAll() {
+  // Expand all rules before printing
+  GRAMMAR.forEach(r => {
+    const b = document.getElementById('body-'+r.id);
+    const t = document.getElementById('tog-'+r.id);
+    if(b){b.classList.add('open');}
+    if(t){t.textContent='▼';}
+  });
+  setTimeout(()=>window.print(), 200);
+}
+function expandAll() {
+  GRAMMAR.forEach(r => {
+    const b = document.getElementById('body-'+r.id);
+    const t = document.getElementById('tog-'+r.id);
+    if(b){b.classList.add('open');}
+    if(t){t.textContent='▼';}
+  });
+}
+function collapseAll() {
+  GRAMMAR.forEach(r => {
+    const b = document.getElementById('body-'+r.id);
+    const t = document.getElementById('tog-'+r.id);
+    if(b){b.classList.remove('open');}
+    if(t){t.textContent='▶';}
+  });
+}
 
 const theme = localStorage.getItem('es_theme') || 'dark';
 if (theme === 'light') document.body.classList.add('light');
@@ -594,5 +688,12 @@ function toggleFont(d) { let f=parseInt(document.body.style.fontSize||'18'); f=M
 function resetFont() { document.body.style.fontSize='18px'; localStorage.setItem('es_fontsize',18); }
 function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab active" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>

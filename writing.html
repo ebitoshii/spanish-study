@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+(function(){
+  var t=localStorage.getItem('es_theme');
+  if(t==='light')document.documentElement.classList.add('light-early');
+  var f=localStorage.getItem('es_fontsize');
+  if(f)document.documentElement.style.setProperty('--init-font',f+'px');
+})();
+</script><style>
+.light-early body,.light-early{background:#fdf6ec!important;color:#2d1b0e!important;}
+</style>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Writing — Español Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
@@ -51,16 +61,19 @@ nav{background:var(--nav-bg);padding:0 1.5rem;display:flex;align-items:center;ju
 .replay-btn{background:var(--accent);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:8px;font-family:'Playfair Display',serif;font-size:1rem;cursor:pointer;margin-top:1rem;}
 @media(max-width:700px){.nav-links{display:none;}.hamburger{display:flex;}.wr-area{padding:0 1rem;}.page-header{padding:1.2rem 1rem .8rem;}}
 </style>
+<style>
+.bottom-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2px solid var(--accent);z-index:200;padding:.3rem 0;}
+.bottom-tab-bar .btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:1.3rem;padding:.3rem 0;transition:color .2s;gap:.05rem;}
+.bottom-tab-bar .btab span{font-family:"Crimson Pro",serif;font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.bottom-tab-bar .btab:hover,.bottom-tab-bar .btab.active{color:var(--accent3);}
+@media(max-width:700px){.bottom-tab-bar{display:flex;}body{padding-bottom:62px;}}
+</style>
+<script src="shared.js"></script>
 </head>
 <body>
 <nav>
   <a href="index.html" class="nav-brand">🇪🇸 Español</a>
-  <div class="nav-links">
-    <a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="reading.html">Reading</a>
-    <a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a>
-    <a href="writing.html" class="active">Writing</a><a href="conjugation.html">Conjugation</a>
-    <a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a>
-  </div>
+  <div class="nav-links"><a href="grammar.html">Grammar</a><a href="vocabulary.html">Vocab</a><a href="pronunciation.html">Pronunciation</a><a href="reading.html">Reading</a><a href="listening.html">Listening</a><a href="quiz.html">Quiz</a><a href="flashcards.html">Flashcards</a><a href="writing.html" class="active">Writing</a><a href="conjugation.html">Conjugation</a><a href="idioms.html">Idioms</a><a href="verbdrill.html">Verb Drill</a><a href="numbers.html">Numbers</a><a href="dictionary.html">Dictionary</a><a href="sentences.html">Sentences</a><a href="speaking.html">Speaking</a><a href="mistakes.html">Mistakes</a><a href="progress.html">Progress</a><a href="schedule.html">Schedule</a><a href="export.html">Export</a></div>
   <div class="nav-controls">
     <button class="btn-icon" onclick="toggleFont(-1)">A−</button><button class="btn-icon" onclick="resetFont()">A</button>
     <button class="btn-icon" onclick="toggleFont(1)">A+</button>
@@ -166,11 +179,13 @@ function checkAns(ans){
   const fb=document.getElementById('fb');fb.style.display='block';
   if(given===correct_ans||given===correct_ans.replace(/^(el|la|los|las|un|una)\s/,'')){
     fb.className='feedback correct';fb.textContent='✓ Correct! — '+ans;correct++;
+    awardXP(4);
   } else {
     fb.className='feedback wrong';fb.innerHTML='✗ Correct answer: <strong>'+ans+'</strong>';
   }
   document.getElementById('nextBtn').style.display='block';
 }
+function awardXP(n){localStorage.setItem('es_xp',parseInt(localStorage.getItem('es_xp')||'0')+n);}
 function nextQ(){idx++;showQ();}
 const tv=localStorage.getItem('es_theme')||'dark';if(tv==='light')document.body.classList.add('light');document.querySelectorAll('.themeBtn').forEach(b=>b.textContent=tv==='light'?'🌙':'☀️');
 const fs=parseInt(localStorage.getItem('es_fontsize')||'18');document.body.style.fontSize=fs+'px';
@@ -179,5 +194,12 @@ function toggleFont(d){let f=parseInt(document.body.style.fontSize||'18');f=Math
 function resetFont(){document.body.style.fontSize='18px';localStorage.setItem('es_fontsize',18);}
 function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
 </script>
+<nav class="bottom-tab-bar">
+  <a href="index.html" class="btab" title="Home">🏠<span>Home</span></a>
+  <a href="vocabulary.html" class="btab" title="Vocab">📝<span>Vocab</span></a>
+  <a href="quiz.html" class="btab" title="Quiz">🧠<span>Quiz</span></a>
+  <a href="grammar.html" class="btab" title="Grammar">📚<span>Grammar</span></a>
+  <a href="search.html" class="btab" title="Search">🔍<span>Search</span></a>
+</nav>
 </body>
 </html>
